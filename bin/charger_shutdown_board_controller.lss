@@ -1,0 +1,1625 @@
+
+bin/charger_shutdown_board_controller.elf:     file format elf32-littlearm
+
+
+Disassembly of section .text:
+
+00000000 <__isr_vector>:
+   0:	10002000 	.word	0x10002000
+   4:	000000c1 	.word	0x000000c1
+   8:	000000e1 	.word	0x000000e1
+   c:	000000e3 	.word	0x000000e3
+	...
+  2c:	000000e5 	.word	0x000000e5
+	...
+  38:	000000e7 	.word	0x000000e7
+  3c:	000000e9 	.word	0x000000e9
+  40:	000000eb 	.word	0x000000eb
+  44:	000000eb 	.word	0x000000eb
+  48:	000000eb 	.word	0x000000eb
+  4c:	000000eb 	.word	0x000000eb
+  50:	000000eb 	.word	0x000000eb
+  54:	000000eb 	.word	0x000000eb
+  58:	000000eb 	.word	0x000000eb
+  5c:	000000eb 	.word	0x000000eb
+  60:	000000eb 	.word	0x000000eb
+  64:	000000eb 	.word	0x000000eb
+  68:	000000eb 	.word	0x000000eb
+  6c:	000000eb 	.word	0x000000eb
+  70:	000000eb 	.word	0x000000eb
+  74:	0000053d 	.word	0x0000053d
+  78:	000000eb 	.word	0x000000eb
+  7c:	000000eb 	.word	0x000000eb
+  80:	000000eb 	.word	0x000000eb
+  84:	000000eb 	.word	0x000000eb
+  88:	000000eb 	.word	0x000000eb
+  8c:	000000eb 	.word	0x000000eb
+  90:	000000eb 	.word	0x000000eb
+  94:	000000eb 	.word	0x000000eb
+	...
+  a0:	000000eb 	.word	0x000000eb
+  a4:	000000eb 	.word	0x000000eb
+  a8:	000000eb 	.word	0x000000eb
+  ac:	00000000 	.word	0x00000000
+  b0:	000000eb 	.word	0x000000eb
+  b4:	000000eb 	.word	0x000000eb
+  b8:	000000eb 	.word	0x000000eb
+  bc:	000000eb 	.word	0x000000eb
+
+000000c0 <Reset_Handler>:
+ *    __bss_start__: start of the BSS section.
+ *    __bss_end__: end of the BSS section.
+ *
+ *  Both addresses must be aligned to 4 bytes boundary.
+ */
+    ldr r1, =__bss_start__
+  c0:	4905      	ldr	r1, [pc, #20]	; (d8 <Reset_Handler+0x18>)
+    ldr r2, =__bss_end__
+  c2:	4a06      	ldr	r2, [pc, #24]	; (dc <Reset_Handler+0x1c>)
+
+    movs    r0, #0
+  c4:	2000      	movs	r0, #0
+
+    sub    r2, r1
+  c6:	1a52      	subs	r2, r2, r1
+    ble .L_loop3_done
+  c8:	dd02      	ble.n	d0 <Reset_Handler+0x10>
+
+.L_loop3:
+    sub    r2, #4
+  ca:	3a04      	subs	r2, #4
+    str r0, [r1, r2]
+  cc:	5088      	str	r0, [r1, r2]
+    bgt .L_loop3
+  ce:	dcfc      	bgt.n	ca <Reset_Handler+0xa>
+.L_loop3_done:
+#endif /* __STARTUP_CLEAR_BSS */
+
+
+#ifndef __NO_SYSTEM_INIT
+    bl  SystemInit
+  d0:	f000 f9f6 	bl	4c0 <SystemInit>
+#endif
+
+#ifndef __START
+#define __START _start
+#endif
+    bl  __START
+  d4:	f000 f968 	bl	3a8 <main>
+ *    __bss_start__: start of the BSS section.
+ *    __bss_end__: end of the BSS section.
+ *
+ *  Both addresses must be aligned to 4 bytes boundary.
+ */
+    ldr r1, =__bss_start__
+  d8:	10000100 	.word	0x10000100
+    ldr r2, =__bss_end__
+  dc:	10000ad8 	.word	0x10000ad8
+
+000000e0 <NMI_Handler>:
+/* Exception Handlers */
+
+    .weak   NMI_Handler
+    .type   NMI_Handler, %function
+NMI_Handler:
+    B       .
+  e0:	e7fe      	b.n	e0 <NMI_Handler>
+
+000000e2 <HardFault_Handler>:
+    .size   NMI_Handler, . - NMI_Handler
+
+    .weak   HardFault_Handler
+    .type   HardFault_Handler, %function
+HardFault_Handler:
+    B       .
+  e2:	e7fe      	b.n	e2 <HardFault_Handler>
+
+000000e4 <SVC_Handler>:
+    .size   HardFault_Handler, . - HardFault_Handler
+
+    .weak   SVC_Handler
+    .type   SVC_Handler, %function
+SVC_Handler:
+    B       .
+  e4:	e7fe      	b.n	e4 <SVC_Handler>
+
+000000e6 <PendSV_Handler>:
+    .size   SVC_Handler, . - SVC_Handler
+
+    .weak   PendSV_Handler
+    .type   PendSV_Handler, %function
+PendSV_Handler:
+    B       .
+  e6:	e7fe      	b.n	e6 <PendSV_Handler>
+
+000000e8 <SysTick_Handler>:
+    .size   PendSV_Handler, . - PendSV_Handler
+
+    .weak   SysTick_Handler
+    .type   SysTick_Handler, %function
+SysTick_Handler:
+    B       .
+  e8:	e7fe      	b.n	e8 <SysTick_Handler>
+
+000000ea <Default_Handler>:
+/* IRQ Handlers */
+
+    .globl  Default_Handler
+    .type   Default_Handler, %function
+Default_Handler:
+    B       .
+  ea:	e7fe      	b.n	ea <Default_Handler>
+
+000000ec <Charge_Init>:
+static uint32_t last_time_above_cv_min_curr;
+
+void _set_output(bool close_contactors, bool charger_on, uint32_t charge_voltage_mV, uint32_t charge_current_mA, CSB_OUTPUT_T *output);
+
+void Charge_Init(CSB_STATE_T *state) {
+    state->charge_state = CSB_CHARGE_OFF;
+  ec:	2300      	movs	r3, #0
+    last_time_above_cv_min_curr = 0;
+  ee:	4a02      	ldr	r2, [pc, #8]	; (f8 <Charge_Init+0xc>)
+static uint32_t last_time_above_cv_min_curr;
+
+void _set_output(bool close_contactors, bool charger_on, uint32_t charge_voltage_mV, uint32_t charge_current_mA, CSB_OUTPUT_T *output);
+
+void Charge_Init(CSB_STATE_T *state) {
+    state->charge_state = CSB_CHARGE_OFF;
+  f0:	7183      	strb	r3, [r0, #6]
+    last_time_above_cv_min_curr = 0;
+  f2:	6013      	str	r3, [r2, #0]
+}
+  f4:	4770      	bx	lr
+  f6:	46c0      	nop			; (mov r8, r8)
+  f8:	10000108 	.word	0x10000108
+
+000000fc <Charge_Step>:
+
+    cv_charge_voltage_mV = pack_config->cell_max_mV * total_num_cells;
+    cv_charge_current_mA = cc_charge_current_mA;
+}
+
+void Charge_Step(CSB_INPUT_T *input, CSB_STATE_T *state, CSB_OUTPUT_T *output) {
+  fc:	b570      	push	{r4, r5, r6, lr}
+
+    switch (input->mode_request) {
+  fe:	7903      	ldrb	r3, [r0, #4]
+ 100:	2b02      	cmp	r3, #2
+ 102:	d029      	beq.n	158 <Charge_Step+0x5c>
+ 104:	2b03      	cmp	r3, #3
+ 106:	d111      	bne.n	12c <Charge_Step+0x30>
+                state->charge_state = CSB_CHARGE_INIT;
+            }
+            break;
+
+        case CSB_SSM_MODE_BALANCE:
+            if (state->charge_state == CSB_CHARGE_OFF
+ 108:	798c      	ldrb	r4, [r1, #6]
+ 10a:	2c00      	cmp	r4, #0
+ 10c:	d12f      	bne.n	16e <Charge_Step+0x72>
+
+    switch (input->mode_request) {
+        case CSB_SSM_MODE_CHARGE:
+            if (state->charge_state == CSB_CHARGE_OFF
+                    || state->charge_state == CSB_CHARGE_BAL) {
+                state->charge_state = CSB_CHARGE_INIT;
+ 10e:	2401      	movs	r4, #1
+ 110:	718c      	strb	r4, [r1, #6]
+    switch (state->charge_state) {
+        case CSB_CHARGE_OFF:
+            _set_output(false, false, 0, 0, output);
+            break;
+        case CSB_CHARGE_INIT:
+            _set_output((input->mode_request == CSB_SSM_MODE_CHARGE), false, 0, 0, output);
+ 112:	1e9c      	subs	r4, r3, #2
+ 114:	4266      	negs	r6, r4
+ 116:	4166      	adcs	r6, r4
+    }
+}
+
+void _set_output(bool close_contactors, bool charger_on, uint32_t charge_voltage_mV, uint32_t charge_current_mA, CSB_OUTPUT_T *output) {
+    output->close_contactors = close_contactors;
+    output->charger_on = charger_on;
+ 118:	2500      	movs	r5, #0
+    switch (state->charge_state) {
+        case CSB_CHARGE_OFF:
+            _set_output(false, false, 0, 0, output);
+            break;
+        case CSB_CHARGE_INIT:
+            _set_output((input->mode_request == CSB_SSM_MODE_CHARGE), false, 0, 0, output);
+ 11a:	b2f4      	uxtb	r4, r6
+            }
+    }
+}
+
+void _set_output(bool close_contactors, bool charger_on, uint32_t charge_voltage_mV, uint32_t charge_current_mA, CSB_OUTPUT_T *output) {
+    output->close_contactors = close_contactors;
+ 11c:	7254      	strb	r4, [r2, #9]
+    output->charger_on = charger_on;
+ 11e:	7295      	strb	r5, [r2, #10]
+    output->voltage_req_mV = charge_voltage_mV;
+ 120:	6015      	str	r5, [r2, #0]
+    output->current_req_mA = charge_current_mA;
+ 122:	6055      	str	r5, [r2, #4]
+            _set_output(false, false, 0, 0, output);
+            break;
+        case CSB_CHARGE_INIT:
+            _set_output((input->mode_request == CSB_SSM_MODE_CHARGE), false, 0, 0, output);
+
+            if (input->contactors_closed == output->close_contactors) {
+ 124:	7c82      	ldrb	r2, [r0, #18]
+ 126:	42a2      	cmp	r2, r4
+ 128:	d02d      	beq.n	186 <Charge_Step+0x8a>
+                        }
+                    }
+                }
+            }
+    }
+}
+ 12a:	bd70      	pop	{r4, r5, r6, pc}
+            }
+            break;
+
+        // we want to switch states (either to STANDBY/DISCHARGE/ERROR)
+        default:
+            if(state->charge_state == CSB_CHARGE_OFF) {
+ 12c:	798c      	ldrb	r4, [r1, #6]
+ 12e:	2c00      	cmp	r4, #0
+ 130:	d023      	beq.n	17a <Charge_Step+0x7e>
+                state->charge_state = CSB_CHARGE_OFF;
+            } else {
+                state->charge_state = CSB_CHARGE_DONE;
+ 132:	2406      	movs	r4, #6
+ 134:	718c      	strb	r4, [r1, #6]
+            }
+    }
+}
+
+void _set_output(bool close_contactors, bool charger_on, uint32_t charge_voltage_mV, uint32_t charge_current_mA, CSB_OUTPUT_T *output) {
+    output->close_contactors = close_contactors;
+ 136:	2400      	movs	r4, #0
+ 138:	7254      	strb	r4, [r2, #9]
+    output->charger_on = charger_on;
+ 13a:	7294      	strb	r4, [r2, #10]
+    output->voltage_req_mV = charge_voltage_mV;
+ 13c:	6014      	str	r4, [r2, #0]
+    output->current_req_mA = charge_current_mA;
+ 13e:	6054      	str	r4, [r2, #4]
+            _set_output(false, false, 0, 0, output);
+
+            // if not in Charge or Balance, that means SSM is trying to switch to another mode so wait for contactors to close
+            // if in charge or balance, make sure we don't need to go back to charge or balance
+            //    if we do, go back to init
+            if (input->mode_request != CSB_SSM_MODE_CHARGE && input->mode_request != CSB_SSM_MODE_BALANCE) {
+ 140:	1e9a      	subs	r2, r3, #2
+ 142:	2a01      	cmp	r2, #1
+ 144:	d800      	bhi.n	148 <Charge_Step+0x4c>
+ 146:	e08c      	b.n	262 <Stack_Size+0x62>
+                if (!input->contactors_closed && !input->charger_on) {
+ 148:	7c83      	ldrb	r3, [r0, #18]
+ 14a:	2b00      	cmp	r3, #0
+ 14c:	d1ed      	bne.n	12a <Charge_Step+0x2e>
+ 14e:	7cc3      	ldrb	r3, [r0, #19]
+ 150:	2b00      	cmp	r3, #0
+ 152:	d1ea      	bne.n	12a <Charge_Step+0x2e>
+                    state->charge_state = CSB_CHARGE_OFF;
+                }
+            } else {
+                if(input->mode_request == CSB_SSM_MODE_CHARGE) {
+                    if (input->pack_status->pack_cell_max_mV < state->pack_config->cell_max_mV) {
+                        state->charge_state = CSB_CHARGE_INIT;
+ 154:	718b      	strb	r3, [r1, #6]
+ 156:	e7e8      	b.n	12a <Charge_Step+0x2e>
+
+void Charge_Step(CSB_INPUT_T *input, CSB_STATE_T *state, CSB_OUTPUT_T *output) {
+
+    switch (input->mode_request) {
+        case CSB_SSM_MODE_CHARGE:
+            if (state->charge_state == CSB_CHARGE_OFF
+ 158:	798c      	ldrb	r4, [r1, #6]
+ 15a:	2504      	movs	r5, #4
+ 15c:	0026      	movs	r6, r4
+ 15e:	43ae      	bics	r6, r5
+ 160:	d0d5      	beq.n	10e <Charge_Step+0x12>
+                state->charge_state = CSB_CHARGE_DONE;
+            }
+            break;
+    }
+
+    switch (state->charge_state) {
+ 162:	2c06      	cmp	r4, #6
+ 164:	d8e1      	bhi.n	12a <Charge_Step+0x2e>
+ 166:	4d50      	ldr	r5, [pc, #320]	; (2a8 <Stack_Size+0xa8>)
+ 168:	00a4      	lsls	r4, r4, #2
+ 16a:	592c      	ldr	r4, [r5, r4]
+ 16c:	46a7      	mov	pc, r4
+            }
+            break;
+
+        case CSB_SSM_MODE_BALANCE:
+            if (state->charge_state == CSB_CHARGE_OFF
+                    || state->charge_state == CSB_CHARGE_CC
+ 16e:	1ea5      	subs	r5, r4, #2
+ 170:	2d01      	cmp	r5, #1
+ 172:	d9cc      	bls.n	10e <Charge_Step+0x12>
+                state->charge_state = CSB_CHARGE_DONE;
+            }
+            break;
+    }
+
+    switch (state->charge_state) {
+ 174:	2c06      	cmp	r4, #6
+ 176:	d9f6      	bls.n	166 <Charge_Step+0x6a>
+ 178:	e7d7      	b.n	12a <Charge_Step+0x2e>
+            }
+    }
+}
+
+void _set_output(bool close_contactors, bool charger_on, uint32_t charge_voltage_mV, uint32_t charge_current_mA, CSB_OUTPUT_T *output) {
+    output->close_contactors = close_contactors;
+ 17a:	2300      	movs	r3, #0
+ 17c:	7253      	strb	r3, [r2, #9]
+    output->charger_on = charger_on;
+ 17e:	7293      	strb	r3, [r2, #10]
+    output->voltage_req_mV = charge_voltage_mV;
+ 180:	6013      	str	r3, [r2, #0]
+    output->current_req_mA = charge_current_mA;
+ 182:	6053      	str	r3, [r2, #4]
+ 184:	e7d1      	b.n	12a <Charge_Step+0x2e>
+            break;
+        case CSB_CHARGE_INIT:
+            _set_output((input->mode_request == CSB_SSM_MODE_CHARGE), false, 0, 0, output);
+
+            if (input->contactors_closed == output->close_contactors) {
+                if(input->mode_request == CSB_SSM_MODE_CHARGE) {
+ 186:	2b02      	cmp	r3, #2
+ 188:	d062      	beq.n	250 <Stack_Size+0x50>
+                    state->charge_state =
+                        (input->pack_status->pack_cell_max_mV < state->pack_config->cell_max_mV) ? CSB_CHARGE_CC : CSB_CHARGE_CV;
+                } else if (input->mode_request == CSB_SSM_MODE_BALANCE) {
+ 18a:	2b03      	cmp	r3, #3
+ 18c:	d1cd      	bne.n	12a <Charge_Step+0x2e>
+ 18e:	e011      	b.n	1b4 <Charge_Step+0xb8>
+            }
+    }
+}
+
+void _set_output(bool close_contactors, bool charger_on, uint32_t charge_voltage_mV, uint32_t charge_current_mA, CSB_OUTPUT_T *output) {
+    output->close_contactors = close_contactors;
+ 190:	2300      	movs	r3, #0
+ 192:	7253      	strb	r3, [r2, #9]
+    output->charger_on = charger_on;
+ 194:	7293      	strb	r3, [r2, #10]
+    output->voltage_req_mV = charge_voltage_mV;
+ 196:	6013      	str	r3, [r2, #0]
+    output->current_req_mA = charge_current_mA;
+ 198:	6053      	str	r3, [r2, #4]
+        case CSB_CHARGE_BAL:
+            _set_output(false, false, 0, 0, output);
+            bool balancing = input->balance_req;
+
+            // Done balancing
+            if (!balancing) {
+ 19a:	7c43      	ldrb	r3, [r0, #17]
+ 19c:	2b00      	cmp	r3, #0
+ 19e:	d101      	bne.n	1a4 <Charge_Step+0xa8>
+                state->charge_state = CSB_CHARGE_DONE;
+ 1a0:	3306      	adds	r3, #6
+ 1a2:	718b      	strb	r3, [r1, #6]
+            }
+
+            if(input->contactors_closed) {
+ 1a4:	7c83      	ldrb	r3, [r0, #18]
+ 1a6:	2b00      	cmp	r3, #0
+ 1a8:	d0bf      	beq.n	12a <Charge_Step+0x2e>
+            }
+    }
+}
+
+void _set_output(bool close_contactors, bool charger_on, uint32_t charge_voltage_mV, uint32_t charge_current_mA, CSB_OUTPUT_T *output) {
+    output->close_contactors = close_contactors;
+ 1aa:	2300      	movs	r3, #0
+ 1ac:	7253      	strb	r3, [r2, #9]
+    output->charger_on = charger_on;
+ 1ae:	7293      	strb	r3, [r2, #10]
+    output->voltage_req_mV = charge_voltage_mV;
+ 1b0:	6013      	str	r3, [r2, #0]
+    output->current_req_mA = charge_current_mA;
+ 1b2:	6053      	str	r3, [r2, #4]
+                state->charge_state = CSB_CHARGE_DONE;
+            }
+
+            if(input->contactors_closed) {
+                _set_output(false, false, 0, 0, output);
+                state->charge_state = CSB_CHARGE_INIT;
+ 1b4:	3301      	adds	r3, #1
+ 1b6:	718b      	strb	r3, [r1, #6]
+ 1b8:	e7b7      	b.n	12a <Charge_Step+0x2e>
+                state->charge_state = CSB_CHARGE_INIT;
+            }
+            break;
+        case CSB_CHARGE_CV:
+
+            if (input->pack_status->pack_cell_max_mV < state->pack_config->cell_max_mV) {
+ 1ba:	6804      	ldr	r4, [r0, #0]
+ 1bc:	680b      	ldr	r3, [r1, #0]
+ 1be:	68a5      	ldr	r5, [r4, #8]
+ 1c0:	685e      	ldr	r6, [r3, #4]
+ 1c2:	42b5      	cmp	r5, r6
+ 1c4:	d222      	bcs.n	20c <Stack_Size+0xc>
+                // Need to go back to CC Mode
+                state->charge_state = CSB_CHARGE_CC;
+ 1c6:	2302      	movs	r3, #2
+ 1c8:	718b      	strb	r3, [r1, #6]
+            if (input->pack_status->pack_cell_max_mV >= state->pack_config->cell_max_mV) {
+                state->charge_state = CSB_CHARGE_CV; // Need to go to CV Mode
+                _set_output(true, true, cv_charge_voltage_mV, cv_charge_current_mA, output);
+            } else {
+                // Charge in CC Mode
+                _set_output(true, true, cc_charge_voltage_mV, cc_charge_current_mA, output);
+ 1ca:	4b38      	ldr	r3, [pc, #224]	; (2ac <Stack_Size+0xac>)
+ 1cc:	681b      	ldr	r3, [r3, #0]
+ 1ce:	6013      	str	r3, [r2, #0]
+ 1d0:	4b37      	ldr	r3, [pc, #220]	; (2b0 <Stack_Size+0xb0>)
+ 1d2:	681b      	ldr	r3, [r3, #0]
+ 1d4:	6053      	str	r3, [r2, #4]
+            }
+    }
+}
+
+void _set_output(bool close_contactors, bool charger_on, uint32_t charge_voltage_mV, uint32_t charge_current_mA, CSB_OUTPUT_T *output) {
+    output->close_contactors = close_contactors;
+ 1d6:	2301      	movs	r3, #1
+ 1d8:	7253      	strb	r3, [r2, #9]
+    output->charger_on = charger_on;
+ 1da:	7293      	strb	r3, [r2, #10]
+                // Charge in CC Mode
+                _set_output(true, true, cc_charge_voltage_mV, cc_charge_current_mA, output);
+            }
+
+            // if(!input->contactors_closed || !input->charger_on) { // [TODO] Think about this
+            if(!input->contactors_closed) {
+ 1dc:	7c83      	ldrb	r3, [r0, #18]
+ 1de:	2b00      	cmp	r3, #0
+ 1e0:	d1a3      	bne.n	12a <Charge_Step+0x2e>
+    }
+}
+
+void _set_output(bool close_contactors, bool charger_on, uint32_t charge_voltage_mV, uint32_t charge_current_mA, CSB_OUTPUT_T *output) {
+    output->close_contactors = close_contactors;
+    output->charger_on = charger_on;
+ 1e2:	2300      	movs	r3, #0
+            }
+    }
+}
+
+void _set_output(bool close_contactors, bool charger_on, uint32_t charge_voltage_mV, uint32_t charge_current_mA, CSB_OUTPUT_T *output) {
+    output->close_contactors = close_contactors;
+ 1e4:	2001      	movs	r0, #1
+    output->charger_on = charger_on;
+ 1e6:	7293      	strb	r3, [r2, #10]
+            }
+    }
+}
+
+void _set_output(bool close_contactors, bool charger_on, uint32_t charge_voltage_mV, uint32_t charge_current_mA, CSB_OUTPUT_T *output) {
+    output->close_contactors = close_contactors;
+ 1e8:	7250      	strb	r0, [r2, #9]
+    output->charger_on = charger_on;
+    output->voltage_req_mV = charge_voltage_mV;
+ 1ea:	6013      	str	r3, [r2, #0]
+    output->current_req_mA = charge_current_mA;
+ 1ec:	6053      	str	r3, [r2, #4]
+            }
+
+            // if(!input->contactors_closed || !input->charger_on) { // [TODO] Think about this
+            if(!input->contactors_closed) {
+                _set_output(true, false, 0, 0, output);
+                state->charge_state = CSB_CHARGE_INIT;
+ 1ee:	7188      	strb	r0, [r1, #6]
+ 1f0:	e79b      	b.n	12a <Charge_Step+0x2e>
+                    state->charge_state = CSB_CHARGE_BAL;
+                }
+            }
+            break;
+        case CSB_CHARGE_CC:
+            if (input->pack_status->pack_cell_max_mV >= state->pack_config->cell_max_mV) {
+ 1f2:	6804      	ldr	r4, [r0, #0]
+ 1f4:	680b      	ldr	r3, [r1, #0]
+ 1f6:	68a4      	ldr	r4, [r4, #8]
+ 1f8:	685b      	ldr	r3, [r3, #4]
+ 1fa:	429c      	cmp	r4, r3
+ 1fc:	d3e5      	bcc.n	1ca <Charge_Step+0xce>
+                state->charge_state = CSB_CHARGE_CV; // Need to go to CV Mode
+ 1fe:	2303      	movs	r3, #3
+ 200:	718b      	strb	r3, [r1, #6]
+                _set_output(true, true, cv_charge_voltage_mV, cv_charge_current_mA, output);
+ 202:	4b2c      	ldr	r3, [pc, #176]	; (2b4 <Stack_Size+0xb4>)
+ 204:	681b      	ldr	r3, [r3, #0]
+ 206:	6013      	str	r3, [r2, #0]
+ 208:	4b2b      	ldr	r3, [pc, #172]	; (2b8 <Stack_Size+0xb8>)
+ 20a:	e7e2      	b.n	1d2 <Charge_Step+0xd6>
+            if (input->pack_status->pack_cell_max_mV < state->pack_config->cell_max_mV) {
+                // Need to go back to CC Mode
+                state->charge_state = CSB_CHARGE_CC;
+                _set_output(true, true, cc_charge_voltage_mV, cc_charge_current_mA, output);
+            } else {
+                _set_output(true, true, cv_charge_voltage_mV, cv_charge_current_mA, output);
+ 20c:	4d29      	ldr	r5, [pc, #164]	; (2b4 <Stack_Size+0xb4>)
+
+                if (input->pack_status->pack_current_mA < state->pack_config->cv_min_current_mA*state->pack_config->pack_cells_p) {
+ 20e:	6a1e      	ldr	r6, [r3, #32]
+            if (input->pack_status->pack_cell_max_mV < state->pack_config->cell_max_mV) {
+                // Need to go back to CC Mode
+                state->charge_state = CSB_CHARGE_CC;
+                _set_output(true, true, cc_charge_voltage_mV, cc_charge_current_mA, output);
+            } else {
+                _set_output(true, true, cv_charge_voltage_mV, cv_charge_current_mA, output);
+ 210:	682d      	ldr	r5, [r5, #0]
+
+                if (input->pack_status->pack_current_mA < state->pack_config->cv_min_current_mA*state->pack_config->pack_cells_p) {
+ 212:	6924      	ldr	r4, [r4, #16]
+            if (input->pack_status->pack_cell_max_mV < state->pack_config->cell_max_mV) {
+                // Need to go back to CC Mode
+                state->charge_state = CSB_CHARGE_CC;
+                _set_output(true, true, cc_charge_voltage_mV, cc_charge_current_mA, output);
+            } else {
+                _set_output(true, true, cv_charge_voltage_mV, cv_charge_current_mA, output);
+ 214:	6015      	str	r5, [r2, #0]
+ 216:	4d28      	ldr	r5, [pc, #160]	; (2b8 <Stack_Size+0xb8>)
+ 218:	682d      	ldr	r5, [r5, #0]
+ 21a:	6055      	str	r5, [r2, #4]
+            }
+    }
+}
+
+void _set_output(bool close_contactors, bool charger_on, uint32_t charge_voltage_mV, uint32_t charge_current_mA, CSB_OUTPUT_T *output) {
+    output->close_contactors = close_contactors;
+ 21c:	2501      	movs	r5, #1
+ 21e:	7255      	strb	r5, [r2, #9]
+    output->charger_on = charger_on;
+ 220:	7295      	strb	r5, [r2, #10]
+                state->charge_state = CSB_CHARGE_CC;
+                _set_output(true, true, cc_charge_voltage_mV, cc_charge_current_mA, output);
+            } else {
+                _set_output(true, true, cv_charge_voltage_mV, cv_charge_current_mA, output);
+
+                if (input->pack_status->pack_current_mA < state->pack_config->cv_min_current_mA*state->pack_config->pack_cells_p) {
+ 222:	69dd      	ldr	r5, [r3, #28]
+ 224:	4375      	muls	r5, r6
+ 226:	42ac      	cmp	r4, r5
+ 228:	d20e      	bcs.n	248 <Stack_Size+0x48>
+                    if ((input->msTicks - last_time_above_cv_min_curr) >= state->pack_config->cv_min_current_ms) {
+ 22a:	4c24      	ldr	r4, [pc, #144]	; (2bc <Stack_Size+0xbc>)
+ 22c:	68c5      	ldr	r5, [r0, #12]
+ 22e:	6824      	ldr	r4, [r4, #0]
+ 230:	6a5b      	ldr	r3, [r3, #36]	; 0x24
+ 232:	1b2c      	subs	r4, r5, r4
+ 234:	429c      	cmp	r4, r3
+ 236:	d3d1      	bcc.n	1dc <Charge_Step+0xe0>
+            }
+    }
+}
+
+void _set_output(bool close_contactors, bool charger_on, uint32_t charge_voltage_mV, uint32_t charge_current_mA, CSB_OUTPUT_T *output) {
+    output->close_contactors = close_contactors;
+ 238:	2300      	movs	r3, #0
+ 23a:	7253      	strb	r3, [r2, #9]
+    output->charger_on = charger_on;
+ 23c:	7293      	strb	r3, [r2, #10]
+    output->voltage_req_mV = charge_voltage_mV;
+ 23e:	6013      	str	r3, [r2, #0]
+    output->current_req_mA = charge_current_mA;
+ 240:	6053      	str	r3, [r2, #4]
+                _set_output(true, true, cv_charge_voltage_mV, cv_charge_current_mA, output);
+
+                if (input->pack_status->pack_current_mA < state->pack_config->cv_min_current_mA*state->pack_config->pack_cells_p) {
+                    if ((input->msTicks - last_time_above_cv_min_curr) >= state->pack_config->cv_min_current_ms) {
+                        _set_output(false, false, 0, 0, output);
+                        state->charge_state = CSB_CHARGE_DONE;
+ 242:	3306      	adds	r3, #6
+ 244:	718b      	strb	r3, [r1, #6]
+                        break;
+ 246:	e770      	b.n	12a <Charge_Step+0x2e>
+                    }
+                } else {
+                    last_time_above_cv_min_curr = input->msTicks;
+ 248:	4b1c      	ldr	r3, [pc, #112]	; (2bc <Stack_Size+0xbc>)
+ 24a:	68c4      	ldr	r4, [r0, #12]
+ 24c:	601c      	str	r4, [r3, #0]
+ 24e:	e7c5      	b.n	1dc <Charge_Step+0xe0>
+            _set_output((input->mode_request == CSB_SSM_MODE_CHARGE), false, 0, 0, output);
+
+            if (input->contactors_closed == output->close_contactors) {
+                if(input->mode_request == CSB_SSM_MODE_CHARGE) {
+                    state->charge_state =
+                        (input->pack_status->pack_cell_max_mV < state->pack_config->cell_max_mV) ? CSB_CHARGE_CC : CSB_CHARGE_CV;
+ 250:	6802      	ldr	r2, [r0, #0]
+ 252:	680b      	ldr	r3, [r1, #0]
+        case CSB_CHARGE_INIT:
+            _set_output((input->mode_request == CSB_SSM_MODE_CHARGE), false, 0, 0, output);
+
+            if (input->contactors_closed == output->close_contactors) {
+                if(input->mode_request == CSB_SSM_MODE_CHARGE) {
+                    state->charge_state =
+ 254:	6892      	ldr	r2, [r2, #8]
+ 256:	685b      	ldr	r3, [r3, #4]
+ 258:	429a      	cmp	r2, r3
+ 25a:	416d      	adcs	r5, r5
+ 25c:	3502      	adds	r5, #2
+ 25e:	718d      	strb	r5, [r1, #6]
+ 260:	e763      	b.n	12a <Charge_Step+0x2e>
+            if (input->mode_request != CSB_SSM_MODE_CHARGE && input->mode_request != CSB_SSM_MODE_BALANCE) {
+                if (!input->contactors_closed && !input->charger_on) {
+                    state->charge_state = CSB_CHARGE_OFF;
+                }
+            } else {
+                if(input->mode_request == CSB_SSM_MODE_CHARGE) {
+ 262:	2b02      	cmp	r3, #2
+ 264:	d015      	beq.n	292 <Stack_Size+0x92>
+                    if (input->pack_status->pack_cell_max_mV < state->pack_config->cell_max_mV) {
+                        state->charge_state = CSB_CHARGE_INIT;
+                    }
+                } else if (input->mode_request == CSB_SSM_MODE_BALANCE) {
+                    int i;
+                    for (i = 0; i < total_num_cells; i++) {
+ 266:	4b16      	ldr	r3, [pc, #88]	; (2c0 <Stack_Size+0xc0>)
+ 268:	881a      	ldrh	r2, [r3, #0]
+ 26a:	2a00      	cmp	r2, #0
+ 26c:	d100      	bne.n	270 <Stack_Size+0x70>
+ 26e:	e75c      	b.n	12a <Charge_Step+0x2e>
+ 270:	680b      	ldr	r3, [r1, #0]
+ 272:	6804      	ldr	r4, [r0, #0]
+ 274:	695d      	ldr	r5, [r3, #20]
+ 276:	6883      	ldr	r3, [r0, #8]
+ 278:	0092      	lsls	r2, r2, #2
+ 27a:	18e8      	adds	r0, r5, r3
+ 27c:	6823      	ldr	r3, [r4, #0]
+                        if (input->pack_status->cell_voltages_mV[i] > input->balance_mV + state->pack_config->bal_on_thresh_mV) {
+                            state->charge_state = CSB_CHARGE_INIT;
+ 27e:	2401      	movs	r4, #1
+ 280:	189a      	adds	r2, r3, r2
+                        state->charge_state = CSB_CHARGE_INIT;
+                    }
+                } else if (input->mode_request == CSB_SSM_MODE_BALANCE) {
+                    int i;
+                    for (i = 0; i < total_num_cells; i++) {
+                        if (input->pack_status->cell_voltages_mV[i] > input->balance_mV + state->pack_config->bal_on_thresh_mV) {
+ 282:	681d      	ldr	r5, [r3, #0]
+ 284:	4285      	cmp	r5, r0
+ 286:	d900      	bls.n	28a <Stack_Size+0x8a>
+                            state->charge_state = CSB_CHARGE_INIT;
+ 288:	718c      	strb	r4, [r1, #6]
+ 28a:	3304      	adds	r3, #4
+                    if (input->pack_status->pack_cell_max_mV < state->pack_config->cell_max_mV) {
+                        state->charge_state = CSB_CHARGE_INIT;
+                    }
+                } else if (input->mode_request == CSB_SSM_MODE_BALANCE) {
+                    int i;
+                    for (i = 0; i < total_num_cells; i++) {
+ 28c:	4293      	cmp	r3, r2
+ 28e:	d1f8      	bne.n	282 <Stack_Size+0x82>
+ 290:	e74b      	b.n	12a <Charge_Step+0x2e>
+                if (!input->contactors_closed && !input->charger_on) {
+                    state->charge_state = CSB_CHARGE_OFF;
+                }
+            } else {
+                if(input->mode_request == CSB_SSM_MODE_CHARGE) {
+                    if (input->pack_status->pack_cell_max_mV < state->pack_config->cell_max_mV) {
+ 292:	6802      	ldr	r2, [r0, #0]
+ 294:	680b      	ldr	r3, [r1, #0]
+ 296:	6892      	ldr	r2, [r2, #8]
+ 298:	685b      	ldr	r3, [r3, #4]
+ 29a:	429a      	cmp	r2, r3
+ 29c:	d300      	bcc.n	2a0 <Stack_Size+0xa0>
+ 29e:	e744      	b.n	12a <Charge_Step+0x2e>
+                        state->charge_state = CSB_CHARGE_INIT;
+ 2a0:	2301      	movs	r3, #1
+ 2a2:	718b      	strb	r3, [r1, #6]
+ 2a4:	e741      	b.n	12a <Charge_Step+0x2e>
+ 2a6:	46c0      	nop			; (mov r8, r8)
+ 2a8:	000005dc 	.word	0x000005dc
+ 2ac:	10000100 	.word	0x10000100
+ 2b0:	1000010c 	.word	0x1000010c
+ 2b4:	10000104 	.word	0x10000104
+ 2b8:	10000110 	.word	0x10000110
+ 2bc:	10000108 	.word	0x10000108
+ 2c0:	10000114 	.word	0x10000114
+
+000002c4 <Init_Structs>:
+static uint32_t cell_voltages[MAX_NUM_MODULES*MAX_CELLS_PER_MODULE];
+static int16_t cell_temperatures[MAX_NUM_MODULES*MAX_THERMISTORS_PER_MODULE];
+static PACK_CONFIG_T pack_config;
+static CSB_STATE_T csb_state;
+
+void Init_Structs(void) {
+ 2c4:	b5f0      	push	{r4, r5, r6, r7, lr}
+ 2c6:	4647      	mov	r7, r8
+  csb_output.voltage_req_mV = 0;
+ 2c8:	2400      	movs	r4, #0
+  csb_output.current_req_mA = 0;
+  csb_output.send_bms_config = false;
+  csb_output.close_contactors = false;
+  csb_output.charger_on = false;
+
+  csb_state.pack_config = &pack_config;
+ 2ca:	4d2d      	ldr	r5, [pc, #180]	; (380 <Init_Structs+0xbc>)
+ 2cc:	4e2d      	ldr	r6, [pc, #180]	; (384 <Init_Structs+0xc0>)
+static int16_t cell_temperatures[MAX_NUM_MODULES*MAX_THERMISTORS_PER_MODULE];
+static PACK_CONFIG_T pack_config;
+static CSB_STATE_T csb_state;
+
+void Init_Structs(void) {
+  csb_output.voltage_req_mV = 0;
+ 2ce:	4b2e      	ldr	r3, [pc, #184]	; (388 <Init_Structs+0xc4>)
+  csb_state.pack_config = &pack_config;
+  csb_state.curr_mode = CSB_SSM_MODE_INIT;
+  csb_state.init_state = CSB_INIT_OFF;
+  csb_state.charge_state = CSB_CHARGE_OFF;
+  csb_state.idle_state = CSB_IDLE_OFF;
+  csb_state.balance_waitingoff = balance_waitingoff;
+ 2d0:	482e      	ldr	r0, [pc, #184]	; (38c <Init_Structs+0xc8>)
+static uint32_t cell_voltages[MAX_NUM_MODULES*MAX_CELLS_PER_MODULE];
+static int16_t cell_temperatures[MAX_NUM_MODULES*MAX_THERMISTORS_PER_MODULE];
+static PACK_CONFIG_T pack_config;
+static CSB_STATE_T csb_state;
+
+void Init_Structs(void) {
+ 2d2:	b480      	push	{r7}
+  csb_state.curr_mode = CSB_SSM_MODE_INIT;
+  csb_state.init_state = CSB_INIT_OFF;
+  csb_state.charge_state = CSB_CHARGE_OFF;
+  csb_state.idle_state = CSB_IDLE_OFF;
+  csb_state.balance_waitingoff = balance_waitingoff;
+  memset(balance_waitingoff, 0, sizeof(balance_waitingoff[0])*MAX_NUM_MODULES*MAX_CELLS_PER_MODULE);
+ 2d4:	22b4      	movs	r2, #180	; 0xb4
+ 2d6:	2100      	movs	r1, #0
+static int16_t cell_temperatures[MAX_NUM_MODULES*MAX_THERMISTORS_PER_MODULE];
+static PACK_CONFIG_T pack_config;
+static CSB_STATE_T csb_state;
+
+void Init_Structs(void) {
+  csb_output.voltage_req_mV = 0;
+ 2d8:	601c      	str	r4, [r3, #0]
+  csb_output.current_req_mA = 0;
+ 2da:	605c      	str	r4, [r3, #4]
+  csb_output.send_bms_config = false;
+ 2dc:	721c      	strb	r4, [r3, #8]
+  csb_output.close_contactors = false;
+ 2de:	725c      	strb	r4, [r3, #9]
+  csb_output.charger_on = false;
+ 2e0:	729c      	strb	r4, [r3, #10]
+
+  csb_state.pack_config = &pack_config;
+ 2e2:	6035      	str	r5, [r6, #0]
+  csb_state.curr_mode = CSB_SSM_MODE_INIT;
+ 2e4:	7134      	strb	r4, [r6, #4]
+  csb_state.init_state = CSB_INIT_OFF;
+ 2e6:	7174      	strb	r4, [r6, #5]
+  csb_state.charge_state = CSB_CHARGE_OFF;
+ 2e8:	71b4      	strb	r4, [r6, #6]
+  csb_state.idle_state = CSB_IDLE_OFF;
+ 2ea:	71f4      	strb	r4, [r6, #7]
+  csb_state.balance_waitingoff = balance_waitingoff;
+ 2ec:	60f0      	str	r0, [r6, #12]
+  memset(balance_waitingoff, 0, sizeof(balance_waitingoff[0])*MAX_NUM_MODULES*MAX_CELLS_PER_MODULE);
+ 2ee:	f000 f92f 	bl	550 <memset>
+  csb_state.balance_timeon = balance_timeon;
+ 2f2:	4827      	ldr	r0, [pc, #156]	; (390 <Init_Structs+0xcc>)
+  memset(balance_timeon, 0, sizeof(balance_timeon[0])*MAX_NUM_MODULES*MAX_CELLS_PER_MODULE);
+ 2f4:	2100      	movs	r1, #0
+  csb_state.init_state = CSB_INIT_OFF;
+  csb_state.charge_state = CSB_CHARGE_OFF;
+  csb_state.idle_state = CSB_IDLE_OFF;
+  csb_state.balance_waitingoff = balance_waitingoff;
+  memset(balance_waitingoff, 0, sizeof(balance_waitingoff[0])*MAX_NUM_MODULES*MAX_CELLS_PER_MODULE);
+  csb_state.balance_timeon = balance_timeon;
+ 2f6:	60b0      	str	r0, [r6, #8]
+  memset(balance_timeon, 0, sizeof(balance_timeon[0])*MAX_NUM_MODULES*MAX_CELLS_PER_MODULE);
+ 2f8:	26b4      	movs	r6, #180	; 0xb4
+ 2fa:	00b6      	lsls	r6, r6, #2
+ 2fc:	0032      	movs	r2, r6
+ 2fe:	f000 f927 	bl	550 <memset>
+
+  pack_config.module_cell_count = 0;
+ 302:	2338      	movs	r3, #56	; 0x38
+  pack_config.max_cell_temp_dC = 0;
+  pack_config.min_cell_temp_dC = 0;
+  pack_config.fan_on_threshold_dC = 0;
+
+  //assign bms_inputs
+  csb_input.mode_request = CSB_SSM_MODE_IDLE;
+ 304:	2101      	movs	r1, #1
+  pack_config.cv_min_current_ms = 0;
+  pack_config.cc_cell_voltage_mV = 0;
+
+  pack_config.cell_discharge_c_rating_cC = 0; // at 27 degrees C
+  pack_config.max_cell_temp_dC = 0;
+  pack_config.min_cell_temp_dC = 0;
+ 306:	2200      	movs	r2, #0
+  csb_state.balance_waitingoff = balance_waitingoff;
+  memset(balance_waitingoff, 0, sizeof(balance_waitingoff[0])*MAX_NUM_MODULES*MAX_CELLS_PER_MODULE);
+  csb_state.balance_timeon = balance_timeon;
+  memset(balance_timeon, 0, sizeof(balance_timeon[0])*MAX_NUM_MODULES*MAX_CELLS_PER_MODULE);
+
+  pack_config.module_cell_count = 0;
+ 308:	54ec      	strb	r4, [r5, r3]
+  pack_config.max_cell_temp_dC = 0;
+  pack_config.min_cell_temp_dC = 0;
+  pack_config.fan_on_threshold_dC = 0;
+
+  //assign bms_inputs
+  csb_input.mode_request = CSB_SSM_MODE_IDLE;
+ 30a:	4b22      	ldr	r3, [pc, #136]	; (394 <Init_Structs+0xd0>)
+  memset(balance_waitingoff, 0, sizeof(balance_waitingoff[0])*MAX_NUM_MODULES*MAX_CELLS_PER_MODULE);
+  csb_state.balance_timeon = balance_timeon;
+  memset(balance_timeon, 0, sizeof(balance_timeon[0])*MAX_NUM_MODULES*MAX_CELLS_PER_MODULE);
+
+  pack_config.module_cell_count = 0;
+  pack_config.cell_min_mV = 0;
+ 30c:	602c      	str	r4, [r5, #0]
+  pack_config.max_cell_temp_dC = 0;
+  pack_config.min_cell_temp_dC = 0;
+  pack_config.fan_on_threshold_dC = 0;
+
+  //assign bms_inputs
+  csb_input.mode_request = CSB_SSM_MODE_IDLE;
+ 30e:	7119      	strb	r1, [r3, #4]
+  csb_input.balance_mV = 0; // console request balance to mV
+  csb_input.msTicks = msTicks;
+ 310:	4921      	ldr	r1, [pc, #132]	; (398 <Init_Structs+0xd4>)
+  csb_state.balance_timeon = balance_timeon;
+  memset(balance_timeon, 0, sizeof(balance_timeon[0])*MAX_NUM_MODULES*MAX_CELLS_PER_MODULE);
+
+  pack_config.module_cell_count = 0;
+  pack_config.cell_min_mV = 0;
+  pack_config.cell_max_mV = 0;
+ 312:	606c      	str	r4, [r5, #4]
+  pack_config.fan_on_threshold_dC = 0;
+
+  //assign bms_inputs
+  csb_input.mode_request = CSB_SSM_MODE_IDLE;
+  csb_input.balance_mV = 0; // console request balance to mV
+  csb_input.msTicks = msTicks;
+ 314:	6809      	ldr	r1, [r1, #0]
+  memset(balance_timeon, 0, sizeof(balance_timeon[0])*MAX_NUM_MODULES*MAX_CELLS_PER_MODULE);
+
+  pack_config.module_cell_count = 0;
+  pack_config.cell_min_mV = 0;
+  pack_config.cell_max_mV = 0;
+  pack_config.cell_capacity_cAh = 0;
+ 316:	60ac      	str	r4, [r5, #8]
+  pack_config.num_modules = 0;
+ 318:	60ec      	str	r4, [r5, #12]
+  pack_config.cell_charge_c_rating_cC = 0;
+ 31a:	612c      	str	r4, [r5, #16]
+  pack_config.bal_on_thresh_mV = 0;
+ 31c:	616c      	str	r4, [r5, #20]
+  pack_config.bal_off_thresh_mV = 0;
+ 31e:	61ac      	str	r4, [r5, #24]
+  pack_config.pack_cells_p = 0;
+ 320:	61ec      	str	r4, [r5, #28]
+  pack_config.cv_min_current_mA = 0;
+ 322:	622c      	str	r4, [r5, #32]
+  pack_config.cv_min_current_ms = 0;
+ 324:	626c      	str	r4, [r5, #36]	; 0x24
+  pack_config.cc_cell_voltage_mV = 0;
+ 326:	62ac      	str	r4, [r5, #40]	; 0x28
+
+  pack_config.cell_discharge_c_rating_cC = 0; // at 27 degrees C
+ 328:	62ec      	str	r4, [r5, #44]	; 0x2c
+  pack_config.max_cell_temp_dC = 0;
+ 32a:	632c      	str	r4, [r5, #48]	; 0x30
+  pack_config.min_cell_temp_dC = 0;
+ 32c:	86ac      	strh	r4, [r5, #52]	; 0x34
+  pack_config.fan_on_threshold_dC = 0;
+ 32e:	86ec      	strh	r4, [r5, #54]	; 0x36
+
+  //assign bms_inputs
+  csb_input.mode_request = CSB_SSM_MODE_IDLE;
+  csb_input.balance_mV = 0; // console request balance to mV
+  csb_input.msTicks = msTicks;
+  csb_input.pack_status = &pack_status;
+ 330:	4d1a      	ldr	r5, [pc, #104]	; (39c <Init_Structs+0xd8>)
+  pack_config.fan_on_threshold_dC = 0;
+
+  //assign bms_inputs
+  csb_input.mode_request = CSB_SSM_MODE_IDLE;
+  csb_input.balance_mV = 0; // console request balance to mV
+  csb_input.msTicks = msTicks;
+ 332:	60d9      	str	r1, [r3, #12]
+  csb_input.pack_status = &pack_status;
+ 334:	601d      	str	r5, [r3, #0]
+  csb_input.balance_req = false;
+ 336:	745a      	strb	r2, [r3, #17]
+  csb_input.contactors_closed = false;
+ 338:	749a      	strb	r2, [r3, #18]
+  csb_input.receive_bms_config = false;
+ 33a:	741a      	strb	r2, [r3, #16]
+  csb_input.charger_on = false;
+ 33c:	74da      	strb	r2, [r3, #19]
+  pack_config.min_cell_temp_dC = 0;
+  pack_config.fan_on_threshold_dC = 0;
+
+  //assign bms_inputs
+  csb_input.mode_request = CSB_SSM_MODE_IDLE;
+  csb_input.balance_mV = 0; // console request balance to mV
+ 33e:	609c      	str	r4, [r3, #8]
+  csb_input.balance_req = false;
+  csb_input.contactors_closed = false;
+  csb_input.receive_bms_config = false;
+  csb_input.charger_on = false;
+
+  memset(cell_voltages, 0, sizeof(cell_voltages));
+ 340:	4b17      	ldr	r3, [pc, #92]	; (3a0 <Init_Structs+0xdc>)
+ 342:	0032      	movs	r2, r6
+ 344:	4698      	mov	r8, r3
+ 346:	0018      	movs	r0, r3
+ 348:	2100      	movs	r1, #0
+ 34a:	f000 f901 	bl	550 <memset>
+  memset(cell_temperatures, 0, sizeof(cell_temperatures));
+ 34e:	4f15      	ldr	r7, [pc, #84]	; (3a4 <Init_Structs+0xe0>)
+ 350:	0032      	movs	r2, r6
+ 352:	0038      	movs	r0, r7
+ 354:	2100      	movs	r1, #0
+ 356:	f000 f8fb 	bl	550 <memset>
+  pack_status.cell_voltages_mV = cell_voltages;
+ 35a:	4643      	mov	r3, r8
+ 35c:	602b      	str	r3, [r5, #0]
+  pack_status.cell_temperatures_dC = cell_temperatures;
+  pack_status.pack_cell_max_mV = 0;
+  pack_status.pack_cell_min_mV = 0xFFFFFFFF;
+ 35e:	2301      	movs	r3, #1
+ 360:	425b      	negs	r3, r3
+ 362:	60eb      	str	r3, [r5, #12]
+  pack_status.pack_current_mA = 0;
+  pack_status.pack_voltage_mV = 0;
+  pack_status.max_cell_temp_dC = 0;
+  pack_status.min_cell_temp_dC = -100;
+ 364:	3b63      	subs	r3, #99	; 0x63
+  csb_input.charger_on = false;
+
+  memset(cell_voltages, 0, sizeof(cell_voltages));
+  memset(cell_temperatures, 0, sizeof(cell_temperatures));
+  pack_status.cell_voltages_mV = cell_voltages;
+  pack_status.cell_temperatures_dC = cell_temperatures;
+ 366:	606f      	str	r7, [r5, #4]
+  pack_status.pack_cell_max_mV = 0;
+ 368:	60ac      	str	r4, [r5, #8]
+  pack_status.pack_cell_min_mV = 0xFFFFFFFF;
+  pack_status.pack_current_mA = 0;
+ 36a:	612c      	str	r4, [r5, #16]
+  pack_status.pack_voltage_mV = 0;
+ 36c:	616c      	str	r4, [r5, #20]
+  pack_status.max_cell_temp_dC = 0;
+ 36e:	832c      	strh	r4, [r5, #24]
+  pack_status.min_cell_temp_dC = -100;
+ 370:	836b      	strh	r3, [r5, #26]
+  pack_status.avg_cell_temp_dC = 0;
+ 372:	83ac      	strh	r4, [r5, #28]
+  pack_status.min_cell_temp_position = 0;
+ 374:	842c      	strh	r4, [r5, #32]
+  pack_status.max_cell_temp_position = 0;
+ 376:	83ec      	strh	r4, [r5, #30]
+}
+ 378:	bc04      	pop	{r2}
+ 37a:	4690      	mov	r8, r2
+ 37c:	bdf0      	pop	{r4, r5, r6, r7, pc}
+ 37e:	46c0      	nop			; (mov r8, r8)
+ 380:	1000049c 	.word	0x1000049c
+ 384:	10000abc 	.word	0x10000abc
+ 388:	100007cc 	.word	0x100007cc
+ 38c:	100003e8 	.word	0x100003e8
+ 390:	100007ec 	.word	0x100007ec
+ 394:	100007d8 	.word	0x100007d8
+ 398:	10000acc 	.word	0x10000acc
+ 39c:	100007a8 	.word	0x100007a8
+ 3a0:	10000118 	.word	0x10000118
+ 3a4:	100004d8 	.word	0x100004d8
+
+000003a8 <main>:
+
+void Process_Input(CSB_INPUT_T* csb_input) {
+
+}
+
+int main(void) {
+ 3a8:	b570      	push	{r4, r5, r6, lr}
+  Init_Structs();
+ 3aa:	f7ff ff8b 	bl	2c4 <Init_Structs>
+
+  SSM_Init(&csb_input, &csb_state, &csb_output);
+ 3ae:	4e07      	ldr	r6, [pc, #28]	; (3cc <main+0x24>)
+ 3b0:	4d07      	ldr	r5, [pc, #28]	; (3d0 <main+0x28>)
+ 3b2:	4c08      	ldr	r4, [pc, #32]	; (3d4 <main+0x2c>)
+ 3b4:	0032      	movs	r2, r6
+ 3b6:	0029      	movs	r1, r5
+ 3b8:	0020      	movs	r0, r4
+ 3ba:	f000 f80d 	bl	3d8 <SSM_Init>
+
+  while(1) {
+    Process_Input(&csb_input);
+    SSM_Step(&csb_input, &csb_state, &csb_output);
+ 3be:	0032      	movs	r2, r6
+ 3c0:	0029      	movs	r1, r5
+ 3c2:	0020      	movs	r0, r4
+ 3c4:	f000 f84a 	bl	45c <SSM_Step>
+ 3c8:	e7f9      	b.n	3be <main+0x16>
+ 3ca:	46c0      	nop			; (mov r8, r8)
+ 3cc:	100007cc 	.word	0x100007cc
+ 3d0:	10000abc 	.word	0x10000abc
+ 3d4:	100007d8 	.word	0x100007d8
+
+000003d8 <SSM_Init>:
+
+volatile uint32_t msTicks;
+
+void SSM_Init(CSB_INPUT_T *input, CSB_STATE_T *state, CSB_OUTPUT_T *output) {
+  // Initialize BMS state variables
+  state->curr_mode = CSB_SSM_MODE_INIT;
+ 3d8:	2300      	movs	r3, #0
+#include "ssm.h"
+
+volatile uint32_t msTicks;
+
+void SSM_Init(CSB_INPUT_T *input, CSB_STATE_T *state, CSB_OUTPUT_T *output) {
+ 3da:	b510      	push	{r4, lr}
+  // Initialize BMS state variables
+  state->curr_mode = CSB_SSM_MODE_INIT;
+  state->init_state = CSB_INIT_OFF;
+
+  input->pack_status->max_cell_temp_dC = 0;
+ 3dc:	6802      	ldr	r2, [r0, #0]
+
+volatile uint32_t msTicks;
+
+void SSM_Init(CSB_INPUT_T *input, CSB_STATE_T *state, CSB_OUTPUT_T *output) {
+  // Initialize BMS state variables
+  state->curr_mode = CSB_SSM_MODE_INIT;
+ 3de:	710b      	strb	r3, [r1, #4]
+  state->init_state = CSB_INIT_OFF;
+ 3e0:	714b      	strb	r3, [r1, #5]
+
+  input->pack_status->max_cell_temp_dC = 0;
+
+  Charge_Init(state);
+ 3e2:	0008      	movs	r0, r1
+void SSM_Init(CSB_INPUT_T *input, CSB_STATE_T *state, CSB_OUTPUT_T *output) {
+  // Initialize BMS state variables
+  state->curr_mode = CSB_SSM_MODE_INIT;
+  state->init_state = CSB_INIT_OFF;
+
+  input->pack_status->max_cell_temp_dC = 0;
+ 3e4:	8313      	strh	r3, [r2, #24]
+
+  Charge_Init(state);
+ 3e6:	f7ff fe81 	bl	ec <Charge_Init>
+}
+ 3ea:	bd10      	pop	{r4, pc}
+
+000003ec <Init_Step>:
+
+void Init_Step(CSB_INPUT_T *input, CSB_STATE_T *state, CSB_OUTPUT_T *output) {
+  switch(state->init_state) {
+ 3ec:	794b      	ldrb	r3, [r1, #5]
+  input->pack_status->max_cell_temp_dC = 0;
+
+  Charge_Init(state);
+}
+
+void Init_Step(CSB_INPUT_T *input, CSB_STATE_T *state, CSB_OUTPUT_T *output) {
+ 3ee:	b510      	push	{r4, lr}
+  switch(state->init_state) {
+ 3f0:	2b01      	cmp	r3, #1
+ 3f2:	d00b      	beq.n	40c <Init_Step+0x20>
+ 3f4:	2b00      	cmp	r3, #0
+ 3f6:	d004      	beq.n	402 <Init_Step+0x16>
+ 3f8:	2b02      	cmp	r3, #2
+ 3fa:	d101      	bne.n	400 <Init_Step+0x14>
+              state->curr_mode = CSB_SSM_MODE_IDLE; //but why?
+              input->receive_bms_config = false;
+          }
+          break;
+      case(CSB_INIT_DONE):
+          state->curr_mode = CSB_SSM_MODE_IDLE;
+ 3fc:	2301      	movs	r3, #1
+ 3fe:	710b      	strb	r3, [r1, #4]
+          break;
+  }
+}
+ 400:	bd10      	pop	{r4, pc}
+}
+
+void Init_Step(CSB_INPUT_T *input, CSB_STATE_T *state, CSB_OUTPUT_T *output) {
+  switch(state->init_state) {
+      case(CSB_INIT_OFF):
+          output->send_bms_config = true;
+ 402:	2401      	movs	r4, #1
+ 404:	7214      	strb	r4, [r2, #8]
+          state->init_state = CSB_INIT_BMS_CONFIG;
+ 406:	714c      	strb	r4, [r1, #5]
+          input->receive_bms_config = false;
+ 408:	7403      	strb	r3, [r0, #16]
+          break;
+ 40a:	e7f9      	b.n	400 <Init_Step+0x14>
+      case(CSB_INIT_BMS_CONFIG):
+          if(input->receive_bms_config) {
+ 40c:	7c04      	ldrb	r4, [r0, #16]
+ 40e:	2c00      	cmp	r4, #0
+ 410:	d0f6      	beq.n	400 <Init_Step+0x14>
+              output->send_bms_config = false;
+ 412:	2400      	movs	r4, #0
+ 414:	7214      	strb	r4, [r2, #8]
+              state->init_state = CSB_INIT_DONE;
+ 416:	2202      	movs	r2, #2
+              state->curr_mode = CSB_SSM_MODE_IDLE; //but why?
+ 418:	710b      	strb	r3, [r1, #4]
+          input->receive_bms_config = false;
+          break;
+      case(CSB_INIT_BMS_CONFIG):
+          if(input->receive_bms_config) {
+              output->send_bms_config = false;
+              state->init_state = CSB_INIT_DONE;
+ 41a:	714a      	strb	r2, [r1, #5]
+              state->curr_mode = CSB_SSM_MODE_IDLE; //but why?
+              input->receive_bms_config = false;
+ 41c:	7404      	strb	r4, [r0, #16]
+ 41e:	e7ef      	b.n	400 <Init_Step+0x14>
+
+00000420 <Is_Valid_Jump>:
+}
+
+bool Is_Valid_Jump(CSB_SSM_MODE_T mode1, CSB_SSM_MODE_T mode2) {
+
+    // idle switch
+    if(mode1 == CSB_SSM_MODE_IDLE && mode2 == CSB_SSM_MODE_CHARGE) {
+ 420:	2801      	cmp	r0, #1
+ 422:	d010      	beq.n	446 <Is_Valid_Jump+0x26>
+        return true;
+    } else if(mode1 == CSB_SSM_MODE_IDLE && mode2 == CSB_SSM_MODE_BALANCE) {
+        return true;
+
+    } else if(mode1 == CSB_SSM_MODE_CHARGE && mode2 == CSB_SSM_MODE_IDLE) {
+ 424:	2802      	cmp	r0, #2
+ 426:	d008      	beq.n	43a <Is_Valid_Jump+0x1a>
+        return true;
+    } else if(mode1 == CSB_SSM_MODE_BALANCE && mode2 == CSB_SSM_MODE_IDLE) {
+ 428:	2803      	cmp	r0, #3
+ 42a:	d113      	bne.n	454 <Is_Valid_Jump+0x34>
+ 42c:	2901      	cmp	r1, #1
+ 42e:	d013      	beq.n	458 <Is_Valid_Jump+0x38>
+        return true;
+
+    // charge and balance switch
+    } else if(mode1 == CSB_SSM_MODE_BALANCE && mode2 == CSB_SSM_MODE_CHARGE) {
+ 430:	3902      	subs	r1, #2
+ 432:	4248      	negs	r0, r1
+ 434:	4148      	adcs	r0, r1
+ 436:	b2c0      	uxtb	r0, r0
+ 438:	e004      	b.n	444 <Is_Valid_Jump+0x24>
+    if(mode1 == CSB_SSM_MODE_IDLE && mode2 == CSB_SSM_MODE_CHARGE) {
+        return true;
+    } else if(mode1 == CSB_SSM_MODE_IDLE && mode2 == CSB_SSM_MODE_BALANCE) {
+        return true;
+
+    } else if(mode1 == CSB_SSM_MODE_CHARGE && mode2 == CSB_SSM_MODE_IDLE) {
+ 43a:	4381      	bics	r1, r0
+ 43c:	3901      	subs	r1, #1
+ 43e:	4248      	negs	r0, r1
+ 440:	4148      	adcs	r0, r1
+ 442:	b2c0      	uxtb	r0, r0
+        return true;
+    } else if(mode1 == CSB_SSM_MODE_CHARGE && mode2 == CSB_SSM_MODE_BALANCE) {
+        return true;
+    }
+    return false;
+}
+ 444:	4770      	bx	lr
+}
+
+bool Is_Valid_Jump(CSB_SSM_MODE_T mode1, CSB_SSM_MODE_T mode2) {
+
+    // idle switch
+    if(mode1 == CSB_SSM_MODE_IDLE && mode2 == CSB_SSM_MODE_CHARGE) {
+ 446:	2300      	movs	r3, #0
+ 448:	3902      	subs	r1, #2
+ 44a:	b2c9      	uxtb	r1, r1
+ 44c:	4288      	cmp	r0, r1
+ 44e:	415b      	adcs	r3, r3
+ 450:	b2d8      	uxtb	r0, r3
+ 452:	e7f7      	b.n	444 <Is_Valid_Jump+0x24>
+    } else if(mode1 == CSB_SSM_MODE_BALANCE && mode2 == CSB_SSM_MODE_CHARGE) {
+        return true;
+    } else if(mode1 == CSB_SSM_MODE_CHARGE && mode2 == CSB_SSM_MODE_BALANCE) {
+        return true;
+    }
+    return false;
+ 454:	2000      	movs	r0, #0
+ 456:	e7f5      	b.n	444 <Is_Valid_Jump+0x24>
+        return true;
+
+    } else if(mode1 == CSB_SSM_MODE_CHARGE && mode2 == CSB_SSM_MODE_IDLE) {
+        return true;
+    } else if(mode1 == CSB_SSM_MODE_BALANCE && mode2 == CSB_SSM_MODE_IDLE) {
+        return true;
+ 458:	2001      	movs	r0, #1
+ 45a:	e7f3      	b.n	444 <Is_Valid_Jump+0x24>
+
+0000045c <SSM_Step>:
+    (void)(output);
+
+}
+
+
+void SSM_Step(CSB_INPUT_T *input, CSB_STATE_T *state, CSB_OUTPUT_T *output) {
+ 45c:	b5f0      	push	{r4, r5, r6, r7, lr}
+ 45e:	4647      	mov	r7, r8
+ 460:	b480      	push	{r7}
+    //   if in idle:
+    //        if mode request change valid, switch over
+    //   else dispatch step to appropriate SM step
+    Check_Error(input, state, output);
+
+    if(Is_Valid_Jump(state->curr_mode, input->mode_request) && Is_State_Done(state)) {
+ 462:	790c      	ldrb	r4, [r1, #4]
+ 464:	7907      	ldrb	r7, [r0, #4]
+    (void)(output);
+
+}
+
+
+void SSM_Step(CSB_INPUT_T *input, CSB_STATE_T *state, CSB_OUTPUT_T *output) {
+ 466:	0006      	movs	r6, r0
+ 468:	000d      	movs	r5, r1
+    //   if in idle:
+    //        if mode request change valid, switch over
+    //   else dispatch step to appropriate SM step
+    Check_Error(input, state, output);
+
+    if(Is_Valid_Jump(state->curr_mode, input->mode_request) && Is_State_Done(state)) {
+ 46a:	0020      	movs	r0, r4
+ 46c:	0039      	movs	r1, r7
+    (void)(output);
+
+}
+
+
+void SSM_Step(CSB_INPUT_T *input, CSB_STATE_T *state, CSB_OUTPUT_T *output) {
+ 46e:	4690      	mov	r8, r2
+    //   if in idle:
+    //        if mode request change valid, switch over
+    //   else dispatch step to appropriate SM step
+    Check_Error(input, state, output);
+
+    if(Is_Valid_Jump(state->curr_mode, input->mode_request) && Is_State_Done(state)) {
+ 470:	f7ff ffd6 	bl	420 <Is_Valid_Jump>
+ 474:	2800      	cmp	r0, #0
+ 476:	d005      	beq.n	484 <SSM_Step+0x28>
+    }
+    return false;
+}
+
+bool Is_State_Done(CSB_STATE_T *state) {
+    switch(state->curr_mode) {
+ 478:	2c01      	cmp	r4, #1
+ 47a:	d01a      	beq.n	4b2 <SSM_Step+0x56>
+ 47c:	2c00      	cmp	r4, #0
+ 47e:	d01b      	beq.n	4b8 <SSM_Step+0x5c>
+ 480:	2c03      	cmp	r4, #3
+ 482:	d913      	bls.n	4ac <SSM_Step+0x50>
+
+    if(Is_Valid_Jump(state->curr_mode, input->mode_request) && Is_State_Done(state)) {
+        state->curr_mode = input->mode_request;
+    }
+
+    switch(state->curr_mode) {
+ 484:	2c02      	cmp	r4, #2
+ 486:	d009      	beq.n	49c <SSM_Step+0x40>
+ 488:	2c03      	cmp	r4, #3
+ 48a:	d007      	beq.n	49c <SSM_Step+0x40>
+ 48c:	2c00      	cmp	r4, #0
+ 48e:	d10a      	bne.n	4a6 <SSM_Step+0x4a>
+        case CSB_SSM_MODE_IDLE:
+            break;
+        case CSB_SSM_MODE_INIT:
+            Init_Step(input, state, output);
+ 490:	4642      	mov	r2, r8
+ 492:	0029      	movs	r1, r5
+ 494:	0030      	movs	r0, r6
+ 496:	f7ff ffa9 	bl	3ec <Init_Step>
+            break;
+ 49a:	e004      	b.n	4a6 <SSM_Step+0x4a>
+        case CSB_SSM_MODE_CHARGE:
+            Charge_Step(input, state, output);
+            break;
+        case CSB_SSM_MODE_BALANCE:
+            Charge_Step(input, state, output);
+ 49c:	4642      	mov	r2, r8
+ 49e:	0029      	movs	r1, r5
+ 4a0:	0030      	movs	r0, r6
+ 4a2:	f7ff fe2b 	bl	fc <Charge_Step>
+            break;
+    }
+}
+ 4a6:	bc04      	pop	{r2}
+ 4a8:	4690      	mov	r8, r2
+ 4aa:	bdf0      	pop	{r4, r5, r6, r7, pc}
+    //   if in idle:
+    //        if mode request change valid, switch over
+    //   else dispatch step to appropriate SM step
+    Check_Error(input, state, output);
+
+    if(Is_Valid_Jump(state->curr_mode, input->mode_request) && Is_State_Done(state)) {
+ 4ac:	79ab      	ldrb	r3, [r5, #6]
+ 4ae:	2b00      	cmp	r3, #0
+ 4b0:	d1e8      	bne.n	484 <SSM_Step+0x28>
+        state->curr_mode = input->mode_request;
+ 4b2:	712f      	strb	r7, [r5, #4]
+ 4b4:	003c      	movs	r4, r7
+ 4b6:	e7e5      	b.n	484 <SSM_Step+0x28>
+    //   if in idle:
+    //        if mode request change valid, switch over
+    //   else dispatch step to appropriate SM step
+    Check_Error(input, state, output);
+
+    if(Is_Valid_Jump(state->curr_mode, input->mode_request) && Is_State_Done(state)) {
+ 4b8:	796b      	ldrb	r3, [r5, #5]
+ 4ba:	2b02      	cmp	r3, #2
+ 4bc:	d1e8      	bne.n	490 <SSM_Step+0x34>
+ 4be:	e7f8      	b.n	4b2 <SSM_Step+0x56>
+
+000004c0 <SystemInit>:
+ * @brief  Setup the microcontroller system.
+ *       Initialize the System.
+ */
+void SystemInit (void) {
+#if (CLOCK_SETUP)                                /* Clock Setup           */
+  SystemCoreClock = __SYSTEM_CLOCK;
+ 4c0:	4a18      	ldr	r2, [pc, #96]	; (524 <SystemInit+0x64>)
+ 4c2:	4b19      	ldr	r3, [pc, #100]	; (528 <SystemInit+0x68>)
+#endif
+  LPC_SYSCTL->SYSPLLCLKSEL  = SYSPLLCLKSEL_Val;   /* Select PLL Input        */
+  LPC_SYSCTL->SYSPLLCLKUEN  = 0x1;              /* Update Clock Source    */
+  LPC_SYSCTL->SYSPLLCLKUEN  = 0x0;              /* Toggle Update Register   */
+  LPC_SYSCTL->SYSPLLCLKUEN  = 0x1;
+  while (!(LPC_SYSCTL->SYSPLLCLKUEN & 0x1));      /* Wait Until Updated    */
+ 4c4:	2001      	movs	r0, #1
+ * @brief  Setup the microcontroller system.
+ *       Initialize the System.
+ */
+void SystemInit (void) {
+#if (CLOCK_SETUP)                                /* Clock Setup           */
+  SystemCoreClock = __SYSTEM_CLOCK;
+ 4c6:	601a      	str	r2, [r3, #0]
+  TicksPerMS = __SYSTEM_CLOCK/1000;
+ 4c8:	4a18      	ldr	r2, [pc, #96]	; (52c <SystemInit+0x6c>)
+ 4ca:	4b19      	ldr	r3, [pc, #100]	; (530 <SystemInit+0x70>)
+
+  LPC_SYSCTL->PDRUNCFG   &= ~(1 << 5);        /* Power-up System Osc      */
+  LPC_SYSCTL->SYSOSCCTRL    = SYSOSCCTRL_Val;
+  for (i = 0; i < 200; i++) __NOP();
+#endif
+  LPC_SYSCTL->SYSPLLCLKSEL  = SYSPLLCLKSEL_Val;   /* Select PLL Input        */
+ 4cc:	4919      	ldr	r1, [pc, #100]	; (534 <SystemInit+0x74>)
+ *       Initialize the System.
+ */
+void SystemInit (void) {
+#if (CLOCK_SETUP)                                /* Clock Setup           */
+  SystemCoreClock = __SYSTEM_CLOCK;
+  TicksPerMS = __SYSTEM_CLOCK/1000;
+ 4ce:	601a      	str	r2, [r3, #0]
+
+  LPC_SYSCTL->PDRUNCFG   &= ~(1 << 5);        /* Power-up System Osc      */
+  LPC_SYSCTL->SYSOSCCTRL    = SYSOSCCTRL_Val;
+  for (i = 0; i < 200; i++) __NOP();
+#endif
+  LPC_SYSCTL->SYSPLLCLKSEL  = SYSPLLCLKSEL_Val;   /* Select PLL Input        */
+ 4d0:	2200      	movs	r2, #0
+  LPC_SYSCTL->SYSPLLCLKUEN  = 0x1;              /* Update Clock Source    */
+ 4d2:	2301      	movs	r3, #1
+
+  LPC_SYSCTL->PDRUNCFG   &= ~(1 << 5);        /* Power-up System Osc      */
+  LPC_SYSCTL->SYSOSCCTRL    = SYSOSCCTRL_Val;
+  for (i = 0; i < 200; i++) __NOP();
+#endif
+  LPC_SYSCTL->SYSPLLCLKSEL  = SYSPLLCLKSEL_Val;   /* Select PLL Input        */
+ 4d4:	640a      	str	r2, [r1, #64]	; 0x40
+  LPC_SYSCTL->SYSPLLCLKUEN  = 0x1;              /* Update Clock Source    */
+ 4d6:	644b      	str	r3, [r1, #68]	; 0x44
+  LPC_SYSCTL->SYSPLLCLKUEN  = 0x0;              /* Toggle Update Register   */
+ 4d8:	644a      	str	r2, [r1, #68]	; 0x44
+  LPC_SYSCTL->SYSPLLCLKUEN  = 0x1;
+ 4da:	644b      	str	r3, [r1, #68]	; 0x44
+  while (!(LPC_SYSCTL->SYSPLLCLKUEN & 0x1));      /* Wait Until Updated    */
+ 4dc:	6c4a      	ldr	r2, [r1, #68]	; 0x44
+ 4de:	4b15      	ldr	r3, [pc, #84]	; (534 <SystemInit+0x74>)
+ 4e0:	4210      	tst	r0, r2
+ 4e2:	d0fb      	beq.n	4dc <SystemInit+0x1c>
+#if (SYSPLL_SETUP)                              /* System PLL Setup      */
+  LPC_SYSCTL->SYSPLLCTRL    = SYSPLLCTRL_Val;
+ 4e4:	2223      	movs	r2, #35	; 0x23
+  LPC_SYSCTL->PDRUNCFG   &= ~(1 << 7);        /* Power-up SYSPLL          */
+ 4e6:	218e      	movs	r1, #142	; 0x8e
+ 4e8:	2080      	movs	r0, #128	; 0x80
+  LPC_SYSCTL->SYSPLLCLKUEN  = 0x1;              /* Update Clock Source    */
+  LPC_SYSCTL->SYSPLLCLKUEN  = 0x0;              /* Toggle Update Register   */
+  LPC_SYSCTL->SYSPLLCLKUEN  = 0x1;
+  while (!(LPC_SYSCTL->SYSPLLCLKUEN & 0x1));      /* Wait Until Updated    */
+#if (SYSPLL_SETUP)                              /* System PLL Setup      */
+  LPC_SYSCTL->SYSPLLCTRL    = SYSPLLCTRL_Val;
+ 4ea:	609a      	str	r2, [r3, #8]
+  LPC_SYSCTL->PDRUNCFG   &= ~(1 << 7);        /* Power-up SYSPLL          */
+ 4ec:	0089      	lsls	r1, r1, #2
+ 4ee:	585a      	ldr	r2, [r3, r1]
+ 4f0:	4382      	bics	r2, r0
+ 4f2:	505a      	str	r2, [r3, r1]
+  while (!(LPC_SYSCTL->SYSPLLSTAT & 0x1));      /* Wait Until PLL Locked    */
+ 4f4:	001a      	movs	r2, r3
+ 4f6:	387f      	subs	r0, #127	; 0x7f
+ 4f8:	68d1      	ldr	r1, [r2, #12]
+ 4fa:	4b0e      	ldr	r3, [pc, #56]	; (534 <SystemInit+0x74>)
+ 4fc:	4208      	tst	r0, r1
+ 4fe:	d0fb      	beq.n	4f8 <SystemInit+0x38>
+#endif
+#if (WDTOSC_SETUP)                              /* Watchdog Oscillator Setup*/
+  LPC_SYSCTL->WDTOSCCTRL    = WDTOSCCTRL_Val;
+  LPC_SYSCTL->PDRUNCFG   &= ~(1 << 6);        /* Power-up WDT Clock    */
+#endif
+  LPC_SYSCTL->MAINCLKSEL    = MAINCLKSEL_Val;    /* Select PLL Clock Output  */
+ 500:	2203      	movs	r2, #3
+ 502:	671a      	str	r2, [r3, #112]	; 0x70
+  LPC_SYSCTL->MAINCLKUEN    = 0x0;              /* Toggle Update Register   */
+ 504:	2200      	movs	r2, #0
+  LPC_SYSCTL->MAINCLKUEN    = 0x1;
+  while (!(LPC_SYSCTL->MAINCLKUEN & 0x1));      /* Wait Until Updated      */
+ 506:	2001      	movs	r0, #1
+#if (WDTOSC_SETUP)                              /* Watchdog Oscillator Setup*/
+  LPC_SYSCTL->WDTOSCCTRL    = WDTOSCCTRL_Val;
+  LPC_SYSCTL->PDRUNCFG   &= ~(1 << 6);        /* Power-up WDT Clock    */
+#endif
+  LPC_SYSCTL->MAINCLKSEL    = MAINCLKSEL_Val;    /* Select PLL Clock Output  */
+  LPC_SYSCTL->MAINCLKUEN    = 0x0;              /* Toggle Update Register   */
+ 508:	675a      	str	r2, [r3, #116]	; 0x74
+  LPC_SYSCTL->MAINCLKUEN    = 0x1;
+ 50a:	3201      	adds	r2, #1
+ 50c:	675a      	str	r2, [r3, #116]	; 0x74
+  while (!(LPC_SYSCTL->MAINCLKUEN & 0x1));      /* Wait Until Updated      */
+ 50e:	6f5a      	ldr	r2, [r3, #116]	; 0x74
+ 510:	4908      	ldr	r1, [pc, #32]	; (534 <SystemInit+0x74>)
+ 512:	4210      	tst	r0, r2
+ 514:	d0fb      	beq.n	50e <SystemInit+0x4e>
+#endif
+
+  LPC_SYSCTL->SYSAHBCLKDIV  = SYSAHBCLKDIV_Val;
+ 516:	2301      	movs	r3, #1
+  LPC_SYSCTL->SYSAHBCLKCTRL = AHBCLKCTRL_Val;
+ 518:	4a07      	ldr	r2, [pc, #28]	; (538 <SystemInit+0x78>)
+  LPC_SYSCTL->MAINCLKUEN    = 0x0;              /* Toggle Update Register   */
+  LPC_SYSCTL->MAINCLKUEN    = 0x1;
+  while (!(LPC_SYSCTL->MAINCLKUEN & 0x1));      /* Wait Until Updated      */
+#endif
+
+  LPC_SYSCTL->SYSAHBCLKDIV  = SYSAHBCLKDIV_Val;
+ 51a:	678b      	str	r3, [r1, #120]	; 0x78
+  LPC_SYSCTL->SYSAHBCLKCTRL = AHBCLKCTRL_Val;
+ 51c:	337f      	adds	r3, #127	; 0x7f
+ 51e:	50ca      	str	r2, [r1, r3]
+#endif
+
+#if (MEMMAP_SETUP || MEMMAP_INIT)                 /* Memory Mapping Setup              */
+  LPC_SYSCTL->SYSMEMREMAP = SYSMEMREMAP_Val;
+#endif
+}
+ 520:	4770      	bx	lr
+ 522:	46c0      	nop			; (mov r8, r8)
+ 524:	02dc6c00 	.word	0x02dc6c00
+ 528:	10000ad0 	.word	0x10000ad0
+ 52c:	0000bb80 	.word	0x0000bb80
+ 530:	10000ad4 	.word	0x10000ad4
+ 534:	40048000 	.word	0x40048000
+ 538:	0001005f 	.word	0x0001005f
+
+0000053c <CAN_IRQHandler>:
+ * @return	Nothing
+ * @note	The CCAN interrupt handler must be provided by the user application.
+ *	It's function is to call the isr() API located in the ROM
+ */
+void CAN_IRQHandler(void) {
+	LPC_CCAN_API->isr();
+ 53c:	4b03      	ldr	r3, [pc, #12]	; (54c <CAN_IRQHandler+0x10>)
+ * @brief	CCAN Interrupt Handler
+ * @return	Nothing
+ * @note	The CCAN interrupt handler must be provided by the user application.
+ *	It's function is to call the isr() API located in the ROM
+ */
+void CAN_IRQHandler(void) {
+ 53e:	b510      	push	{r4, lr}
+	LPC_CCAN_API->isr();
+ 540:	681b      	ldr	r3, [r3, #0]
+ 542:	689b      	ldr	r3, [r3, #8]
+ 544:	685b      	ldr	r3, [r3, #4]
+ 546:	4798      	blx	r3
+}
+ 548:	bd10      	pop	{r4, pc}
+ 54a:	46c0      	nop			; (mov r8, r8)
+ 54c:	1fff1ff8 	.word	0x1fff1ff8
+
+00000550 <memset>:
+ 550:	b570      	push	{r4, r5, r6, lr}
+ 552:	0783      	lsls	r3, r0, #30
+ 554:	d03f      	beq.n	5d6 <memset+0x86>
+ 556:	1e54      	subs	r4, r2, #1
+ 558:	2a00      	cmp	r2, #0
+ 55a:	d03b      	beq.n	5d4 <memset+0x84>
+ 55c:	b2ce      	uxtb	r6, r1
+ 55e:	0003      	movs	r3, r0
+ 560:	2503      	movs	r5, #3
+ 562:	e003      	b.n	56c <memset+0x1c>
+ 564:	1e62      	subs	r2, r4, #1
+ 566:	2c00      	cmp	r4, #0
+ 568:	d034      	beq.n	5d4 <memset+0x84>
+ 56a:	0014      	movs	r4, r2
+ 56c:	3301      	adds	r3, #1
+ 56e:	1e5a      	subs	r2, r3, #1
+ 570:	7016      	strb	r6, [r2, #0]
+ 572:	422b      	tst	r3, r5
+ 574:	d1f6      	bne.n	564 <memset+0x14>
+ 576:	2c03      	cmp	r4, #3
+ 578:	d924      	bls.n	5c4 <memset+0x74>
+ 57a:	25ff      	movs	r5, #255	; 0xff
+ 57c:	400d      	ands	r5, r1
+ 57e:	022a      	lsls	r2, r5, #8
+ 580:	4315      	orrs	r5, r2
+ 582:	042a      	lsls	r2, r5, #16
+ 584:	4315      	orrs	r5, r2
+ 586:	2c0f      	cmp	r4, #15
+ 588:	d911      	bls.n	5ae <memset+0x5e>
+ 58a:	0026      	movs	r6, r4
+ 58c:	3e10      	subs	r6, #16
+ 58e:	0936      	lsrs	r6, r6, #4
+ 590:	3601      	adds	r6, #1
+ 592:	0136      	lsls	r6, r6, #4
+ 594:	001a      	movs	r2, r3
+ 596:	199b      	adds	r3, r3, r6
+ 598:	6015      	str	r5, [r2, #0]
+ 59a:	6055      	str	r5, [r2, #4]
+ 59c:	6095      	str	r5, [r2, #8]
+ 59e:	60d5      	str	r5, [r2, #12]
+ 5a0:	3210      	adds	r2, #16
+ 5a2:	4293      	cmp	r3, r2
+ 5a4:	d1f8      	bne.n	598 <memset+0x48>
+ 5a6:	220f      	movs	r2, #15
+ 5a8:	4014      	ands	r4, r2
+ 5aa:	2c03      	cmp	r4, #3
+ 5ac:	d90a      	bls.n	5c4 <memset+0x74>
+ 5ae:	1f26      	subs	r6, r4, #4
+ 5b0:	08b6      	lsrs	r6, r6, #2
+ 5b2:	3601      	adds	r6, #1
+ 5b4:	00b6      	lsls	r6, r6, #2
+ 5b6:	001a      	movs	r2, r3
+ 5b8:	199b      	adds	r3, r3, r6
+ 5ba:	c220      	stmia	r2!, {r5}
+ 5bc:	4293      	cmp	r3, r2
+ 5be:	d1fc      	bne.n	5ba <memset+0x6a>
+ 5c0:	2203      	movs	r2, #3
+ 5c2:	4014      	ands	r4, r2
+ 5c4:	2c00      	cmp	r4, #0
+ 5c6:	d005      	beq.n	5d4 <memset+0x84>
+ 5c8:	b2c9      	uxtb	r1, r1
+ 5ca:	191c      	adds	r4, r3, r4
+ 5cc:	7019      	strb	r1, [r3, #0]
+ 5ce:	3301      	adds	r3, #1
+ 5d0:	429c      	cmp	r4, r3
+ 5d2:	d1fb      	bne.n	5cc <memset+0x7c>
+ 5d4:	bd70      	pop	{r4, r5, r6, pc}
+ 5d6:	0014      	movs	r4, r2
+ 5d8:	0003      	movs	r3, r0
+ 5da:	e7cc      	b.n	576 <memset+0x26>
+ 5dc:	0000017a 	.word	0x0000017a
+ 5e0:	00000112 	.word	0x00000112
+ 5e4:	000001f2 	.word	0x000001f2
+ 5e8:	000001ba 	.word	0x000001ba
+ 5ec:	00000190 	.word	0x00000190
+ 5f0:	0000012a 	.word	0x0000012a
+ 5f4:	00000136 	.word	0x00000136
