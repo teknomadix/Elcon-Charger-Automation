@@ -7,18 +7,9 @@
 extern volatile uint32_t msTicks;
 
 typedef struct BMS_PACK_STATUS {
-  uint32_t *cell_voltages_mV; // array size = #modules * cells/module
-  int16_t *cell_temperatures_dC; // array size = #modules * thermistors/module
   uint32_t pack_cell_max_mV;
-  uint32_t pack_cell_min_mV;
   uint32_t pack_current_mA;
   uint32_t pack_voltage_mV;
-  int16_t max_cell_temp_dC;
-
-  int16_t min_cell_temp_dC;
-  int16_t avg_cell_temp_dC;
-  uint16_t max_cell_temp_position; //range: 0-MAX_NUM_MODULES*MAX_THERMISTORS_PER_MODULE
-  uint16_t min_cell_temp_position; //range: 0-MAX_NUM_MODULES*MAX_THERMISTORS_PER_MODULE
 } BMS_PACK_STATUS_T;
 
 typedef struct PACK_CONFIG {
@@ -34,11 +25,6 @@ typedef struct PACK_CONFIG {
     uint32_t cv_min_current_ms;         // 10
     uint32_t cc_cell_voltage_mV;        // 11
     // Size = 4*11 = 44 bytes
-
-    uint32_t cell_discharge_c_rating_cC; // at 27 degrees C
-    uint32_t max_cell_temp_dC;
-    int16_t min_cell_temp_dC;
-    int16_t fan_on_threshold_dC;
 
     uint8_t module_cell_count;
     // Total Size = 44 + 4 + 4 + 1= 53 bytes (not including fan_on_threshold)
@@ -81,13 +67,19 @@ static const char * const CSB_CHARGE_MODE_NAMES[] = {
 
 typedef enum {
     CSB_INIT_OFF,
-    CSB_INIT_BMS_CONFIG,
+    CSB_INIT_SWITCH_500,
+    CSB_INIT_SEND_500,
+    CSB_INIT_SWITCH_250,
+    CSB_INIT_WAIT_250,
     CSB_INIT_DONE
 } CSB_INIT_MODE_T;
 
 static const char * const CSB_INIT_MODE_NAMES[] = {
     "CSB_INIT_OFF",
-    "CSB_INIT_BMS_CONFIG",
+    "CSB_INIT_SWITCH_500",
+    "CSB_INIT_SEND_500",
+    "CSB_INIT_SWITCH_250",
+    "CSB_INIT_WAIT_250",
     "CSB_INIT_DONE"
 };
 
@@ -114,6 +106,13 @@ typedef struct CSB_INPUT {
   CSB_SSM_MODE_T mode_request;
   uint32_t balance_mV; // console request balance to mV
   uint32_t msTicks;
+  uint16_t elcon_output_voltage;
+  uint16_t elcon_output_current;
+  bool elcon_has_hardware_failure;
+  bool elcon_over_temp_protection_on;
+  bool elcon_is_input_voltage_wrong;
+  bool elcon_battery_voltage_not_detected;
+  bool elcon_is_comms_bad;
   bool receive_bms_config;
   bool balance_req;
   bool contactors_closed;
@@ -129,6 +128,7 @@ typedef struct CSB_STATE {
   CSB_CHARGE_MODE_T charge_state;
   CSB_IDLE_MODE_T idle_state;
 
+  uint32_t curr_baud_rate;
   uint32_t *balance_timeon;
   bool *balance_waitingoff;
 } CSB_STATE_T;

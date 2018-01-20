@@ -3,6 +3,7 @@
 #include "structs.h"
 #include "config.h"
 #include "ssm.h"
+#include "board.h"
 
 volatile uint32_t msTicks;
 
@@ -16,8 +17,6 @@ static BMS_PACK_STATUS_T pack_status;
 static CSB_INPUT_T csb_input;
 
 // memory allocation for BMS_STATE_T
-static uint32_t cell_voltages[MAX_NUM_MODULES*MAX_CELLS_PER_MODULE];
-static int16_t cell_temperatures[MAX_NUM_MODULES*MAX_THERMISTORS_PER_MODULE];
 static PACK_CONFIG_T pack_config;
 static CSB_STATE_T csb_state;
 
@@ -51,51 +50,50 @@ void Init_Structs(void) {
   pack_config.cv_min_current_ms = 0;
   pack_config.cc_cell_voltage_mV = 0;
 
-  pack_config.cell_discharge_c_rating_cC = 0; // at 27 degrees C
-  pack_config.max_cell_temp_dC = 0;
-  pack_config.min_cell_temp_dC = 0;
-  pack_config.fan_on_threshold_dC = 0;
-
   //assign bms_inputs
   csb_input.mode_request = CSB_SSM_MODE_IDLE;
   csb_input.balance_mV = 0; // console request balance to mV
   csb_input.msTicks = msTicks;
+  csb_input.elcon_output_voltage = 0;
+  csb_input.elcon_output_current = 0;
+  csb_input.elcon_has_hardware_failure = false;
+  csb_input.elcon_over_temp_protection_on = false;
+  csb_input.elcon_is_input_voltage_wrong = false;
+  csb_input.elcon_battery_voltage_not_detected = false;
   csb_input.pack_status = &pack_status;
   csb_input.balance_req = false;
   csb_input.contactors_closed = false;
   csb_input.receive_bms_config = false;
   csb_input.charger_on = false;
 
-  memset(cell_voltages, 0, sizeof(cell_voltages));
-  memset(cell_temperatures, 0, sizeof(cell_temperatures));
-  pack_status.cell_voltages_mV = cell_voltages;
-  pack_status.cell_temperatures_dC = cell_temperatures;
   pack_status.pack_cell_max_mV = 0;
-  pack_status.pack_cell_min_mV = 0xFFFFFFFF;
   pack_status.pack_current_mA = 0;
   pack_status.pack_voltage_mV = 0;
-  pack_status.max_cell_temp_dC = 0;
-  pack_status.min_cell_temp_dC = -100;
-  pack_status.avg_cell_temp_dC = 0;
-  pack_status.min_cell_temp_position = 0;
-  pack_status.max_cell_temp_position = 0;
 }
 
 void Process_Output(CSB_INPUT_T* csb_input, CSB_OUTPUT_T* csb_output, CSB_STATE_T* csb_state) {
-
+  Board_Contactors_Set(csb_output->close_contactors);
+  Board_Can_ProcessOutput(csb_input, csb_state, csb_output);
 }
 
-void Process_Input(CSB_INPUT_T* csb_input) {
-
+void Process_Input(CSB_INPUT_T* csb_input, CSB_STATE_T* csb_state) {
+  Board_Can_ProcessInput(csb_input, csb_state);
+  Board_GetModeRequest();
+  csb_input->msTicks = msTicks;
+  csb_input->contactors_closed = Board_Contactors_Closed();
 }
 
 int main(void) {
   Init_Structs();
+  Board_Can_Init(BMS_CAN_BAUD);
+  Board_UART_Init(UART_BAUD);
+  Board_Chip_Init();
+  Board_GPIO_Init();
 
   SSM_Init(&csb_input, &csb_state, &csb_output);
 
   while(1) {
-    Process_Input(&csb_input);
+    Process_Input(&csb_input, &csb_state);
     SSM_Step(&csb_input, &csb_state, &csb_output);
     Process_Output(&csb_input, &csb_output, &csb_state);
   }

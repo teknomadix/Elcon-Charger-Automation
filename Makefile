@@ -48,11 +48,11 @@ OUT_DIR = bin
 
 # include directories (absolute or relative paths to additional folders with
 # headers, current folder is always included)
-INC_DIRS_CROSS = inc/ ../../lib/lpc11cx4-library/lpc_chip_11cxx_lib/inc ../../lib/lpc11cx4-library/evt_lib/inc/ ../../lib/CANlib/
+INC_DIRS_CROSS = inc/ ../../lib/lpc11cx4-library/lpc_chip_11cxx_lib/inc ../../lib/lpc11cx4-library/evt_lib/inc/ ../../lib/CANlib
 
 # additional directories with source files (absolute or relative paths to
 # folders with source files, current folder is always included)
-SRCS_DIRS = src/ ../../lib/lpc11cx4-library/lpc_chip_11cxx_lib/src ../../lib/lpc11cx4-library/evt_lib/src/ ../../lib/CANlib/
+SRCS_DIRS = src/ ../../lib/lpc11cx4-library/lpc_chip_11cxx_lib/src ../../lib/lpc11cx4-library/evt_lib/src/ ../../lib/CANlib
 
 SPECIAL_FSAE_FLAGS = -DFSAE_DRIVERS -DCAN_ARCHITECTURE_ARM
 

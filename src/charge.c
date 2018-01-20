@@ -108,7 +108,6 @@ void Charge_Step(CSB_INPUT_T *input, CSB_STATE_T *state, CSB_OUTPUT_T *output) {
                 state->charge_state = CSB_CHARGE_INIT;
             }
             break;
-
         case CSB_CHARGE_BAL:
             _set_output(false, false, 0, 0, output);
             bool balancing = input->balance_req;
@@ -140,14 +139,13 @@ void Charge_Step(CSB_INPUT_T *input, CSB_STATE_T *state, CSB_OUTPUT_T *output) {
                         state->charge_state = CSB_CHARGE_INIT;
                     }
                 } else if (input->mode_request == CSB_SSM_MODE_BALANCE) {
-                    int i;
-                    for (i = 0; i < total_num_cells; i++) {
-                        if (input->pack_status->cell_voltages_mV[i] > input->balance_mV + state->pack_config->bal_on_thresh_mV) {
-                            state->charge_state = CSB_CHARGE_INIT;
-                        }
-                    }
+                    //idk
                 }
             }
+            break;
+        case CSB_CHARGE_FAULT:
+          //idk
+          break;
     }
 }
 

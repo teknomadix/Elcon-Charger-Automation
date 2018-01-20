@@ -7,7 +7,21 @@ bin/ssm.o: src/ssm.c inc/ssm.h inc/structs.h \
  /usr/local/Cellar/gcc-arm-none-eabi/20160928/arm-none-eabi/include/sys/_intsup.h \
  /usr/local/Cellar/gcc-arm-none-eabi/20160928/arm-none-eabi/include/sys/_stdint.h \
  /usr/local/Cellar/gcc-arm-none-eabi/20160928/lib/gcc/arm-none-eabi/5.4.1/include/stdbool.h \
- inc/config.h
+ inc/config.h inc/config.h inc/charge.h \
+ /usr/local/Cellar/gcc-arm-none-eabi/20160928/arm-none-eabi/include/string.h \
+ /usr/local/Cellar/gcc-arm-none-eabi/20160928/arm-none-eabi/include/_ansi.h \
+ /usr/local/Cellar/gcc-arm-none-eabi/20160928/arm-none-eabi/include/newlib.h \
+ /usr/local/Cellar/gcc-arm-none-eabi/20160928/arm-none-eabi/include/sys/config.h \
+ /usr/local/Cellar/gcc-arm-none-eabi/20160928/arm-none-eabi/include/machine/ieeefp.h \
+ /usr/local/Cellar/gcc-arm-none-eabi/20160928/arm-none-eabi/include/sys/reent.h \
+ /usr/local/Cellar/gcc-arm-none-eabi/20160928/arm-none-eabi/include/_ansi.h \
+ /usr/local/Cellar/gcc-arm-none-eabi/20160928/lib/gcc/arm-none-eabi/5.4.1/include/stddef.h \
+ /usr/local/Cellar/gcc-arm-none-eabi/20160928/arm-none-eabi/include/sys/_types.h \
+ /usr/local/Cellar/gcc-arm-none-eabi/20160928/arm-none-eabi/include/machine/_types.h \
+ /usr/local/Cellar/gcc-arm-none-eabi/20160928/arm-none-eabi/include/sys/lock.h \
+ /usr/local/Cellar/gcc-arm-none-eabi/20160928/arm-none-eabi/include/sys/cdefs.h \
+ /usr/local/Cellar/gcc-arm-none-eabi/20160928/arm-none-eabi/include/sys/_locale.h \
+ /usr/local/Cellar/gcc-arm-none-eabi/20160928/arm-none-eabi/include/sys/string.h
 
 inc/ssm.h:
 
@@ -30,3 +44,35 @@ inc/structs.h:
 /usr/local/Cellar/gcc-arm-none-eabi/20160928/lib/gcc/arm-none-eabi/5.4.1/include/stdbool.h:
 
 inc/config.h:
+
+inc/config.h:
+
+inc/charge.h:
+
+/usr/local/Cellar/gcc-arm-none-eabi/20160928/arm-none-eabi/include/string.h:
+
+/usr/local/Cellar/gcc-arm-none-eabi/20160928/arm-none-eabi/include/_ansi.h:
+
+/usr/local/Cellar/gcc-arm-none-eabi/20160928/arm-none-eabi/include/newlib.h:
+
+/usr/local/Cellar/gcc-arm-none-eabi/20160928/arm-none-eabi/include/sys/config.h:
+
+/usr/local/Cellar/gcc-arm-none-eabi/20160928/arm-none-eabi/include/machine/ieeefp.h:
+
+/usr/local/Cellar/gcc-arm-none-eabi/20160928/arm-none-eabi/include/sys/reent.h:
+
+/usr/local/Cellar/gcc-arm-none-eabi/20160928/arm-none-eabi/include/_ansi.h:
+
+/usr/local/Cellar/gcc-arm-none-eabi/20160928/lib/gcc/arm-none-eabi/5.4.1/include/stddef.h:
+
+/usr/local/Cellar/gcc-arm-none-eabi/20160928/arm-none-eabi/include/sys/_types.h:
+
+/usr/local/Cellar/gcc-arm-none-eabi/20160928/arm-none-eabi/include/machine/_types.h:
+
+/usr/local/Cellar/gcc-arm-none-eabi/20160928/arm-none-eabi/include/sys/lock.h:
+
+/usr/local/Cellar/gcc-arm-none-eabi/20160928/arm-none-eabi/include/sys/cdefs.h:
+
+/usr/local/Cellar/gcc-arm-none-eabi/20160928/arm-none-eabi/include/sys/_locale.h:
+
+/usr/local/Cellar/gcc-arm-none-eabi/20160928/arm-none-eabi/include/sys/string.h:

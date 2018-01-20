@@ -5,9 +5,13 @@
 #define MAX_CELLS_PER_MODULE 12
 #define MAX_THERMISTORS_PER_MODULE 24
 
+#define CSB_ELCON_COMMAND_PERIOD 1000
+#define CSB_BMS_CSB_SWITCH_PERIOD 30000
+#define CSB_BMS_MODE_PERIOD 1000
+#define INIT_WAIT_TIME_MAX 5000
 
-#define LTC6804_BAUD 600000
-#define CAN_BAUD 500000
+#define BMS_CAN_BAUD 500000
+#define CSB_CAN_BAUD 250000
 
 #define CELL_MIN_mV 2500 // from datasheet, contact elliot
 #define CELL_MAX_mV 4250 // from datasheet, contact elliot
@@ -26,5 +30,8 @@
 
 #define BALANCE_ON_THRESH_MS 41000
 #define BALANCE_OFF_WAITING_THRESH_MS 188000
+
+#define UART_BUFFER_SIZE 100
+#define DEBUG_Print(str) Chip_UART_SendBlocking(LPC_USART, str, strlen(str))
 
 #endif
