@@ -214,6 +214,13 @@ void Board_Contactors_Set(bool close_contactors) {
   High_Side_Contactor_Pin_Set(close_contactors);
 }
 
+void Board_Check_Faults(CSB_INPUT_T *csb_input) {
+  csb_input->imd_fault = IMD_Pin_Get();
+  csb_input->int_fault = Interlock_Pin_Get();
+  csb_input->bms_fault = BMS_Pin_Get();
+  csb_input->low_side_fault = Low_Side_Contactor_Pin_Get();
+}
+
 void handle_can_error(Can_ErrorID_T err, uint32_t baud_rate) {
     if (err == Can_Error_NONE || err == Can_Error_NO_RX) {
         // Neither of these are real errors

@@ -6,12 +6,12 @@ volatile uint32_t msTicks;
 
 static uint32_t last_init_wait_start_time;
 
-void SSM_Init(CSB_INPUT_T *input, CSB_STATE_T *state, CSB_OUTPUT_T *output) {
+void SSM_Init(CSB_INPUT_T *input, CSB_STATE_T *state, CSB_OUTPUT_T *output, PACK_CONFIG_T *pack_config) {
   // Initialize BMS state variables
   state->curr_mode = CSB_SSM_MODE_INIT;
   state->init_state = CSB_INIT_OFF;
 
-  Charge_Init(state);
+  Charge_Init(state, pack_config);
 }
 
 void Init_Step(CSB_INPUT_T *input, CSB_STATE_T *state, CSB_OUTPUT_T *output) {
@@ -96,12 +96,6 @@ bool Is_State_Done(CSB_STATE_T *state) {
     return false;
 }
 
-static void Check_Error(CSB_INPUT_T *input, CSB_STATE_T *state, CSB_OUTPUT_T *output) {
-    (void)(output);
-
-}
-
-
 void SSM_Step(CSB_INPUT_T *input, CSB_STATE_T *state, CSB_OUTPUT_T *output) {
     // OUTLINE:
     // If change state request made and possible, change state
@@ -109,7 +103,6 @@ void SSM_Step(CSB_INPUT_T *input, CSB_STATE_T *state, CSB_OUTPUT_T *output) {
     //   if in idle:
     //        if mode request change valid, switch over
     //   else dispatch step to appropriate SM step
-    Check_Error(input, state, output);
 
     if(Is_Valid_Jump(state->curr_mode, input->mode_request) && Is_State_Done(state)) {
         state->curr_mode = input->mode_request;

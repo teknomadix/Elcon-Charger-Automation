@@ -43,4 +43,6 @@ void Board_Can_ProcessOutput(CSB_INPUT_T *csb_input, CSB_STATE_T *csb_state, CSB
 
 void Board_Contactors_Set(bool close_contactors);
 
+void Board_Check_Faults(CSB_INPUT_T *csb_input);
+
 #endif // _BOARD_H_

@@ -117,6 +117,10 @@ typedef struct CSB_INPUT {
   bool balance_req;
   bool contactors_closed;
   bool charger_on;
+  bool imd_fault;
+  bool int_fault;
+  bool bms_fault;
+  bool low_side_cntr_fault;
 } CSB_INPUT_T;
 
 typedef struct CSB_STATE {

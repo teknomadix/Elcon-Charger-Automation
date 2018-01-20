@@ -32,6 +32,7 @@ void Init_Structs(void) {
   csb_state.init_state = CSB_INIT_OFF;
   csb_state.charge_state = CSB_CHARGE_OFF;
   csb_state.idle_state = CSB_IDLE_OFF;
+  csb_state.curr_baud_rate = BMS_CAN_BAUD;
   csb_state.balance_waitingoff = balance_waitingoff;
   memset(balance_waitingoff, 0, sizeof(balance_waitingoff[0])*MAX_NUM_MODULES*MAX_CELLS_PER_MODULE);
   csb_state.balance_timeon = balance_timeon;
@@ -65,10 +66,29 @@ void Init_Structs(void) {
   csb_input.contactors_closed = false;
   csb_input.receive_bms_config = false;
   csb_input.charger_on = false;
+  csb_input.imd_fault = false;
+  csb_input.int_fault = false;
+  csb_input.bms_fault = false;
+  csb_input.low_side_cntr_fault = false;
 
   pack_status.pack_cell_max_mV = 0;
   pack_status.pack_current_mA = 0;
   pack_status.pack_voltage_mV = 0;
+}
+
+void MY17_Pack_Config(void) {
+  pack_config.module_cell_count = MODULE_CELL_COUNT;
+  pack_config.cell_min_mV = CELL_MIN_mV;
+  pack_config.cell_max_mV = CELL_MAX_mV;
+  pack_config.cell_capacity_cAh = CELL_CAPACITY_cAh;
+  pack_config.num_modules = NUM_MODULES;
+  pack_config.cell_charge_c_rating_cC = CELL_CHARGE_C_RATING_cC;
+  pack_config.bal_on_thresh_mV = BALANCE_ON_THRESHOLD_mV;
+  pack_config.bal_off_thresh_mV = BALANCE_OFF_THRESHOLD_mV;
+  pack_config.pack_cells_p = PACK_CELLS_PARALLEL;
+  pack_config.cv_min_current_mA = CV_MIN_CURRENT_mA;
+  pack_config.cv_min_current_ms = CV_MIN_CURRENT_ms;
+  pack_config.cc_cell_voltage_mV = CC_CELL_VOLTAGE_mV;
 }
 
 void Process_Output(CSB_INPUT_T* csb_input, CSB_OUTPUT_T* csb_output, CSB_STATE_T* csb_state) {
@@ -81,6 +101,7 @@ void Process_Input(CSB_INPUT_T* csb_input, CSB_STATE_T* csb_state) {
   Board_GetModeRequest();
   csb_input->msTicks = msTicks;
   csb_input->contactors_closed = Board_Contactors_Closed();
+  Board_Check_Faults(csb_input);
 }
 
 int main(void) {
@@ -90,7 +111,8 @@ int main(void) {
   Board_Chip_Init();
   Board_GPIO_Init();
 
-  SSM_Init(&csb_input, &csb_state, &csb_output);
+  MY17_Pack_Config(); //temporary
+  SSM_Init(&csb_input, &csb_state, &csb_output, &pack_config);
 
   while(1) {
     Process_Input(&csb_input, &csb_state);

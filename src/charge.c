@@ -9,9 +9,10 @@ static uint32_t last_time_above_cv_min_curr;
 
 void _set_output(bool close_contactors, bool charger_on, uint32_t charge_voltage_mV, uint32_t charge_current_mA, CSB_OUTPUT_T *output);
 
-void Charge_Init(CSB_STATE_T *state) {
+void Charge_Init(CSB_STATE_T *state, PACK_CONFIG_T *pack_config) {
     state->charge_state = CSB_CHARGE_OFF;
     last_time_above_cv_min_curr = 0;
+    Charge_Config(pack_config);
 }
 
 void Charge_Config(PACK_CONFIG_T *pack_config) {
@@ -25,6 +26,10 @@ void Charge_Config(PACK_CONFIG_T *pack_config) {
 }
 
 void Charge_Step(CSB_INPUT_T *input, CSB_STATE_T *state, CSB_OUTPUT_T *output) {
+
+    if (input->low_side_cntr_fault) {
+      state->charge_state = CSB_CHARGE_FAULT;
+    }
 
     switch (input->mode_request) {
         case CSB_SSM_MODE_CHARGE:
@@ -144,8 +149,11 @@ void Charge_Step(CSB_INPUT_T *input, CSB_STATE_T *state, CSB_OUTPUT_T *output) {
             }
             break;
         case CSB_CHARGE_FAULT:
-          //idk
-          break;
+            _set_output(false, false, 0, 0, output)
+            if (input->low_side_cntr_fault) {
+              state->charge_state = CSB_CHARGE_INIT;
+            }
+            break;
     }
 }
 
