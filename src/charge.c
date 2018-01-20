@@ -149,7 +149,7 @@ void Charge_Step(CSB_INPUT_T *input, CSB_STATE_T *state, CSB_OUTPUT_T *output) {
             }
             break;
         case CSB_CHARGE_FAULT:
-            _set_output(false, false, 0, 0, output)
+            _set_output(false, false, 0, 0, output);
             if (input->low_side_cntr_fault) {
               state->charge_state = CSB_CHARGE_INIT;
             }
