@@ -9,7 +9,6 @@
 const uint32_t OscRateIn = 0;
 
 static uint32_t last_csb_elcon_command_time = 0;
-static uint32_t last_csb_bms_switch_time = 0;
 static uint32_t last_csb_bms_mode_time = 0;
 
 static RINGBUFF_T uart_rx_ring;
@@ -156,11 +155,10 @@ void Board_Can_ProcessOutput(CSB_INPUT_T *csb_input, CSB_STATE_T *csb_state, CSB
       last_csb_elcon_command_time = msTicks;
       Send_Elcon_Command(csb_output);
   }
-  if ( ((msTicks - last_csb_bms_switch_time) > CSB_BMS_CSB_SWITCH_PERIOD) && (csb_output->send_bms_config == true)) {
-      last_csb_bms_switch_time = msTicks;
+  if (csb_output->send_bms_config == true) {
       Send_Bms_Switch();
   }
-  if ( (msTicks - last_csb_bms_mode_time) > CSB_BMS_MODE_PERIOD) {
+  if ( ((msTicks - last_csb_bms_mode_time) > CSB_BMS_MODE_PERIOD) && (csb_state->curr_mode != CSB_SSM_MODE_INIT)) {
       last_csb_bms_mode_time = msTicks;
       Send_Bms_Mode(csb_state);
   }
