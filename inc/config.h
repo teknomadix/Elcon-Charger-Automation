@@ -10,21 +10,37 @@
 #define CSB_BMS_MODE_PERIOD 1000
 #define INIT_WAIT_TIME_MAX 5000
 
+#define PACK_CURRENT_PRINT_PERIOD_ms 1000
+#define PACK_VOLTAGE_PRINT_PERIOD_ms 1000
+
 #define BMS_CAN_BAUD 500000
 #define CSB_CAN_BAUD 250000
 
-#define CELL_MIN_mV 2500 // from datasheet, contact elliot
-#define CELL_MAX_mV 4250 // from datasheet, contact elliot
-#define CELL_CAPACITY_cAh 250
-#define NUM_MODULES 6
-#define CELL_CHARGE_C_RATING_cC 5
-#define BALANCE_ON_THRESHOLD_mV 4
-#define BALANCE_OFF_THRESHOLD_mV 1
-#define PACK_CELLS_PARALLEL 12
-#define CV_MIN_CURRENT_mA 100
-#define CV_MIN_CURRENT_ms 60000
-#define CC_CELL_VOLTAGE_mV 4300
-#define MODULE_CELL_COUNT 12
+#define MY18_CELL_MIN_mV 2500 // from datasheet, contact elliot
+#define MY18_CELL_MAX_mV 4250 // from datasheet, contact elliot
+#define MY18_CELL_CAPACITY_cAh 250
+#define MY18_NUM_MODULES 6
+#define MY18_CELL_CHARGE_C_RATING_cC 5
+#define MY18_BALANCE_ON_THRESHOLD_mV 4
+#define MY18_BALANCE_OFF_THRESHOLD_mV 1
+#define MY18_PACK_CELLS_PARALLEL 12
+#define MY18_CV_MIN_CURRENT_mA 100
+#define MY18_CV_MIN_CURRENT_ms 60000
+#define MY18_CC_CELL_VOLTAGE_mV 4300
+#define MY18_MODULE_CELL_COUNT 12
+
+#define MY16_CELL_MIN_mV 2500 // from datasheet, contact elliot
+#define MY16_CELL_MAX_mV 4250 // from datasheet, contact elliot
+#define MY16_CELL_CAPACITY_cAh 250
+#define MY16_NUM_MODULES 6
+#define MY16_CELL_CHARGE_C_RATING_cC 5
+#define MY16_BALANCE_ON_THRESHOLD_mV 4
+#define MY16_BALANCE_OFF_THRESHOLD_mV 1
+#define MY16_PACK_CELLS_PARALLEL 12
+#define MY16_CV_MIN_CURRENT_mA 100
+#define MY16_CV_MIN_CURRENT_ms 60000
+#define MY16_CC_CELL_VOLTAGE_mV 4300
+#define MY16_MODULE_CELL_COUNT 12
 
 #define BALANCE_ON_THRESH_MS 41000
 #define BALANCE_OFF_WAITING_THRESH_MS 188000

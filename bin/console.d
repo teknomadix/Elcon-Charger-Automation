@@ -1,4 +1,4 @@
-bin/main.o: src/main.c \
+bin/console.o: src/console.c \
  /usr/local/Cellar/gcc-arm-none-eabi/20160928/arm-none-eabi/include/string.h \
  /usr/local/Cellar/gcc-arm-none-eabi/20160928/arm-none-eabi/include/_ansi.h \
  /usr/local/Cellar/gcc-arm-none-eabi/20160928/arm-none-eabi/include/newlib.h \
@@ -19,14 +19,14 @@ bin/main.o: src/main.c \
  /usr/local/Cellar/gcc-arm-none-eabi/20160928/arm-none-eabi/include/stdlib.h \
  /usr/local/Cellar/gcc-arm-none-eabi/20160928/arm-none-eabi/include/machine/stdlib.h \
  /usr/local/Cellar/gcc-arm-none-eabi/20160928/arm-none-eabi/include/alloca.h \
- inc/structs.h \
+ inc/console.h inc/microrl.h \
+ /usr/local/Cellar/gcc-arm-none-eabi/20160928/lib/gcc/arm-none-eabi/5.4.1/include/stdbool.h \
  /usr/local/Cellar/gcc-arm-none-eabi/20160928/lib/gcc/arm-none-eabi/5.4.1/include/stdint.h \
  /usr/local/Cellar/gcc-arm-none-eabi/20160928/arm-none-eabi/include/stdint.h \
  /usr/local/Cellar/gcc-arm-none-eabi/20160928/arm-none-eabi/include/sys/_intsup.h \
  /usr/local/Cellar/gcc-arm-none-eabi/20160928/arm-none-eabi/include/sys/_stdint.h \
- /usr/local/Cellar/gcc-arm-none-eabi/20160928/lib/gcc/arm-none-eabi/5.4.1/include/stdbool.h \
- inc/config.h inc/ssm.h inc/structs.h inc/config.h inc/board.h \
- ../../lib/lpc11cx4-library/lpc_chip_11cxx_lib/inc/chip.h \
+ inc/microrl_config.h inc/structs.h inc/console_types.h inc/microrl.h \
+ inc/board.h ../../lib/lpc11cx4-library/lpc_chip_11cxx_lib/inc/chip.h \
  ../../lib/lpc11cx4-library/lpc_chip_11cxx_lib/inc/lpc_types.h \
  ../../lib/lpc11cx4-library/lpc_chip_11cxx_lib/inc/sys_config.h \
  ../../lib/lpc11cx4-library/lpc_chip_11cxx_lib/inc/cmsis.h \
@@ -50,8 +50,8 @@ bin/main.o: src/main.c \
  ../../lib/lpc11cx4-library/lpc_chip_11cxx_lib/inc/gpio_11xx_2.h \
  ../../lib/lpc11cx4-library/lpc_chip_11cxx_lib/inc/i2c_11xx.h \
  ../../lib/lpc11cx4-library/lpc_chip_11cxx_lib/inc/ccand_11xx.h \
- ../../lib/lpc11cx4-library/evt_lib/inc/can.h inc/console.h inc/microrl.h \
- inc/microrl_config.h inc/console_types.h inc/pack_config.h
+ ../../lib/lpc11cx4-library/evt_lib/inc/can.h inc/console_types.h \
+ inc/config.h inc/pack_config.h
 
 /usr/local/Cellar/gcc-arm-none-eabi/20160928/arm-none-eabi/include/string.h:
 
@@ -93,7 +93,11 @@ bin/main.o: src/main.c \
 
 /usr/local/Cellar/gcc-arm-none-eabi/20160928/arm-none-eabi/include/alloca.h:
 
-inc/structs.h:
+inc/console.h:
+
+inc/microrl.h:
+
+/usr/local/Cellar/gcc-arm-none-eabi/20160928/lib/gcc/arm-none-eabi/5.4.1/include/stdbool.h:
 
 /usr/local/Cellar/gcc-arm-none-eabi/20160928/lib/gcc/arm-none-eabi/5.4.1/include/stdint.h:
 
@@ -103,15 +107,13 @@ inc/structs.h:
 
 /usr/local/Cellar/gcc-arm-none-eabi/20160928/arm-none-eabi/include/sys/_stdint.h:
 
-/usr/local/Cellar/gcc-arm-none-eabi/20160928/lib/gcc/arm-none-eabi/5.4.1/include/stdbool.h:
-
-inc/config.h:
-
-inc/ssm.h:
+inc/microrl_config.h:
 
 inc/structs.h:
 
-inc/config.h:
+inc/console_types.h:
+
+inc/microrl.h:
 
 inc/board.h:
 
@@ -165,12 +167,8 @@ inc/board.h:
 
 ../../lib/lpc11cx4-library/evt_lib/inc/can.h:
 
-inc/console.h:
-
-inc/microrl.h:
-
-inc/microrl_config.h:
-
 inc/console_types.h:
+
+inc/config.h:
 
 inc/pack_config.h:

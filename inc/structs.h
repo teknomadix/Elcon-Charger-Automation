@@ -13,21 +13,18 @@ typedef struct BMS_PACK_STATUS {
 } BMS_PACK_STATUS_T;
 
 typedef struct PACK_CONFIG {
-    uint32_t cell_min_mV;               // 1
+    uint32_t cell_min_mV;
     uint32_t cell_max_mV;
     uint32_t cell_capacity_cAh;
     uint32_t num_modules;
-    uint32_t cell_charge_c_rating_cC;   // 5
+    uint32_t cell_charge_c_rating_cC;
     uint32_t bal_on_thresh_mV;
     uint32_t bal_off_thresh_mV;
     uint32_t pack_cells_p;
     uint32_t cv_min_current_mA;
-    uint32_t cv_min_current_ms;         // 10
-    uint32_t cc_cell_voltage_mV;        // 11
-    // Size = 4*11 = 44 bytes
-
-    uint8_t module_cell_count;
-    // Total Size = 44 + 4 + 4 + 1= 53 bytes (not including fan_on_threshold)
+    uint32_t cv_min_current_ms;
+    uint32_t cc_cell_voltage_mV;
+    uint32_t module_cell_count;
 
 } PACK_CONFIG_T;
 
