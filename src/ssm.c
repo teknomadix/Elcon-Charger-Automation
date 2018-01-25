@@ -1,6 +1,7 @@
 #include "ssm.h"
 #include "config.h"
 #include "charge.h"
+#include "board.h"
 
 volatile uint32_t msTicks;
 
@@ -30,6 +31,7 @@ void Init_Step(CSB_INPUT_T *input, CSB_STATE_T *state, CSB_OUTPUT_T *output) {
           state->init_state = CSB_INIT_SEND_500;
           state->curr_baud_rate = BMS_CAN_BAUD;
           input->receive_bms_config = false;
+          last_init_switch_start_time = msTicks;
           break;
       case CSB_INIT_SEND_500:
           if ( (msTicks - last_init_switch_start_time) > INIT_SEND_TIME_MAX) {
@@ -37,8 +39,8 @@ void Init_Step(CSB_INPUT_T *input, CSB_STATE_T *state, CSB_OUTPUT_T *output) {
             state->init_state = CSB_INIT_SWITCH_250;
             state->curr_baud_rate = CSB_CAN_BAUD;
             input->receive_bms_config = false;
-            break;
           }
+          break;
       case CSB_INIT_SWITCH_250:
           output->send_bms_config = false;
           state->init_state = CSB_INIT_WAIT_250;
