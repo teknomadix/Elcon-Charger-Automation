@@ -128,7 +128,7 @@ void Board_Can_ProcessInput(CSB_INPUT_T *csb_input, CSB_STATE_T *csb_state){
       csb_input->elcon_is_input_voltage_wrong = msg.is_input_voltage_wrong;
       csb_input->elcon_battery_voltage_not_detected = msg.battery_voltage_not_detected;
       csb_input->elcon_is_comms_bad = msg.elcon_is_comms_bad;
-      //check this, maybe some logic from above signals
+      //TODO: make this true only when the charger has no error
       csb_input->charger_on = true;
   } else if (msgType == Can_BmsPackStatus_Msg) {
       Can_BmsPackStatus_T msg;
@@ -209,7 +209,7 @@ bool Board_Contactors_Closed(void) {
 }
 
 void Board_GetModeRequest(const CONSOLE_OUTPUT_T *console_output, CSB_INPUT_T *csb_input) {
-  CSB_SSM_MODE_T console_mode_request = CSB_SSM_MODE_IDLE;
+  CSB_SSM_MODE_T console_mode_request = CSB_SSM_MODE_NULL;
   if (console_output->valid_mode_request) {
       console_mode_request = console_output->mode_request;
       csb_input->balance_mV = console_output->balance_mV;

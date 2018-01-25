@@ -71,6 +71,11 @@ void Init_Step(CSB_INPUT_T *input, CSB_STATE_T *state, CSB_OUTPUT_T *output) {
 
 bool Is_Valid_Jump(CSB_SSM_MODE_T mode1, CSB_SSM_MODE_T mode2) {
 
+    // no requested
+    if(mode2 == CSB_SSM_MODE_NULL) {
+      return false;
+    }
+
     // idle switch
     if(mode1 == CSB_SSM_MODE_IDLE && mode2 == CSB_SSM_MODE_CHARGE) {
         return true;

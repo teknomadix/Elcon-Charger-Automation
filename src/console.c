@@ -6,6 +6,7 @@
 #include "console_types.h"
 #include "config.h"
 #include "pack_config.h"
+#include "ssm.h"
 
 static CSB_INPUT_T *csb_input;
 static CSB_STATE_T *csb_state;
@@ -313,8 +314,7 @@ static void measure(const char * const * argv) {
 
 static void bal(const char * const * argv) {
     UNUSED(argv);
-    if (csb_state->curr_mode == CSB_SSM_MODE_IDLE ||
-            csb_state->curr_mode == CSB_SSM_MODE_BALANCE) {
+    if (Is_Valid_Jump(csb_state->curr_mode, CSB_SSM_MODE_BALANCE)) {
 
         if (console_output->valid_mode_request) {
           if (strcmp(argv[1],"off") == 0) {
@@ -335,8 +335,7 @@ static void bal(const char * const * argv) {
 
 static void chrg(const char * const * argv) {
     UNUSED(argv);
-    if (csb_state->curr_mode == CSB_SSM_MODE_IDLE ||
-            csb_state->curr_mode == CSB_SSM_MODE_CHARGE) {
+    if (Is_Valid_Jump(csb_state->curr_mode, CSB_SSM_MODE_CHARGE)) {
         if (console_output->valid_mode_request) {
             console_output->valid_mode_request = false;
             Board_Println("chrg off");
