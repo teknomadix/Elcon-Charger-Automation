@@ -4,6 +4,7 @@
 #include "structs.h"
 #include "chip.h"
 #include "can.h"
+#include "console.h"
 
 #define Hertz2Ticks(freq) SystemCoreClock / freq
 
@@ -37,7 +38,7 @@ void Board_Can_ProcessInput(CSB_INPUT_T *csb_input, CSB_STATE_T* csb_state);
 
 bool Board_Contactors_Closed(void);
 
-void Board_GetModeRequest(void);
+void Board_GetModeRequest(const CONSOLE_OUTPUT_T *console_output, CSB_INPUT_T *csb_input);
 
 void Board_Can_ProcessOutput(CSB_INPUT_T *csb_input, CSB_STATE_T *csb_state, CSB_OUTPUT_T *csb_output);
 

@@ -70,6 +70,6 @@ typedef struct {
 
 void console_init(CSB_INPUT_T *csb_input, CSB_STATE_T *csb_state, CONSOLE_OUTPUT_T *console_output);
 void executerl(int32_t argc, const char * const * argv);
-void Output_Measurements(CONSOLE_OUTPUT_T *console_output, CSB_INPUT_T* csb_input, CSB_STATE_T* csb_state, uint32_t msTicks);
+void Output_Measurements(CONSOLE_OUTPUT_T *console_output, CSB_INPUT_T* csb_input, uint32_t msTicks);
 
 #endif

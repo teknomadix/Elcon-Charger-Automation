@@ -10,6 +10,7 @@ const uint32_t OscRateIn = 0;
 
 static uint32_t last_csb_elcon_command_time = 0;
 static uint32_t last_csb_bms_mode_time = 0;
+static uint32_t last_bms_switch_time = 0;
 
 static RINGBUFF_T uart_rx_ring;
 static uint8_t _uart_rx_ring[UART_BUFFER_SIZE];
@@ -145,17 +146,20 @@ void Board_Can_ProcessInput(CSB_INPUT_T *csb_input, CSB_STATE_T *csb_state){
 
 void Board_Can_ProcessOutput(CSB_INPUT_T *csb_input, CSB_STATE_T *csb_state, CSB_OUTPUT_T *csb_output) {
   uint32_t msTicks = csb_input->msTicks;
-  if ((csb_state->curr_mode == CSB_SSM_MODE_INIT) && (csb_state->init_state == CSB_INIT_SWITCH_500)){
+  if ((csb_state->curr_mode == CSB_SSM_MODE_INIT) && (csb_state->init_state == CSB_INIT_SWITCH_500) && (csb_state->curr_baud_rate == BMS_CAN_BAUD)){
+      CAN_ResetPeripheral();
       Board_Can_Init(BMS_CAN_BAUD);
   }
-  if ((csb_state->curr_mode == CSB_SSM_MODE_INIT) && (csb_state->init_state == CSB_INIT_SWITCH_250)){
+  if ((csb_state->curr_mode == CSB_SSM_MODE_INIT) && (csb_state->init_state == CSB_INIT_SWITCH_250) && (csb_state->curr_baud_rate == CSB_CAN_BAUD)){
+      CAN_ResetPeripheral();
       Board_Can_Init(CSB_CAN_BAUD);
   }
   if ( ((msTicks - last_csb_elcon_command_time) > CSB_ELCON_COMMAND_PERIOD) && (csb_state->curr_mode != CSB_SSM_MODE_INIT)){
       last_csb_elcon_command_time = msTicks;
       Send_Elcon_Command(csb_output);
   }
-  if (csb_output->send_bms_config == true) {
+  if (((msTicks - last_bms_switch_time) > INIT_SEND_TIME_MAX) && (csb_output->send_bms_config == true)) {
+      last_bms_switch_time = msTicks;
       Send_Bms_Switch();
   }
   if ( ((msTicks - last_csb_bms_mode_time) > CSB_BMS_MODE_PERIOD) && (csb_state->curr_mode != CSB_SSM_MODE_INIT)) {
@@ -204,8 +208,13 @@ bool Board_Contactors_Closed(void) {
   return Low_Side_Contactor_Pin_Get();
 }
 
-void Board_GetModeRequest(void) {
-  //balance_mV, mode_request for csb_inputs
+void Board_GetModeRequest(const CONSOLE_OUTPUT_T *console_output, CSB_INPUT_T *csb_input) {
+  CSB_SSM_MODE_T console_mode_request = CSB_SSM_MODE_IDLE;
+  if (console_output->valid_mode_request) {
+      console_mode_request = console_output->mode_request;
+      csb_input->balance_mV = console_output->balance_mV;
+  }
+  csb_input->mode_request = console_mode_request;
 }
 
 void Board_Contactors_Set(bool close_contactors) {
@@ -232,6 +241,53 @@ void handle_can_error(Can_ErrorID_T err, uint32_t baud_rate) {
         CAN_ResetPeripheral();
         Board_Can_Init(baud_rate);
         UNUSED(err);
+    }
 
+    switch(err) {
+      case Can_Error_EPASS:
+        Board_Println("Can_Error_EPASS");
+        break;
+      case Can_Error_CRC:
+        Board_Println("Can_Error_CRC");
+        break;
+      case Can_Error_WARN:
+        Board_Println("Can_Error_WARN");
+        break;
+      case Can_Error_BOFF:
+        Board_Println("Can_Error_BOFF");
+        break;
+      case Can_Error_STUF:
+        Board_Println("Can_Error_STUF");
+        break;
+      case Can_Error_FORM:
+        Board_Println("Can_Error_FORM");
+        break;
+      case Can_Error_ACK:
+        Board_Println("Can_Error_ACK");
+        break;
+      case Can_Error_BIT1:
+        Board_Println("Can_Error_BIT1");
+        break;
+      case Can_Error_BIT0:
+        Board_Println("Can_Error_BIT0");
+        break;
+      case Can_Error_UNUSED:
+        Board_Println("Can_Error_UNUSED");
+        break;
+      case Can_Error_UNRECOGNIZED_MSGOBJ:
+        Board_Println("Can_Error_UNRECOGNIZED_MSGOBJ");
+        break;
+      case Can_Error_UNRECOGNIZED_ERROR:
+        Board_Println("Can_Error_UNRECOGNIZED_ERROR");
+        break;
+      case Can_Error_TX_BUFFER_FULL:
+        Board_Println("Can_Error_TX_BUFFER_FULL");
+        break;
+      case Can_Error_RX_BUFFER_FULL:
+        Board_Println("Can_Error_RX_BUFFER_FULL");
+        break;
+      case Can_Error_NONE:
+      case Can_Error_NO_RX:
+        break;
     }
 }

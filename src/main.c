@@ -91,7 +91,7 @@ void Process_Output(CSB_INPUT_T* csb_input, CSB_OUTPUT_T* csb_output, CSB_STATE_
 
 void Process_Input(CSB_INPUT_T* csb_input, CSB_STATE_T* csb_state) {
   Board_Can_ProcessInput(csb_input, csb_state);
-  Board_GetModeRequest();
+  Board_GetModeRequest(&console_output, csb_input);
   csb_input->msTicks = msTicks;
   csb_input->contactors_closed = Board_Contactors_Closed();
   Board_Check_Faults(csb_input);
@@ -107,13 +107,12 @@ void Process_Keyboard(void) {
 
 int main(void) {
   Init_Structs();
-  Board_Can_Init(BMS_CAN_BAUD);
   Board_UART_Init(UART_BAUD);
   Board_Chip_Init();
   Board_GPIO_Init();
 
   MY18_Pack_Config(&csb_state);
-  SSM_Init(&csb_input, &csb_state, &csb_output, &pack_config);
+  SSM_Init(&csb_state, &pack_config);
 
   //setup readline
   microrl_init(&rl, Board_Print);
@@ -125,6 +124,6 @@ int main(void) {
     Process_Input(&csb_input, &csb_state);
     SSM_Step(&csb_input, &csb_state, &csb_output);
     Process_Output(&csb_input, &csb_output, &csb_state);
-    Output_Measurements(&console_output, &csb_input, &csb_state, msTicks);
+    Output_Measurements(&console_output, &csb_input, msTicks);
   }
 }

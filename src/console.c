@@ -316,15 +316,17 @@ static void bal(const char * const * argv) {
     if (csb_state->curr_mode == CSB_SSM_MODE_IDLE ||
             csb_state->curr_mode == CSB_SSM_MODE_BALANCE) {
 
-        if (strcmp(argv[1],"off") == 0) {
-            console_output->valid_mode_request = false;
-            console_output->balance_mV = UINT32_MAX;
-            Board_Println("bal off");
-        } else {
-            console_output->valid_mode_request = true;
-            console_output->mode_request = CSB_SSM_MODE_BALANCE;
-            console_output->balance_mV = my_atou(argv[1]);
-            Board_Println("bal on");
+        if (console_output->valid_mode_request) {
+          if (strcmp(argv[1],"off") == 0) {
+              console_output->valid_mode_request = false;
+              console_output->balance_mV = UINT32_MAX;
+              Board_Println("bal off");
+          } else {
+              console_output->valid_mode_request = true;
+              console_output->mode_request = CSB_SSM_MODE_BALANCE;
+              console_output->balance_mV = my_atou(argv[1]);
+              Board_Println("bal on");
+          }
         }
     } else {
         Board_Println("Must be in standby");
@@ -390,7 +392,6 @@ void executerl(int32_t argc, const char * const * argv){
 void Output_Measurements(
         CONSOLE_OUTPUT_T *console_output,
         CSB_INPUT_T* csb_input,
-        CSB_STATE_T* csb_state,
         uint32_t msTicks
 ) {
 

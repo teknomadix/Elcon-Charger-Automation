@@ -5,11 +5,14 @@
 volatile uint32_t msTicks;
 
 static uint32_t last_init_wait_start_time;
+static uint32_t last_init_switch_start_time;
 
-void SSM_Init(CSB_INPUT_T *input, CSB_STATE_T *state, CSB_OUTPUT_T *output, PACK_CONFIG_T *pack_config) {
+void SSM_Init(CSB_STATE_T *state, PACK_CONFIG_T *pack_config) {
   // Initialize BMS state variables
   state->curr_mode = CSB_SSM_MODE_INIT;
   state->init_state = CSB_INIT_OFF;
+  state->charge_state = CSB_CHARGE_OFF;
+  state->idle_state = CSB_IDLE_OFF;
 
   Charge_Init(state, pack_config);
 }
@@ -29,11 +32,13 @@ void Init_Step(CSB_INPUT_T *input, CSB_STATE_T *state, CSB_OUTPUT_T *output) {
           input->receive_bms_config = false;
           break;
       case CSB_INIT_SEND_500:
-          output->send_bms_config = false;
-          state->init_state = CSB_INIT_SWITCH_250;
-          state->curr_baud_rate = CSB_CAN_BAUD;
-          input->receive_bms_config = false;
-          break;
+          if ( (msTicks - last_init_switch_start_time) > INIT_SEND_TIME_MAX) {
+            output->send_bms_config = false;
+            state->init_state = CSB_INIT_SWITCH_250;
+            state->curr_baud_rate = CSB_CAN_BAUD;
+            input->receive_bms_config = false;
+            break;
+          }
       case CSB_INIT_SWITCH_250:
           output->send_bms_config = false;
           state->init_state = CSB_INIT_WAIT_250;
