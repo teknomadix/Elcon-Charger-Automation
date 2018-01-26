@@ -51,14 +51,10 @@ void Charge_Step(CSB_INPUT_T *input, CSB_STATE_T *state, CSB_OUTPUT_T *output) {
             }
             break;
 
+        case CSB_SSM_MODE_INIT:
         case CSB_SSM_MODE_NULL:
             // no request do nothing
             break;
-    }
-
-    //TODO: move this into all of the switch statements below in order not to lose order
-    if (input->low_side_cntr_fault) {
-      state->charge_state = CSB_CHARGE_FAULT;
     }
 
     switch (state->charge_state) {
@@ -66,16 +62,21 @@ void Charge_Step(CSB_INPUT_T *input, CSB_STATE_T *state, CSB_OUTPUT_T *output) {
             _set_output(false, false, 0, 0, output);
             break;
         case CSB_CHARGE_INIT:
-            _set_output((input->mode_request == CSB_SSM_MODE_CHARGE), false, 0, 0, output); //close contrs, keep charger off
+            if (input->mode_request == CSB_SSM_MODE_CHARGE && input->low_side_cntr_fault == false) { //if in charge mode and there is no fault
+              _set_output(true, false, 0, 0, output); //close contactors
 
-            //TODO: Check low side contr
-            if (input->contactors_closed == output->close_contactors) { //if contactors are closed, this logic is wrong should check true
-                if(input->mode_request == CSB_SSM_MODE_CHARGE) { //I guess its right but convoluted
-                    state->charge_state =
-                        (input->pack_status->pack_cell_max_mV < state->pack_config->cell_max_mV) ? CSB_CHARGE_CC : CSB_CHARGE_CV; //shouldnt i be checking on the threshold voltage not the max
-                } else if (input->mode_request == CSB_SSM_MODE_BALANCE) {
-                    state->charge_state = CSB_CHARGE_BAL;
-                }
+              if (input->contactors_closed == true) { //if contactors are closed
+                  if(input->mode_request == CSB_SSM_MODE_CHARGE) {
+                      state->charge_state =
+                          (input->pack_status->pack_cell_max_mV < state->pack_config->cell_max_mV) ? CSB_CHARGE_CC : CSB_CHARGE_CV;
+                  } else if (input->mode_request == CSB_SSM_MODE_BALANCE) {
+                      state->charge_state = CSB_CHARGE_BAL;
+                  }
+              }
+            }
+
+            if (input->low_side_cntr_fault) {
+              state->charge_state = CSB_CHARGE_FAULT;
             }
             break;
         case CSB_CHARGE_CC:
@@ -87,13 +88,14 @@ void Charge_Step(CSB_INPUT_T *input, CSB_STATE_T *state, CSB_OUTPUT_T *output) {
                 _set_output(true, true, cc_charge_voltage_mV, cc_charge_current_mA, output); //know that this is not immediate
             }
 
-            if(!input->contactors_closed || !input->charger_on) {
+            if (input->low_side_cntr_fault) {
+              state->charge_state = CSB_CHARGE_FAULT;
+            } else if (!input->contactors_closed || !input->charger_on) {
                 _set_output(true, false, 0, 0, output);
                 state->charge_state = CSB_CHARGE_INIT;
             }
             break;
         case CSB_CHARGE_CV:
-            //this is very convoluted logic make it more simple
 
             if (input->pack_status->pack_cell_max_mV < state->pack_config->cell_max_mV) {
                 // Need to go back to CC Mode
@@ -102,9 +104,8 @@ void Charge_Step(CSB_INPUT_T *input, CSB_STATE_T *state, CSB_OUTPUT_T *output) {
             } else {
                 _set_output(true, true, cv_charge_voltage_mV, cv_charge_current_mA, output);
 
-                //TODO:check this threshold
                 if (input->pack_status->pack_current_mA < state->pack_config->cv_min_current_mA*state->pack_config->pack_cells_p) {
-                    //so after ur under this threshold for some time you are allowed to be done, check this
+                    //so after your under this threshold for some time you are allowed to be done
                     if ((input->msTicks - last_time_above_cv_min_curr) >= state->pack_config->cv_min_current_ms) {
                         _set_output(false, false, 0, 0, output);
                         state->charge_state = CSB_CHARGE_DONE;
@@ -118,6 +119,8 @@ void Charge_Step(CSB_INPUT_T *input, CSB_STATE_T *state, CSB_OUTPUT_T *output) {
             if(!input->contactors_closed) {
                 _set_output(true, false, 0, 0, output);
                 state->charge_state = CSB_CHARGE_INIT;
+            } else if (input->low_side_cntr_fault) {
+              state->charge_state = CSB_CHARGE_FAULT;
             }
             break;
         case CSB_CHARGE_BAL:
@@ -130,33 +133,37 @@ void Charge_Step(CSB_INPUT_T *input, CSB_STATE_T *state, CSB_OUTPUT_T *output) {
                 state->charge_state = CSB_CHARGE_DONE;
             }
 
-            if(input->contactors_closed) {
+            if(!input->contactors_closed) {
                 _set_output(false, false, 0, 0, output);
                 state->charge_state = CSB_CHARGE_INIT;
+            } else if (input->low_side_cntr_fault) {
+              state->charge_state = CSB_CHARGE_FAULT;
             }
 
             break;
         case CSB_CHARGE_DONE:
             _set_output(false, false, 0, 0, output);
 
-            // if not in Charge or Balance, that means SSM is trying to switch to another mode so wait for contactors to close
+            // if mode request is idle, that means SSM is trying to switch to another mode so wait for contactors to close
             // if in charge or balance, make sure we don't need to go back to charge or balance
             //    if we do, go back to init
             //    otherwise finish
-            if (input->mode_request != CSB_SSM_MODE_CHARGE && input->mode_request != CSB_SSM_MODE_BALANCE) {
+            if (input->mode_request == CSB_SSM_MODE_IDLE) {
                 if (!input->contactors_closed && !input->charger_on) {
                     state->charge_state = CSB_CHARGE_OFF;
                 }
             } else {
-                if(input->mode_request == CSB_SSM_MODE_CHARGE) {
+                if(state->curr_mode == CSB_SSM_MODE_CHARGE) {
                     if (input->pack_status->pack_cell_max_mV < state->pack_config->cell_max_mV) {
                         state->charge_state = CSB_CHARGE_INIT;
                     } else {
                         state->charge_state = CSB_CHARGE_OFF;
                     }
-                } else if (input->mode_request == CSB_SSM_MODE_BALANCE) {
+                } else if (state->curr_mode == CSB_SSM_MODE_BALANCE) {
                     //TODO: idk think abt this, but lets just stop
-                    state->charge_state = CSB_CHARGE_OFF;
+                    if (!input->contactors_closed && !input->charger_on) {
+                        state->charge_state = CSB_CHARGE_OFF;
+                    }
                 }
             }
             break;

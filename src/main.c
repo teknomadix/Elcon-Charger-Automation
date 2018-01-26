@@ -91,7 +91,7 @@ void Process_Output(CSB_INPUT_T* csb_input, CSB_OUTPUT_T* csb_output, CSB_STATE_
 
 void Process_Input(CSB_INPUT_T* csb_input, CSB_STATE_T* csb_state) {
   Board_Can_ProcessInput(csb_input, csb_state);
-  Board_GetModeRequest(&console_output, csb_input);
+  Board_GetModeRequest(&console_output, csb_input, csb_state);
   csb_input->msTicks = msTicks;
   csb_input->contactors_closed = Board_Contactors_Closed();
   Board_Check_Faults(csb_input);

@@ -208,9 +208,9 @@ bool Board_Contactors_Closed(void) {
   return Low_Side_Contactor_Pin_Get();
 }
 
-void Board_GetModeRequest(const CONSOLE_OUTPUT_T *console_output, CSB_INPUT_T *csb_input) {
+void Board_GetModeRequest(const CONSOLE_OUTPUT_T *console_output, CSB_INPUT_T *csb_input, CSB_STATE_T *csb_state) {
   CSB_SSM_MODE_T console_mode_request = CSB_SSM_MODE_NULL;
-  if (console_output->valid_mode_request) {
+  if (csb_state->curr_mode != console_output->mode_request) {
       console_mode_request = console_output->mode_request;
       csb_input->balance_mV = console_output->balance_mV;
   }

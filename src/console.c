@@ -314,11 +314,12 @@ static void measure(const char * const * argv) {
 
 static void bal(const char * const * argv) {
     UNUSED(argv);
-    if (Is_Valid_Jump(csb_state->curr_mode, CSB_SSM_MODE_BALANCE)) {
+    if (csb_state->curr_mode == CSB_SSM_MODE_BALANCE || Is_Valid_Jump(csb_state->curr_mode, CSB_SSM_MODE_BALANCE)) {
 
         if (console_output->valid_mode_request) {
           if (strcmp(argv[1],"off") == 0) {
               console_output->valid_mode_request = false;
+              console_output->mode_request = CSB_SSM_MODE_IDLE;
               console_output->balance_mV = UINT32_MAX;
               Board_Println("bal off");
           } else {
@@ -335,9 +336,10 @@ static void bal(const char * const * argv) {
 
 static void chrg(const char * const * argv) {
     UNUSED(argv);
-    if (Is_Valid_Jump(csb_state->curr_mode, CSB_SSM_MODE_CHARGE)) {
+    if (csb_state->curr_mode == CSB_SSM_MODE_CHARGE || Is_Valid_Jump(csb_state->curr_mode, CSB_SSM_MODE_CHARGE)) {
         if (console_output->valid_mode_request) {
             console_output->valid_mode_request = false;
+            console_output->mode_request = CSB_SSM_MODE_IDLE;
             Board_Println("chrg off");
         } else {
             console_output->valid_mode_request = true;

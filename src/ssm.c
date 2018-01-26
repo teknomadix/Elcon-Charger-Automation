@@ -104,6 +104,7 @@ bool Is_State_Done(CSB_STATE_T *state) {
         case CSB_SSM_MODE_INIT:
             return state->init_state == CSB_INIT_DONE;
         case CSB_SSM_MODE_IDLE:
+        case CSB_SSM_MODE_NULL:
             return true;
     }
     return false;
@@ -123,6 +124,7 @@ void SSM_Step(CSB_INPUT_T *input, CSB_STATE_T *state, CSB_OUTPUT_T *output) {
 
     switch(state->curr_mode) {
         case CSB_SSM_MODE_IDLE:
+        case CSB_SSM_MODE_NULL:
             break;
         case CSB_SSM_MODE_INIT:
             Init_Step(input, state, output);
