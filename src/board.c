@@ -148,7 +148,7 @@ void Board_Can_ProcessInput(CSB_INPUT_T *csb_input, CSB_STATE_T *csb_state){
       csb_input->pack_status->pack_current_mA = msg.pack_current;
       csb_input->pack_status->pack_voltage_mV= msg.pack_voltage;
       csb_input->balance_req = msg.balancing_needed;
-      //TODO:check this maybe gotta check if the above read correctly from CAN 2
+      //TODO:check this maybe gotta check if the above read correctly from CAN extended
       csb_input->receive_bms_config = true;
   } else if (msgType == Can_BMSErrors_Msg) {
     Can_BMSErrors_T msg;
