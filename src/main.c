@@ -78,6 +78,7 @@ void Init_Structs(void) {
   csb_input.int_fault = false;
   csb_input.bms_fault = false;
   csb_input.low_side_cntr_fault = false;
+  csb_input.bms_error = CAN_BMSERRORS_NONE;
 
   pack_status.pack_cell_max_mV = 0;
   pack_status.pack_current_mA = 0;

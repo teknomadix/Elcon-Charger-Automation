@@ -127,8 +127,25 @@ static void get(const char * const * argv) {
                     Board_Println(tempstr);
                     break;
                 case ROL_fault:
-                    //change this to say what fault
                     utoa(csb_input->low_side_cntr_fault, tempstr,10);
+                    Board_Print("low side contactor fault ");
+                    Board_Println(tempstr);
+                    utoa(csb_input->imd_fault, tempstr,10);
+                    Board_Print("IMD fault ");
+                    Board_Println(tempstr);
+                    utoa(csb_input->int_fault, tempstr,10);
+                    Board_Print("interlock fault ");
+                    Board_Println(tempstr);
+                    utoa(csb_input->bms_fault, tempstr,10);
+                    Board_Print("BMS fault ");
+                    Board_Println(tempstr);
+                    if (csb_input->bms_fault) {
+                        utoa(csb_input->bms_error, tempstr,10);
+                        Board_Print("  error ");
+                        Board_Println(tempstr);
+                    }
+                    utoa(csb_input->charger_on, tempstr,10);
+                    Board_Print("charger on ");
                     Board_Println(tempstr);
                     break;
                 case ROL_LENGTH:
@@ -339,7 +356,6 @@ static void chrg(const char * const * argv) {
     if (csb_state->curr_mode == CSB_SSM_MODE_CHARGE || Is_Valid_Jump(csb_state->curr_mode, CSB_SSM_MODE_CHARGE)) {
         if (console_output->valid_mode_request) {
             console_output->valid_mode_request = false;
-            console_output->mode_request = CSB_SSM_MODE_IDLE;
             Board_Println("chrg off");
         } else {
             console_output->valid_mode_request = true;

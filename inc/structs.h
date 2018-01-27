@@ -3,6 +3,7 @@
 
 #include <stdint.h>
 #include <stdbool.h>
+#include "CAN_Library.h"
 
 extern volatile uint32_t msTicks;
 
@@ -32,16 +33,14 @@ typedef enum CSB_SSM_MODE {
     CSB_SSM_MODE_INIT,
     CSB_SSM_MODE_IDLE,
     CSB_SSM_MODE_CHARGE,
-    CSB_SSM_MODE_BALANCE,
-    CSB_SSM_MODE_NULL
+    CSB_SSM_MODE_BALANCE
 } CSB_SSM_MODE_T;
 
 static const char * const CSB_SSM_MODE_NAMES[] = {
     "CSB_SSM_MODE_INIT",
-    "CSB_SSM_MODE_STANDBY",
+    "CSB_SSM_MODE_IDLE",
     "CSB_SSM_MODE_CHARGE",
-    "CSB_SSM_MODE_BALANCE",
-    "CSB_SSM_MODE_NULL"
+    "CSB_SSM_MODE_BALANCE"
 };
 
 typedef enum {
@@ -120,6 +119,7 @@ typedef struct CSB_INPUT {
   bool int_fault;
   bool bms_fault;
   bool low_side_cntr_fault;
+  Can_BMSErrorsID_T bms_error;
 } CSB_INPUT_T;
 
 typedef struct CSB_STATE {

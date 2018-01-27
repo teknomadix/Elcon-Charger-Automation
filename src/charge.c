@@ -51,8 +51,7 @@ void Charge_Step(CSB_INPUT_T *input, CSB_STATE_T *state, CSB_OUTPUT_T *output) {
             }
             break;
 
-        case CSB_SSM_MODE_INIT:
-        case CSB_SSM_MODE_NULL:
+        default:
             // no request do nothing
             break;
     }

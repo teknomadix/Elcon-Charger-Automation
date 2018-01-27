@@ -139,6 +139,10 @@ void Board_Can_ProcessInput(CSB_INPUT_T *csb_input, CSB_STATE_T *csb_state){
       csb_input->balance_req = msg.balancing_needed;
       //check this maybe gotta check if the above read correctly from CAN 2
       csb_input->receive_bms_config = true;
+  } else if (msgType == Can_BMSErrors_Msg) {
+    Can_BMSErrors_T msg;
+    Can_BMSErrors_Read(&msg);
+    csb_input->bms_error = msg.type;
   } else {
       // note other errors
   }
@@ -209,7 +213,7 @@ bool Board_Contactors_Closed(void) {
 }
 
 void Board_GetModeRequest(const CONSOLE_OUTPUT_T *console_output, CSB_INPUT_T *csb_input, CSB_STATE_T *csb_state) {
-  CSB_SSM_MODE_T console_mode_request = CSB_SSM_MODE_NULL;
+  CSB_SSM_MODE_T console_mode_request = CSB_SSM_MODE_IDLE;
   if (csb_state->curr_mode != console_output->mode_request) {
       console_mode_request = console_output->mode_request;
       csb_input->balance_mV = console_output->balance_mV;
