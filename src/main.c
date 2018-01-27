@@ -18,6 +18,7 @@ static CSB_OUTPUT_T csb_output;
 
 // memory allocation for BMS_INPUT_T
 static BMS_PACK_STATUS_T pack_status;
+static ELCON_STATUS_T elcon_status;
 static CSB_INPUT_T csb_input;
 
 // memory allocation for BMS_STATE_T
@@ -63,17 +64,11 @@ void Init_Structs(void) {
   csb_input.mode_request = CSB_SSM_MODE_IDLE;
   csb_input.balance_mV = 0; // console request balance to mV
   csb_input.msTicks = msTicks;
-  csb_input.elcon_output_voltage = 0;
-  csb_input.elcon_output_current = 0;
-  csb_input.elcon_has_hardware_failure = false;
-  csb_input.elcon_over_temp_protection_on = false;
-  csb_input.elcon_is_input_voltage_wrong = false;
-  csb_input.elcon_battery_voltage_not_detected = false;
+  csb_input.elcon_status = &elcon_status;
   csb_input.pack_status = &pack_status;
   csb_input.balance_req = false;
   csb_input.contactors_closed = false;
   csb_input.receive_bms_config = false;
-  csb_input.charger_on = false;
   csb_input.imd_fault = false;
   csb_input.int_fault = false;
   csb_input.bms_fault = false;
@@ -83,6 +78,15 @@ void Init_Structs(void) {
   pack_status.pack_cell_max_mV = 0;
   pack_status.pack_current_mA = 0;
   pack_status.pack_voltage_mV = 0;
+
+  elcon_status.elcon_output_voltage = 0;
+  elcon_status.elcon_output_current = 0;
+  elcon_status.elcon_has_hardware_failure = false;
+  elcon_status.elcon_over_temp_protection_on = false;
+  elcon_status.elcon_is_input_voltage_wrong = false;
+  elcon_status.elcon_battery_voltage_not_detected = false;
+  elcon_status.elcon_on = false;
+  elcon_status.elcon_charging = false;
 }
 
 void Process_Output(CSB_INPUT_T* csb_input, CSB_OUTPUT_T* csb_output, CSB_STATE_T* csb_state) {

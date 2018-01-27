@@ -25,6 +25,7 @@ void Charge_Config(PACK_CONFIG_T *pack_config) {
     cv_charge_current_mA = cc_charge_current_mA;
 }
 
+//TODO:check elcon on logic, bc elcon on does not mean charging but elcon working, also output charger on
 void Charge_Step(CSB_INPUT_T *input, CSB_STATE_T *state, CSB_OUTPUT_T *output) {
 
     switch (input->mode_request) {
@@ -74,8 +75,9 @@ void Charge_Step(CSB_INPUT_T *input, CSB_STATE_T *state, CSB_OUTPUT_T *output) {
               }
             }
 
-            if (input->low_side_cntr_fault) {
-              state->charge_state = CSB_CHARGE_FAULT;
+            if (input->low_side_cntr_fault && !input->elcon_status->elcon_on) {
+                _set_output(false, false, 0, 0, output);
+                state->charge_state = CSB_CHARGE_FAULT;
             }
             break;
         case CSB_CHARGE_CC:
@@ -87,9 +89,10 @@ void Charge_Step(CSB_INPUT_T *input, CSB_STATE_T *state, CSB_OUTPUT_T *output) {
                 _set_output(true, true, cc_charge_voltage_mV, cc_charge_current_mA, output); //know that this is not immediate
             }
 
-            if (input->low_side_cntr_fault) {
-              state->charge_state = CSB_CHARGE_FAULT;
-            } else if (!input->contactors_closed || !input->charger_on) {
+            if (input->low_side_cntr_fault && !input->elcon_status->elcon_on) {
+                _set_output(false, false, 0, 0, output);
+                state->charge_state = CSB_CHARGE_FAULT;
+            } else if (!input->contactors_closed || !input->elcon_status->elcon_charging) {
                 _set_output(true, false, 0, 0, output);
                 state->charge_state = CSB_CHARGE_INIT;
             }
@@ -118,8 +121,9 @@ void Charge_Step(CSB_INPUT_T *input, CSB_STATE_T *state, CSB_OUTPUT_T *output) {
             if(!input->contactors_closed) {
                 _set_output(true, false, 0, 0, output);
                 state->charge_state = CSB_CHARGE_INIT;
-            } else if (input->low_side_cntr_fault) {
-              state->charge_state = CSB_CHARGE_FAULT;
+            } else if (input->low_side_cntr_fault && !input->elcon_status->elcon_on) {
+                _set_output(false, false, 0, 0, output);
+                state->charge_state = CSB_CHARGE_FAULT;
             }
             break;
         case CSB_CHARGE_BAL:
@@ -135,8 +139,9 @@ void Charge_Step(CSB_INPUT_T *input, CSB_STATE_T *state, CSB_OUTPUT_T *output) {
             if(!input->contactors_closed) {
                 _set_output(false, false, 0, 0, output);
                 state->charge_state = CSB_CHARGE_INIT;
-            } else if (input->low_side_cntr_fault) {
-              state->charge_state = CSB_CHARGE_FAULT;
+            } else if (input->low_side_cntr_fault && !input->elcon_status->elcon_on) {
+                _set_output(false, false, 0, 0, output);
+                state->charge_state = CSB_CHARGE_FAULT;
             }
 
             break;
@@ -148,7 +153,7 @@ void Charge_Step(CSB_INPUT_T *input, CSB_STATE_T *state, CSB_OUTPUT_T *output) {
             //    if we do, go back to init
             //    otherwise finish
             if (input->mode_request == CSB_SSM_MODE_IDLE) {
-                if (!input->contactors_closed && !input->charger_on) {
+                if (!input->contactors_closed && !input->elcon_status->elcon_charging) {
                     state->charge_state = CSB_CHARGE_OFF;
                 }
             } else {
@@ -160,7 +165,7 @@ void Charge_Step(CSB_INPUT_T *input, CSB_STATE_T *state, CSB_OUTPUT_T *output) {
                     }
                 } else if (state->curr_mode == CSB_SSM_MODE_BALANCE) {
                     //TODO: idk think abt this, but lets just stop
-                    if (!input->contactors_closed && !input->charger_on) {
+                    if (!input->contactors_closed && !input->elcon_status->elcon_charging) {
                         state->charge_state = CSB_CHARGE_OFF;
                     }
                 }
@@ -168,7 +173,8 @@ void Charge_Step(CSB_INPUT_T *input, CSB_STATE_T *state, CSB_OUTPUT_T *output) {
             break;
         case CSB_CHARGE_FAULT:
             _set_output(false, false, 0, 0, output);
-            if (input->low_side_cntr_fault) {
+
+            if (!input->low_side_cntr_fault && input->elcon_status->elcon_on) {
                 state->charge_state = CSB_CHARGE_INIT;
             }
             break;

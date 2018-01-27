@@ -121,15 +121,26 @@ void Board_Can_ProcessInput(CSB_INPUT_T *csb_input, CSB_STATE_T *csb_state){
   } else if (msgType == Can_ElconHeartbeat_Msg) {
       Can_ElconHeartbeat_T msg;
       Can_ElconHeartbeat_Read(&msg);
-      csb_input->elcon_output_voltage = msg.output_voltage;
-      csb_input->elcon_output_current = msg.output_current;
-      csb_input->elcon_has_hardware_failure = msg.has_hardware_failure;
-      csb_input->elcon_over_temp_protection_on = msg.over_temp_protection_on;
-      csb_input->elcon_is_input_voltage_wrong = msg.is_input_voltage_wrong;
-      csb_input->elcon_battery_voltage_not_detected = msg.battery_voltage_not_detected;
-      csb_input->elcon_is_comms_bad = msg.elcon_is_comms_bad;
-      //TODO: make this true only when the charger has no error
-      csb_input->charger_on = true;
+      csb_input->elcon_status->elcon_output_voltage = msg.output_voltage;
+      csb_input->elcon_status->elcon_output_current = msg.output_current;
+      csb_input->elcon_status->elcon_has_hardware_failure = msg.has_hardware_failure;
+      csb_input->elcon_status->elcon_over_temp_protection_on = msg.over_temp_protection_on;
+      csb_input->elcon_status->elcon_is_input_voltage_wrong = msg.is_input_voltage_wrong;
+      csb_input->elcon_status->elcon_battery_voltage_not_detected = msg.battery_voltage_not_detected;
+      csb_input->elcon_status->elcon_is_comms_bad = msg.elcon_is_comms_bad;
+      if (msg.has_hardware_failure || msg.over_temp_protection_on ||
+          msg.is_input_voltage_wrong || msg.battery_voltage_not_detected ||
+          msg.elcon_is_comms_bad) {
+          csb_input->elcon_status->elcon_on = false;
+      } else {
+          csb_input->elcon_status->elcon_on = true;
+      }
+      // TODO: create some sort of threshold
+      if (msg.output_current == 0) {
+          csb_input->elcon_status->elcon_charging = false;
+      } else {
+          csb_input->elcon_status->elcon_charging = true;
+      }
   } else if (msgType == Can_BmsPackStatus_Msg) {
       Can_BmsPackStatus_T msg;
       Can_BmsPackStatus_Read(&msg);
@@ -137,7 +148,7 @@ void Board_Can_ProcessInput(CSB_INPUT_T *csb_input, CSB_STATE_T *csb_state){
       csb_input->pack_status->pack_current_mA = msg.pack_current;
       csb_input->pack_status->pack_voltage_mV= msg.pack_voltage;
       csb_input->balance_req = msg.balancing_needed;
-      //check this maybe gotta check if the above read correctly from CAN 2
+      //TODO:check this maybe gotta check if the above read correctly from CAN 2
       csb_input->receive_bms_config = true;
   } else if (msgType == Can_BMSErrors_Msg) {
     Can_BMSErrors_T msg;

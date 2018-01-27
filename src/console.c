@@ -144,9 +144,22 @@ static void get(const char * const * argv) {
                         Board_Print("  error ");
                         Board_Println(tempstr);
                     }
-                    utoa(csb_input->charger_on, tempstr,10);
-                    Board_Print("charger on ");
+                    utoa(csb_input->elcon_status->elcon_on, tempstr,10);
+                    Board_Print("elcon on ");
                     Board_Println(tempstr);
+                    if (csb_input->elcon_status->elcon_on) {
+                        if (csb_input->elcon_status->elcon_has_hardware_failure) {
+                          Board_Println("  elcon has hardware failure");
+                        } else if (csb_input->elcon_status->elcon_over_temp_protection_on) {
+                          Board_Println("  elcon over temp protection on");
+                        } else if (csb_input->elcon_status->elcon_is_input_voltage_wrong) {
+                          Board_Println("  elcon input voltage is wrong");
+                        } else if (csb_input->elcon_status->elcon_battery_voltage_not_detected) {
+                          Board_Println("  elcon battery voltage not detected");
+                        } else if (csb_input->elcon_status->elcon_is_comms_bad) {
+                          Board_Println("  elcon comms is bad");
+                        }
+                    }
                     break;
                 case ROL_LENGTH:
                     break; //how the hell?

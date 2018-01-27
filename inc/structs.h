@@ -29,6 +29,18 @@ typedef struct PACK_CONFIG {
 
 } PACK_CONFIG_T;
 
+typedef struct ELCON_STATUS {
+    uint16_t elcon_output_voltage;
+    uint16_t elcon_output_current;
+    bool elcon_has_hardware_failure;
+    bool elcon_over_temp_protection_on;
+    bool elcon_is_input_voltage_wrong;
+    bool elcon_battery_voltage_not_detected;
+    bool elcon_is_comms_bad;
+    bool elcon_on;
+    bool elcon_charging;
+} ELCON_STATUS_T;
+
 typedef enum CSB_SSM_MODE {
     CSB_SSM_MODE_INIT,
     CSB_SSM_MODE_IDLE,
@@ -101,20 +113,13 @@ typedef struct CSB_OUTPUT {
 
 typedef struct CSB_INPUT {
   BMS_PACK_STATUS_T *pack_status;
+  ELCON_STATUS_T *elcon_status;
   CSB_SSM_MODE_T mode_request;
   uint32_t balance_mV; // console request balance to mV
   uint32_t msTicks;
-  uint16_t elcon_output_voltage;
-  uint16_t elcon_output_current;
-  bool elcon_has_hardware_failure;
-  bool elcon_over_temp_protection_on;
-  bool elcon_is_input_voltage_wrong;
-  bool elcon_battery_voltage_not_detected;
-  bool elcon_is_comms_bad;
   bool receive_bms_config;
   bool balance_req;
   bool contactors_closed;
-  bool charger_on;
   bool imd_fault;
   bool int_fault;
   bool bms_fault;
