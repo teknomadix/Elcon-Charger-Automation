@@ -14,7 +14,7 @@ static const char * const commands[] = { "get",
                             "measure"
                                     };
 
-static const char nargs[7] = {  1 ,
+static const char nargs[NUMCOMMANDS] = {  1 ,
                         2 ,
                         1 ,
                         1 ,
@@ -22,6 +22,7 @@ static const char nargs[7] = {  1 ,
                         0 ,
                         1};
 
+//TODO: revise help strings from OG
 static const char * const helpstring[NUMCOMMANDS] =  {"get",
                             "set",
                             "help",
@@ -44,7 +45,14 @@ static const char * const locstring[] =  {
                             "cv_min_current_mA",
                             "cv_min_current_ms",
                             "cc_cell_voltage_mV",
+                            "cc_charge_voltage_mV",
+                            "cc_charge_current_mA",
+                            "cv_charge_voltage_mV",
+                            "cv_charge_current_mA",
+                            "bms_comm",
                             "state",
+                            "total_num_cells",
+                            "pack_name",
                             "pack_cell_max_mV",
                             "pack_current_mA",
                             "pack_voltage_mV",
@@ -54,6 +62,11 @@ static const char * const locstring[] =  {
 static const char * const config_locstring[] =  {
                             "MY18",
                             "MY16"
+};
+
+static const char * const yn_locstring[] =  {
+                            "yes",
+                            "no"
 };
 
 typedef void (* const EXECUTE_HANDLER)(const char * const *);

@@ -6,54 +6,54 @@ EXEC_P, HAS_SYMS, D_PAGED
 start address 0x000000c1
 
 Program Header:
-0x70000001 off    0x000132b8 vaddr 0x000032b8 paddr 0x000032b8 align 2**2
+0x70000001 off    0x00013b28 vaddr 0x00003b28 paddr 0x00003b28 align 2**2
          filesz 0x00000008 memsz 0x00000008 flags r--
     LOAD off    0x00010000 vaddr 0x00000000 paddr 0x00000000 align 2**16
-         filesz 0x000032c0 memsz 0x000032c0 flags r-x
-    LOAD off    0x00020100 vaddr 0x10000100 paddr 0x000032c0 align 2**16
-         filesz 0x00000004 memsz 0x00000978 flags rw-
+         filesz 0x00003b30 memsz 0x00003b30 flags r-x
+    LOAD off    0x00020100 vaddr 0x10000100 paddr 0x00003b30 align 2**16
+         filesz 0x00000004 memsz 0x00000990 flags rw-
 private flags = 5000200: [Version5 EABI] [soft-float ABI]
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .text         000032b8  00000000  00000000  00010000  2**2
+  0 .text         00003b28  00000000  00000000  00010000  2**2
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  1 .ARM.exidx    00000008  000032b8  000032b8  000132b8  2**2
+  1 .ARM.exidx    00000008  00003b28  00003b28  00013b28  2**2
                   CONTENTS, ALLOC, LOAD, READONLY, DATA
-  2 .data         00000004  10000100  000032c0  00020100  2**0
+  2 .data         00000004  10000100  00003b30  00020100  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  3 .bss          00000970  10000108  000032c8  00020104  2**3
+  3 .bss          00000988  10000108  00003b38  00020104  2**3
                   ALLOC
-  4 .stack_dummy  00000200  10000a78  10000a78  00020108  2**3
+  4 .stack_dummy  00000200  10000a90  10000a90  00020108  2**3
                   CONTENTS, READONLY
   5 .ARM.attributes 0000002d  00000000  00000000  00020308  2**0
                   CONTENTS, READONLY
   6 .comment      0000006e  00000000  00000000  00020335  2**0
                   CONTENTS, READONLY
-  7 .debug_line   00005f56  00000000  00000000  000203a3  2**0
+  7 .debug_line   00006768  00000000  00000000  000203a3  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_info   00010ee2  00000000  00000000  000262f9  2**0
+  8 .debug_info   00011e9b  00000000  00000000  00026b0b  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_abbrev 00002469  00000000  00000000  000371db  2**0
+  9 .debug_abbrev 00002470  00000000  00000000  000389a6  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_aranges 000008a0  00000000  00000000  00039648  2**3
+ 10 .debug_aranges 000008a0  00000000  00000000  0003ae18  2**3
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_ranges 000018f0  00000000  00000000  00039ee8  2**3
+ 11 .debug_ranges 000018f0  00000000  00000000  0003b6b8  2**3
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_loc    0000a450  00000000  00000000  0003b7d8  2**0
+ 12 .debug_loc    0000a798  00000000  00000000  0003cfa8  2**0
                   CONTENTS, READONLY, DEBUGGING
- 13 .debug_macro  00004865  00000000  00000000  00045c28  2**0
+ 13 .debug_macro  00004cd5  00000000  00000000  00047740  2**0
                   CONTENTS, READONLY, DEBUGGING
- 14 .debug_str    00010a18  00000000  00000000  0004a48d  2**0
+ 14 .debug_str    00010b77  00000000  00000000  0004c415  2**0
                   CONTENTS, READONLY, DEBUGGING
- 15 .debug_frame  00001b40  00000000  00000000  0005aea8  2**2
+ 15 .debug_frame  00001afc  00000000  00000000  0005cf8c  2**2
                   CONTENTS, READONLY, DEBUGGING
 SYMBOL TABLE:
 00000000 l    d  .text	00000000 .text
-000032b8 l    d  .ARM.exidx	00000000 .ARM.exidx
+00003b28 l    d  .ARM.exidx	00000000 .ARM.exidx
 10000100 l    d  .data	00000000 .data
 10000108 l    d  .bss	00000000 .bss
-10000a78 l    d  .stack_dummy	00000000 .stack_dummy
+10000a90 l    d  .stack_dummy	00000000 .stack_dummy
 00000000 l    d  .ARM.attributes	00000000 .ARM.attributes
 00000000 l    d  .comment	00000000 .comment
 00000000 l    d  .debug_line	00000000 .debug_line
@@ -68,80 +68,80 @@ SYMBOL TABLE:
 00000000 l    df *ABS*	00000000 bin/startup_LPC11xx.o
 00000200 l       *ABS*	00000000 Stack_Size
 00000000 l    df *ABS*	00000000 board.c
-000000ec l     F .text	0000001c handle_can_error.part.1
 10000108 l     O .bss	00000064 _uart_rx_ring
-1000016c l     O .bss	00000004 last_csb_elcon_command_time
-10000170 l     O .bss	00000014 uart_tx_ring
-10000184 l     O .bss	00000004 last_csb_bms_mode_time
-10000188 l     O .bss	00000064 _uart_tx_ring
-100001ec l     O .bss	00000001 isResetting
-100001f0 l     O .bss	00000014 uart_rx_ring
-10000204 l     O .bss	00000004 last_csb_bms_switch_time
+1000016c l     O .bss	00000004 last_bms_switch_time
+10000170 l     O .bss	00000004 last_csb_elcon_command_time
+10000174 l     O .bss	00000014 uart_tx_ring
+10000188 l     O .bss	00000004 last_csb_bms_mode_time
+1000018c l     O .bss	00000064 _uart_tx_ring
+100001f0 l     O .bss	00000001 isResetting
+100001f4 l     O .bss	00000014 uart_rx_ring
 00000000 l    df *ABS*	00000000 charge.c
-10000208 l     O .bss	00000004 cc_charge_voltage_mV
-1000020c l     O .bss	00000004 cv_charge_voltage_mV
-10000210 l     O .bss	00000004 last_time_above_cv_min_curr
-10000214 l     O .bss	00000004 cc_charge_current_mA
-10000218 l     O .bss	00000004 cv_charge_current_mA
+10000208 l     O .bss	00000004 last_init_wait_start_time
+1000020c l     O .bss	00000004 last_time_above_cv_min_curr
+10000210 l     O .bss	00000004 last_init_switch_start_time
 00000000 l    df *ABS*	00000000 console.c
-000006ec l     F .text	000000e4 measure
-000007d0 l     F .text	00000308 set
-00000ad8 l     F .text	0000016c get
-00000c44 l     F .text	00000050 chrg
-00000c94 l     F .text	00000058 config_def
-00000cec l     F .text	000000b4 help
-00002f70 l     O .text	0000001c commands
-00000da0 l     F .text	00000088 bal
-00002f70 l     O .text	0000001c helpstring
-1000021c l     O .bss	00000004 console_output
-00002ac4 l     O .text	00000044 locstring
-00002b08 l     O .text	00000010 CSB_SSM_MODE_NAMES
-00002b18 l     O .text	0000001c handlers
-10000220 l     O .bss	00000004 lastPackCurrentPrintTime
-10000224 l     O .bss	00000004 lastPackVoltagePrintTime
-10000228 l     O .bss	00000004 csb_input
-00002f8c l     O .text	00000007 nargs
-00002f94 l     O .text	00000018 CSB_INIT_MODE_NAMES
-1000022c l     O .bss	00000004 csb_state
-00002fac l     O .text	0000001c CSB_CHARGE_MODE_NAMES
+000008d0 l     F .text	000000e4 measure
+000009b4 l     F .text	00000424 set
+00000dd8 l     F .text	00000058 chrg
+00000e30 l     F .text	000002e0 get
+00001110 l     F .text	00000058 config_def
+00001168 l     F .text	0000009c help
+000037f4 l     O .text	0000001c commands
+00001204 l     F .text	00000094 bal
+000037f4 l     O .text	0000001c helpstring
+10000214 l     O .bss	00000004 console_output
+00003124 l     O .text	0000000c PACK_NAMES
+00003130 l     O .text	00000060 locstring
+00003190 l     O .text	00000010 CSB_SSM_MODE_NAMES
+000031a0 l     O .text	0000001c handlers
+10000218 l     O .bss	00000004 lastPackCurrentPrintTime
+000031bc l     O .text	00000008 BMS_COMM_NAMES
+1000021c l     O .bss	00000004 lastPackVoltagePrintTime
+10000220 l     O .bss	00000004 csb_input
+00003810 l     O .text	00000007 nargs
+00003818 l     O .text	00000008 CSB_INIT_MODE_NAMES
+10000224 l     O .bss	00000004 csb_state
+00003820 l     O .text	00000030 CSB_CHARGE_MODE_NAMES
 00000000 l    df *ABS*	00000000 main.c
-10000230 l     O .bss	0000000c console_output
-1000023c l     O .bss	000000b4 balance_waitingoff
-100002f0 l     O .bss	00000030 pack_config
-10000320 l     O .bss	0000000c pack_status
-1000032c l     O .bss	0000000c csb_output
-10000338 l     O .bss	00000024 csb_input
-1000035c l     O .bss	0000000a str
-10000368 l     O .bss	00000098 rl
-10000400 l     O .bss	000002d0 balance_timeon
-100006d0 l     O .bss	00000014 csb_state
+10000228 l     O .bss	0000000c console_output
+10000234 l     O .bss	000000b4 balance_waitingoff
+100002e8 l     O .bss	00000048 pack_config
+10000330 l     O .bss	0000000c elcon_status
+1000033c l     O .bss	0000000c pack_status
+10000348 l     O .bss	0000000c csb_output
+10000354 l     O .bss	0000001c csb_input
+10000370 l     O .bss	0000000a str
+1000037c l     O .bss	00000098 rl
+10000414 l     O .bss	000002d0 balance_timeon
+100006e4 l     O .bss	00000014 csb_state
 00000000 l    df *ABS*	00000000 microrl.c
-00001130 l     F .text	0000005c u16bit_to_str
-0000118c l     F .text	00000034 terminal_reset_cursor.isra.3
-000011c0 l     F .text	00000060 terminal_move_cursor.isra.4
-00001220 l     F .text	00000080 terminal_print_line
-000012a0 l     F .text	0000013a hist_search
-000013dc l     F .text	00000040 microrl_backspace.part.5
+000015a8 l     F .text	0000005c u16bit_to_str
+00001604 l     F .text	00000034 terminal_reset_cursor.isra.3
+00001638 l     F .text	00000060 terminal_move_cursor.isra.4
+00001698 l     F .text	00000080 terminal_print_line
+00001718 l     F .text	0000013a hist_search
+00001854 l     F .text	00000040 microrl_backspace.part.5
 00000000 l    df *ABS*	00000000 pack_config.c
 00000000 l    df *ABS*	00000000 pins.c
 00000000 l    df *ABS*	00000000 ssm.c
 00000000 l    df *ABS*	00000000 sysinit.c
 00000000 l    df *ABS*	00000000 clock_11xx.c
-00003214 l     O .text	00000040 wdtOSCRate
+00003a84 l     O .text	00000040 wdtOSCRate
 00000000 l    df *ABS*	00000000 gpio_11xx_2.c
 00000000 l    df *ABS*	00000000 ring_buffer.c
 00000000 l    df *ABS*	00000000 uart_11xx.c
 00000000 l    df *ABS*	00000000 can.c
-100006e4 l     O .bss	00000014 tx_buffer
-100006f8 l     O .bss	00000014 rx_buffer
-1000070c l     O .bss	00000004 can_error_info
-10000710 l     O .bss	00000003 msg_obj_stat
-10000713 l     O .bss	00000001 can_error_flag
+100006f8 l     O .bss	00000014 tx_buffer
+1000070c l     O .bss	00000014 rx_buffer
+10000720 l     O .bss	00000004 can_error_info
+10000724 l     O .bss	00000003 msg_obj_stat
+10000727 l     O .bss	00000001 can_error_flag
 00000000 l    df *ABS*	00000000 Can_Library.c
-10000714 l     O .bss	00000010 lastMessage
+10000728 l     O .bss	00000010 lastMessage
 10000100 l     O .data	00000001 lastError
 00000000 l    df *ABS*	00000000 _udivsi3.o
-00002604 l       .text	00000000 .udivsi3_skip_div0_test
+00002ab4 l       .text	00000000 .udivsi3_skip_div0_test
 00000000 l    df *ABS*	00000000 _dvmd_tls.o
 00000000 l    df *ABS*	00000000 memcpy-stub.c
 00000000 l    df *ABS*	00000000 memmove.c
@@ -150,143 +150,144 @@ SYMBOL TABLE:
 00000000 l    df *ABS*	00000000 strlen-stub.c
 00000000 l    df *ABS*	00000000 utoa.c
 00000000 l    df *ABS*	00000000 
-10000a78 l       .stack_dummy	00000000 __HeapLimit
+10000a90 l       .stack_dummy	00000000 __HeapLimit
 000000ea  w    F .text	00000002 TIMER16_0_IRQHandler
-000024fc g     F .text	0000003a Can_BMS_CSB_Switch_Write
+00002968 g     F .text	0000003a Can_BMS_CSB_Switch_Write
 10000100 g       .data	00000000 __data_start__
-00001660 g     F .text	00000044 MY16_Pack_Config
-00002220 g     F .text	00000070 CAN_TransmitMsgObj
+00001b44 g     F .text	0000006c MY16_Pack_Config
+00002694 g     F .text	00000070 CAN_TransmitMsgObj
 000000e2  w    F .text	00000002 HardFault_Handler
-00001c6c g     F .text	00000032 RingBuffer_Pop
-000024a4 g     F .text	00000058 Can_BmsPackStatus_FromCan
-00000124 g     F .text	00000010 SysTick_Handler
-00001a1c g     F .text	00000064 SSM_Step
-00002798 g     F .text	00000096 memmove
-000025bc g     F .text	00000048 Can_ElconCommand_Write
-000018e0 g     F .text	00000010 Low_Side_Contactor_Pin_Get
+000020e0 g     F .text	00000032 RingBuffer_Pop
+00002910 g     F .text	00000056 Can_BmsPackStatus_FromCan
+00000108 g     F .text	00000010 SysTick_Handler
+00001e88 g     F .text	0000006c SSM_Step
+00002c48 g     F .text	00000096 memmove
+00002a30 g     F .text	00000048 Can_ElconCommand_Write
+00001de4 g     F .text	00000010 Low_Side_Contactor_Pin_Get
 000000e6  w    F .text	00000002 PendSV_Handler
 000000e0  w    F .text	00000002 NMI_Handler
-000032c0 g       .ARM.exidx	00000000 __exidx_end
-00000108 g     F .text	0000001c UART_IRQHandler
-0000141c g     F .text	00000044 microrl_init
+00003b30 g       .ARM.exidx	00000000 __exidx_end
+000000ec g     F .text	0000001c UART_IRQHandler
+00001894 g     F .text	00000044 microrl_init
 000000ea  w    F .text	00000002 TIMER32_0_IRQHandler
-000032c0 g       .ARM.exidx	00000000 __etext
-00001e08 g     F .text	0000000e Chip_UART_ReadRB
+00003b30 g       .ARM.exidx	00000000 __etext
+0000227c g     F .text	0000000e Chip_UART_ReadRB
 000000ea  w    F .text	00000002 TIMER32_1_IRQHandler
-0000271c g     F .text	0000007c memcpy
-10000728 g     O .bss	00000004 SystemCoreClock
-00001fb0 g     F .text	00000094 Baudrate_Calculate
-00001d38 g     F .text	00000028 Chip_UART_Init
-00001bd8 g     F .text	00000092 RingBuffer_InsertMult
-00002604 g     F .text	0000010a .hidden __udivsi3
-10000730 g     O .bss	00000018 tmp_msg_obj
+00002bcc g     F .text	0000007c memcpy
+1000073c g     O .bss	00000004 SystemCoreClock
+00002424 g     F .text	00000094 Baudrate_Calculate
+000021ac g     F .text	00000028 Chip_UART_Init
+0000204c g     F .text	00000092 RingBuffer_InsertMult
+00002ab4 g     F .text	0000010a .hidden __udivsi3
+10000748 g     O .bss	00000018 tmp_msg_obj
 10000108 g       .bss	00000000 __bss_start__
-00001f58 g     F .text	00000058 CAN_tx
+000023cc g     F .text	00000058 CAN_tx
+000002a4 g     F .text	000000e8 handle_can_error
 000000ea  w    F .text	00000002 PIOINT1_IRQHandler
-000020cc g     F .text	00000040 CAN_SetMask1
-00000524 g     F .text	000001c8 Charge_Step
-000020b8 g     F .text	00000014 CAN_IRQHandler
+00002540 g     F .text	00000040 CAN_SetMask1
+000005c0 g     F .text	00000310 Charge_Step
+0000252c g     F .text	00000014 CAN_IRQHandler
 000000ea  w    F .text	00000002 SSP0_IRQHandler
-000032b8 g       .text	00000000 __exidx_start
-00001f14 g     F .text	00000044 CAN_rx
-000003ac g     F .text	00000054 Send_Bms_Mode
-10000748 g     O .bss	00000180 _tx_buffer
-00001ba4 g     F .text	00000034 RingBuffer_Insert
-000004a4 g     F .text	00000002 Board_GetModeRequest
-000022b8 g     F .text	00000038 Can_RawRead
-00000e28 g     F .text	0000002c console_init
+00003b28 g       .text	00000000 __exidx_start
+00002388 g     F .text	00000044 CAN_rx
+000004ac g     F .text	00000038 Send_Bms_Mode
+10000760 g     O .bss	00000180 _tx_buffer
+00002018 g     F .text	00000034 RingBuffer_Insert
+00000268 g     F .text	00000012 Board_GetModeRequest
+0000272c g     F .text	00000038 Can_RawRead
+00001298 g     F .text	0000002c console_init
 000000c0 g     F .text	00000020 Reset_Handler
-00001afc g     F .text	00000084 Chip_Clock_GetMainClockRate
-00000e54 g     F .text	0000006c executerl
-00002a38 g     F .text	00000008 utoa
-00002538 g     F .text	00000024 Can_ElconHeartbeat_Read
-00002440 g     F .text	00000062 Can_ElconHeartbeat_FromCan
-100008c8 g     O .bss	00000180 _rx_buffer
-0000104c g     F .text	0000002c Process_Keyboard
-000016ac g     F .text	00000234 Board_GPIO_Init
-00000330 g     F .text	00000044 Send_Elcon_Command
-00001f00 g     F .text	00000014 CAN_error
+00001f70 g     F .text	00000084 Chip_Clock_GetMainClockRate
+000012c4 g     F .text	0000006c executerl
+00002ee8 g     F .text	00000008 utoa
+000029a4 g     F .text	00000024 Can_ElconHeartbeat_Read
+000028b4 g     F .text	0000005c Can_ElconHeartbeat_FromCan
+100008e0 g     O .bss	00000180 _rx_buffer
+000014d0 g     F .text	0000002c Process_Keyboard
+00001bb0 g     F .text	00000234 Board_GPIO_Init
+00000468 g     F .text	00000028 Send_Elcon_Command
+00002374 g     F .text	00000014 CAN_error
 10000104 g       .data	00000000 __data_end__
-0000027c g     F .text	000000b4 Board_Can_ProcessInput
-10000a78 g       .bss	00000000 __bss_end__
-000021ec g     F .text	00000034 CAN_Receive
-00001dbc g     F .text	0000004a Chip_UART_SendRB
-0000213c g     F .text	000000b0 CAN_Init
+0000038c g     F .text	000000dc Board_Can_ProcessInput
+10000a90 g       .bss	00000000 __bss_end__
+00002660 g     F .text	00000034 CAN_Receive
+00002230 g     F .text	0000004a Chip_UART_SendRB
+000025b0 g     F .text	000000b0 CAN_Init
 000000ea  w    F .text	00000002 TIMER16_1_IRQHandler
-00002358 g     F .text	000000e8 Can_MsgType
+000027cc g     F .text	000000e8 Can_MsgType
 000000ea g     F .text	00000002 Default_Handler
-10000a48 g     O .bss	00000018 tmp_msg_obj_2
-00001b80 g     F .text	00000014 Chip_GPIO_Init
+10000a60 g     O .bss	00000018 tmp_msg_obj_2
+00001ff4 g     F .text	00000014 Chip_GPIO_Init
 000000ea  w    F .text	00000002 ADC_IRQHandler
-00002a40 g     O .text	00000004 OscRateIn
-000001a8 g     F .text	00000018 Board_Read
-00000190 g     F .text	00000018 Board_Println
+00002f30 g     O .text	00000004 OscRateIn
+0000018c g     F .text	00000018 Board_Read
+00000174 g     F .text	00000018 Board_Println
 000000ea  w    F .text	00000002 SSP1_IRQHandler
-00000170 g     F .text	00000020 Board_Print
+00000154 g     F .text	00000020 Board_Print
 000000ea  w    F .text	00000002 PIOINT2_IRQHandler
-0000190c g     F .text	00000014 BMS_Pin_Get
-000004b0 g     F .text	00000020 Board_Check_Faults
-00000400 g     F .text	0000009c Board_Can_ProcessOutput
-00002718  w    F .text	00000002 .hidden __aeabi_ldiv0
-0000255c g     F .text	0000003c Can_BMS_Mode_Write
+00001e10 g     F .text	00000014 BMS_Pin_Get
+00000284 g     F .text	0000001e Board_Check_Faults
+000004e4 g     F .text	000000cc Board_Can_ProcessOutput
+000029c8 g     F .text	00000044 Can_BMSErrors_Read
+00002bc8  w    F .text	00000002 .hidden __aeabi_ldiv0
+00002a78 g     F .text	0000003c Can_BMS_Mode_Write
 000000ea  w    F .text	00000002 BOD_IRQHandler
-00001ca0 g     F .text	00000096 RingBuffer_PopMult
-00001520 g     F .text	00000140 microrl_insert_char
-000019e0 g     F .text	0000003c Is_Valid_Jump
+00002114 g     F .text	00000096 RingBuffer_PopMult
+00001998 g     F .text	00000140 microrl_insert_char
+00001e4c g     F .text	0000003c Is_Valid_Jump
 000000ea  w    F .text	00000002 WAKEUP_IRQHandler
 000000ea  w    F .text	00000002 PIOINT0_IRQHandler
-00001e18 g     F .text	0000004a Chip_UART_IRQRBHandler
-000029ac g     F .text	0000008c __utoa
+0000228c g     F .text	0000004a Chip_UART_IRQRBHandler
+00002e5c g     F .text	0000008c __utoa
 000000ea  w    F .text	00000002 I2C_IRQHandler
-00002830 g     F .text	0000008c memset
-000001c0 g     F .text	00000018 Board_Print_BLOCKING
+00002ce0 g     F .text	0000008c memset
+000001a4 g     F .text	00000018 Board_Print_BLOCKING
 00000000 g       .text	000000c0 __isr_vector
-00001078 g     F .text	000000b8 main
-00000ec0 g     F .text	000000b4 Output_Measurements
+000014fc g     F .text	000000ac main
+00001330 g     F .text	000000b4 Output_Measurements
 000000ea  w    F .text	00000002 WDT_IRQHandler
-00002604 g     F .text	00000000 .hidden __aeabi_uidiv
+00002ab4 g     F .text	00000000 .hidden __aeabi_uidiv
 000000e4  w    F .text	00000002 SVC_Handler
-000022f0 g     F .text	00000038 Can_Unknown_Read
-0000210c g     F .text	00000030 CAN_SetMask2
-00001028 g     F .text	00000024 Process_Input
-10000a78 g       .stack_dummy	00000000 __end__
-000004a8 g     F .text	00000008 Board_Contactors_Set
-00001920 g     F .text	00000014 Interlock_Pin_Get
-000028bc g     F .text	00000084 strcmp
-00001a80 g     F .text	0000007c SystemInit
-000018f0 g     F .text	0000000c High_Side_Contactor_Pin_Set
-00000f74 g     F .text	000000b4 Init_Structs
-00001d60 g     F .text	0000002a Chip_UART_SendBlocking
-1000072c g     O .bss	00000004 TicksPerMS
-000016a4 g     F .text	00000008 MY18_Pack_Config
-00001e64 g     F .text	0000009c Chip_UART_SetBaudFDR
-00001460 g     F .text	00000006 microrl_set_execute_callback
+00002764 g     F .text	00000038 Can_Unknown_Read
+00002580 g     F .text	00000030 CAN_SetMask2
+000014a0 g     F .text	00000030 Process_Input
+10000a90 g       .stack_dummy	00000000 __end__
+0000027c g     F .text	00000008 Board_Contactors_Set
+00001e24 g     F .text	00000014 Interlock_Pin_Get
+00002d6c g     F .text	00000084 strcmp
+00001ef4 g     F .text	0000007c SystemInit
+00001df4 g     F .text	0000000c High_Side_Contactor_Pin_Set
+000013e4 g     F .text	000000bc Init_Structs
+000021d4 g     F .text	0000002a Chip_UART_SendBlocking
+10000740 g     O .bss	00000004 TicksPerMS
+00001ad8 g     F .text	0000006c MY18_Pack_Config
+000022d8 g     F .text	0000009c Chip_UART_SetBaudFDR
+000018d8 g     F .text	00000006 microrl_set_execute_callback
 10002000 g       .bss	00000000 __StackTop
-000001f0 g     F .text	00000008 Board_Can_Init
-10000724 g     O .bss	00000004 msTicks
-000018fc g     F .text	00000010 IMD_Pin_Get
-00001934 g     F .text	00000012 SSM_Init
-00002044 g     F .text	00000028 CAN_ResetPeripheral
-00000374 g     F .text	00000038 Send_Bms_Switch
-00002710 g     F .text	00000008 .hidden __aeabi_uidivmod
-0000206c g     F .text	0000004c Convert_To_CAN_Error
-10000a60 g     O .bss	00000018 msg_obj
-000004d0 g     F .text	00000054 Charge_Init
+000001d4 g     F .text	00000008 Board_Can_Init
+10000738 g     O .bss	00000004 msTicks
+00001e00 g     F .text	00000010 IMD_Pin_Get
+00001e38 g     F .text	00000012 SSM_Init
+000024b8 g     F .text	00000028 CAN_ResetPeripheral
+00000490 g     F .text	0000001c Send_Bms_Switch
+00002bc0 g     F .text	00000008 .hidden __aeabi_uidivmod
+000024e0 g     F .text	0000004c Convert_To_CAN_Error
+10000a78 g     O .bss	00000018 msg_obj
+000005b0 g     F .text	00000010 Charge_Init
 10001e00 g       *ABS*	00000200 __StackLimit
-00001948 g     F .text	00000098 Init_Step
-00002598 g     F .text	00000024 Can_BmsPackStatus_Read
-00001b94 g     F .text	00000010 RingBuffer_Init
-00002718  w    F .text	00000002 .hidden __aeabi_idiv0
+00002a0c g     F .text	00000024 Can_BmsPackStatus_Read
+00002008 g     F .text	00000010 RingBuffer_Init
+00002bc8  w    F .text	00000002 .hidden __aeabi_idiv0
 000000ea  w    F .text	00000002 PIOINT3_IRQHandler
-00001d8c g     F .text	00000030 Chip_UART_TXIntHandlerRB
-00002944 g     F .text	00000068 strlen
-00002328 g     F .text	00000010 Can_Error_Read
-00001468 g     F .text	000000b8 new_line_handler
-0000049c g     F .text	00000008 Board_Contactors_Closed
-00000134 g     F .text	0000003c Board_Chip_Init
-00002338 g     F .text	00000020 Can0_Csb_Init
-000001f8 g     F .text	00000084 Board_UART_Init
-00002290 g     F .text	00000028 CAN_Transmit
-000001d8 g     F .text	00000018 Board_Println_BLOCKING
+00002200 g     F .text	00000030 Chip_UART_TXIntHandlerRB
+00002df4 g     F .text	00000068 strlen
+0000279c g     F .text	00000010 Can_Error_Read
+000018e0 g     F .text	000000b8 new_line_handler
+00000260 g     F .text	00000008 Board_Contactors_Closed
+00000118 g     F .text	0000003c Board_Chip_Init
+000027ac g     F .text	00000020 Can0_Csb_Init
+000001dc g     F .text	00000084 Board_UART_Init
+00002704 g     F .text	00000028 CAN_Transmit
+000001bc g     F .text	00000018 Board_Println_BLOCKING
 
 

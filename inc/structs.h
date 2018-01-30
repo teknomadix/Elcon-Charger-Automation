@@ -13,20 +13,48 @@ typedef struct BMS_PACK_STATUS {
   uint32_t pack_voltage_mV;
 } BMS_PACK_STATUS_T;
 
+typedef enum {
+  MY18_PACK,
+  MY16_PACK,
+  CUSTOM_PACK
+} PACK_T;
+
+static const char * const PACK_NAMES[] = {
+    "MY18_PACK",
+    "MY16_PACK",
+    "CUSTOM_PACK"
+};
+
+typedef enum {
+    BMS_NO_COMM,
+    BMS_YES_COMM
+} BMS_COMM_T;
+
+static const char * const BMS_COMM_NAMES[] = {
+    "BMS_NO_COMM",
+    "BMS_YES_COMM"
+};
+
 typedef struct PACK_CONFIG {
     uint32_t cell_min_mV;
-    uint32_t cell_max_mV;
+    uint32_t cell_max_mV; //used in charge
     uint32_t cell_capacity_cAh;
     uint32_t num_modules;
     uint32_t cell_charge_c_rating_cC;
     uint32_t bal_on_thresh_mV;
     uint32_t bal_off_thresh_mV;
-    uint32_t pack_cells_p;
-    uint32_t cv_min_current_mA;
-    uint32_t cv_min_current_ms;
+    uint32_t pack_cells_p; //used in charge
+    uint32_t cv_min_current_mA; //used in charge
+    uint32_t cv_min_current_ms; // used in charge
     uint32_t cc_cell_voltage_mV;
     uint32_t module_cell_count;
-
+    uint32_t total_num_cells;
+    uint32_t cc_charge_voltage_mV; // used in charge
+    uint32_t cc_charge_current_mA; // used in charge
+    uint32_t cv_charge_voltage_mV; // used in charge
+    uint32_t cv_charge_current_mA; // used in charge
+    BMS_COMM_T bms_comm;
+    PACK_T pack_name;
 } PACK_CONFIG_T;
 
 typedef struct ELCON_STATUS {
@@ -57,7 +85,12 @@ static const char * const CSB_SSM_MODE_NAMES[] = {
 
 typedef enum {
     CSB_CHARGE_OFF,
-    CSB_CHARGE_INIT,
+    CSB_CHARGE_START_SWITCH,
+    CSB_CHARGE_SWITCH_500,
+    CSB_CHARGE_SEND_500,
+    CSB_CHARGE_SWITCH_250,
+    CSB_CHARGE_WAIT_250,
+    CSB_CHARGE_CLOSE_CNTR,
     CSB_CHARGE_CC,
     CSB_CHARGE_CV,
     CSB_CHARGE_BAL,
@@ -67,7 +100,12 @@ typedef enum {
 
 static const char * const CSB_CHARGE_MODE_NAMES[] = {
     "CSB_CHARGE_OFF",
-    "CSB_CHARGE_INIT",
+    "CSB_CHARGE_START_SWITCH",
+    "CSB_CHARGE_SWITCH_500",
+    "CSB_CHARGE_SEND_500",
+    "CSB_CHARGE_SWITCH_250",
+    "CSB_CHARGE_WAIT_250",
+    "CSB_CHARGE_CLOSE_CNTR",
     "CSB_CHARGE_CC",
     "CSB_CHARGE_CV",
     "CSB_CHARGE_BAL",
@@ -77,19 +115,11 @@ static const char * const CSB_CHARGE_MODE_NAMES[] = {
 
 typedef enum {
     CSB_INIT_OFF,
-    CSB_INIT_SWITCH_500,
-    CSB_INIT_SEND_500,
-    CSB_INIT_SWITCH_250,
-    CSB_INIT_WAIT_250,
     CSB_INIT_DONE
 } CSB_INIT_MODE_T;
 
 static const char * const CSB_INIT_MODE_NAMES[] = {
     "CSB_INIT_OFF",
-    "CSB_INIT_SWITCH_500",
-    "CSB_INIT_SEND_500",
-    "CSB_INIT_SWITCH_250",
-    "CSB_INIT_WAIT_250",
     "CSB_INIT_DONE"
 };
 

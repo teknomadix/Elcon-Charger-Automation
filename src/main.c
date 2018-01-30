@@ -117,7 +117,8 @@ int main(void) {
   Board_GPIO_Init();
 
   MY18_Pack_Config(&csb_state);
-  SSM_Init(&csb_state, &pack_config);
+  SSM_Init(&csb_state);
+  Board_Can_Init(CSB_CAN_BAUD);
 
   //setup readline
   microrl_init(&rl, Board_Print);

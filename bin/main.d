@@ -25,7 +25,15 @@ bin/main.o: src/main.c \
  /usr/local/Cellar/gcc-arm-none-eabi/20160928/arm-none-eabi/include/sys/_intsup.h \
  /usr/local/Cellar/gcc-arm-none-eabi/20160928/arm-none-eabi/include/sys/_stdint.h \
  /usr/local/Cellar/gcc-arm-none-eabi/20160928/lib/gcc/arm-none-eabi/5.4.1/include/stdbool.h \
- inc/config.h inc/ssm.h inc/structs.h inc/config.h inc/board.h \
+ ../../lib/CANlib/CAN_Library.h ../../lib/CANlib/static_can.h \
+ ../../lib/CANlib/can_raw.h ../../lib/CANlib/boards/rear_can_node.h \
+ ../../lib/CANlib/constants.h ../../lib/CANlib/enum_segments.h \
+ ../../lib/CANlib/constants.h ../../lib/CANlib/boards/elcon.h \
+ ../../lib/CANlib/boards/dash.h ../../lib/CANlib/boards/csb.h \
+ ../../lib/CANlib/boards/mc.h ../../lib/CANlib/boards/can_node.h \
+ ../../lib/CANlib/boards/current_sensor.h ../../lib/CANlib/boards/vcu.h \
+ ../../lib/CANlib/boards/bms.h inc/config.h inc/ssm.h inc/structs.h \
+ inc/config.h inc/board.h \
  ../../lib/lpc11cx4-library/lpc_chip_11cxx_lib/inc/chip.h \
  ../../lib/lpc11cx4-library/lpc_chip_11cxx_lib/inc/lpc_types.h \
  ../../lib/lpc11cx4-library/lpc_chip_11cxx_lib/inc/sys_config.h \
@@ -51,7 +59,7 @@ bin/main.o: src/main.c \
  ../../lib/lpc11cx4-library/lpc_chip_11cxx_lib/inc/i2c_11xx.h \
  ../../lib/lpc11cx4-library/lpc_chip_11cxx_lib/inc/ccand_11xx.h \
  ../../lib/lpc11cx4-library/evt_lib/inc/can.h inc/console.h inc/microrl.h \
- inc/microrl_config.h inc/console_types.h inc/pack_config.h
+ inc/microrl_config.h inc/console_types.h inc/console.h inc/pack_config.h
 
 /usr/local/Cellar/gcc-arm-none-eabi/20160928/arm-none-eabi/include/string.h:
 
@@ -104,6 +112,36 @@ inc/structs.h:
 /usr/local/Cellar/gcc-arm-none-eabi/20160928/arm-none-eabi/include/sys/_stdint.h:
 
 /usr/local/Cellar/gcc-arm-none-eabi/20160928/lib/gcc/arm-none-eabi/5.4.1/include/stdbool.h:
+
+../../lib/CANlib/CAN_Library.h:
+
+../../lib/CANlib/static_can.h:
+
+../../lib/CANlib/can_raw.h:
+
+../../lib/CANlib/boards/rear_can_node.h:
+
+../../lib/CANlib/constants.h:
+
+../../lib/CANlib/enum_segments.h:
+
+../../lib/CANlib/constants.h:
+
+../../lib/CANlib/boards/elcon.h:
+
+../../lib/CANlib/boards/dash.h:
+
+../../lib/CANlib/boards/csb.h:
+
+../../lib/CANlib/boards/mc.h:
+
+../../lib/CANlib/boards/can_node.h:
+
+../../lib/CANlib/boards/current_sensor.h:
+
+../../lib/CANlib/boards/vcu.h:
+
+../../lib/CANlib/boards/bms.h:
 
 inc/config.h:
 
@@ -172,5 +210,7 @@ inc/microrl.h:
 inc/microrl_config.h:
 
 inc/console_types.h:
+
+inc/console.h:
 
 inc/pack_config.h:

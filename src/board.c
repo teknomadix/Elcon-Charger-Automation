@@ -161,11 +161,11 @@ void Board_Can_ProcessInput(CSB_INPUT_T *csb_input, CSB_STATE_T *csb_state){
 
 void Board_Can_ProcessOutput(CSB_INPUT_T *csb_input, CSB_STATE_T *csb_state, CSB_OUTPUT_T *csb_output) {
   uint32_t msTicks = csb_input->msTicks;
-  if ((csb_state->curr_mode == CSB_SSM_MODE_INIT) && (csb_state->init_state == CSB_INIT_SWITCH_500) && (csb_state->curr_baud_rate == BMS_CAN_BAUD)){
+  if ((csb_state->curr_mode == CSB_SSM_MODE_CHARGE) && (csb_state->charge_state == CSB_CHARGE_SWITCH_500) && (csb_state->curr_baud_rate == BMS_CAN_BAUD)){
       CAN_ResetPeripheral();
       Board_Can_Init(BMS_CAN_BAUD);
   }
-  if ((csb_state->curr_mode == CSB_SSM_MODE_INIT) && (csb_state->init_state == CSB_INIT_SWITCH_250) && (csb_state->curr_baud_rate == CSB_CAN_BAUD)){
+  if ((csb_state->curr_mode == CSB_SSM_MODE_CHARGE) && (csb_state->charge_state == CSB_CHARGE_SWITCH_250) && (csb_state->curr_baud_rate == CSB_CAN_BAUD)){
       CAN_ResetPeripheral();
       Board_Can_Init(CSB_CAN_BAUD);
   }
@@ -225,7 +225,7 @@ bool Board_Contactors_Closed(void) {
 
 void Board_GetModeRequest(const CONSOLE_OUTPUT_T *console_output, CSB_INPUT_T *csb_input, CSB_STATE_T *csb_state) {
   CSB_SSM_MODE_T console_mode_request = CSB_SSM_MODE_IDLE;
-  if (csb_state->curr_mode != console_output->mode_request) {
+  if (console_output->valid_mode_request) {
       console_mode_request = console_output->mode_request;
       csb_input->balance_mV = console_output->balance_mV;
   }

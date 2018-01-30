@@ -14,6 +14,17 @@ void MY18_Pack_Config(CSB_STATE_T* csb_state) {
   csb_state->pack_config->cv_min_current_mA = MY18_CV_MIN_CURRENT_mA;
   csb_state->pack_config->cv_min_current_ms = MY18_CV_MIN_CURRENT_ms;
   csb_state->pack_config->cc_cell_voltage_mV = MY18_CC_CELL_VOLTAGE_mV;
+
+  csb_state->pack_config->total_num_cells = csb_state->pack_config->num_modules * csb_state->pack_config->module_cell_count;
+
+  csb_state->pack_config->cc_charge_voltage_mV = csb_state->pack_config->cc_cell_voltage_mV * csb_state->pack_config->total_num_cells;
+  csb_state->pack_config->cc_charge_current_mA = csb_state->pack_config->cell_capacity_cAh * csb_state->pack_config->cell_charge_c_rating_cC * csb_state->pack_config->pack_cells_p / 10;
+
+  csb_state->pack_config->cv_charge_voltage_mV = csb_state->pack_config->cell_max_mV * csb_state->pack_config->total_num_cells;
+  csb_state->pack_config->cv_charge_current_mA = csb_state->pack_config->cc_charge_current_mA;
+
+  csb_state->pack_config->bms_comm = BMS_YES_COMM;
+  csb_state->pack_config->pack_name = MY18_PACK;
 }
 
 void MY16_Pack_Config(CSB_STATE_T* csb_state) {
@@ -29,4 +40,15 @@ void MY16_Pack_Config(CSB_STATE_T* csb_state) {
   csb_state->pack_config->cv_min_current_mA = MY16_CV_MIN_CURRENT_mA;
   csb_state->pack_config->cv_min_current_ms = MY16_CV_MIN_CURRENT_ms;
   csb_state->pack_config->cc_cell_voltage_mV = MY16_CC_CELL_VOLTAGE_mV;
+
+  csb_state->pack_config->total_num_cells = csb_state->pack_config->num_modules * csb_state->pack_config->module_cell_count;
+
+  csb_state->pack_config->cc_charge_voltage_mV = csb_state->pack_config->cc_cell_voltage_mV * csb_state->pack_config->total_num_cells;
+  csb_state->pack_config->cc_charge_current_mA = csb_state->pack_config->cell_capacity_cAh * csb_state->pack_config->cell_charge_c_rating_cC * csb_state->pack_config->pack_cells_p / 10;
+
+  csb_state->pack_config->cv_charge_voltage_mV = csb_state->pack_config->cell_max_mV * csb_state->pack_config->total_num_cells;
+  csb_state->pack_config->cv_charge_current_mA = csb_state->pack_config->cc_charge_current_mA;
+
+  csb_state->pack_config->bms_comm = BMS_NO_COMM;
+  csb_state->pack_config->pack_name = MY16_PACK;
 }

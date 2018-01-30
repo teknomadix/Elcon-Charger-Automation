@@ -1,28 +1,20 @@
 #include "charge.h"
+#include "config.h"
 
-static uint16_t total_num_cells;
-static uint32_t cc_charge_voltage_mV;
-static uint32_t cc_charge_current_mA;
-static uint32_t cv_charge_voltage_mV;
-static uint32_t cv_charge_current_mA;
 static uint32_t last_time_above_cv_min_curr;
+static uint32_t last_init_wait_start_time;
+static uint32_t last_init_switch_start_time;
 
 void _set_output(bool close_contactors, bool charger_on, uint32_t charge_voltage_mV, uint32_t charge_current_mA, CSB_OUTPUT_T *output);
 
-void Charge_Init(CSB_STATE_T *state, PACK_CONFIG_T *pack_config) {
+void Charge_Init(CSB_STATE_T *state) {
     state->charge_state = CSB_CHARGE_OFF;
     last_time_above_cv_min_curr = 0;
-    Charge_Config(pack_config);
+    Charge_Config(state);
 }
 
-void Charge_Config(PACK_CONFIG_T *pack_config) {
-    total_num_cells = pack_config->num_modules * pack_config->module_cell_count;
-
-    cc_charge_voltage_mV = pack_config->cc_cell_voltage_mV * total_num_cells;
-    cc_charge_current_mA = pack_config->cell_capacity_cAh * pack_config->cell_charge_c_rating_cC * pack_config->pack_cells_p / 10;
-
-    cv_charge_voltage_mV = pack_config->cell_max_mV * total_num_cells;
-    cv_charge_current_mA = cc_charge_current_mA;
+void Charge_Config(CSB_STATE_T *state) {
+    //TODO:power limit stuff?
 }
 
 void Charge_Step(CSB_INPUT_T *input, CSB_STATE_T *state, CSB_OUTPUT_T *output) {
@@ -31,7 +23,14 @@ void Charge_Step(CSB_INPUT_T *input, CSB_STATE_T *state, CSB_OUTPUT_T *output) {
         case CSB_SSM_MODE_CHARGE:
             if (state->charge_state == CSB_CHARGE_OFF
                     || state->charge_state == CSB_CHARGE_BAL) {
-                state->charge_state = CSB_CHARGE_INIT;
+                switch (state->pack_config->bms_comm) {
+                  case BMS_NO_COMM:
+                      state->charge_state = CSB_CHARGE_CLOSE_CNTR;
+                      break;
+                  case BMS_YES_COMM:
+                      state->charge_state = CSB_CHARGE_START_SWITCH;
+                      break;
+                }
             }
             break;
 
@@ -39,7 +38,14 @@ void Charge_Step(CSB_INPUT_T *input, CSB_STATE_T *state, CSB_OUTPUT_T *output) {
             if (state->charge_state == CSB_CHARGE_OFF
                     || state->charge_state == CSB_CHARGE_CC
                     || state->charge_state == CSB_CHARGE_CV) {
-                state->charge_state = CSB_CHARGE_INIT;
+                switch (state->pack_config->bms_comm) {
+                  case BMS_NO_COMM:
+                      state->charge_state = CSB_CHARGE_CLOSE_CNTR;
+                      break;
+                  case BMS_YES_COMM:
+                      state->charge_state = CSB_CHARGE_START_SWITCH;
+                      break;
+                }
             }
             break;
 
@@ -60,7 +66,48 @@ void Charge_Step(CSB_INPUT_T *input, CSB_STATE_T *state, CSB_OUTPUT_T *output) {
         case CSB_CHARGE_OFF:
             _set_output(false, false, 0, 0, output);
             break;
-        case CSB_CHARGE_INIT:
+        case CSB_CHARGE_START_SWITCH:
+            output->send_bms_config = false;
+            state->charge_state = CSB_CHARGE_SWITCH_500;
+            state->curr_baud_rate = BMS_CAN_BAUD;
+            input->receive_bms_config = false;
+            break;
+        case CSB_CHARGE_SWITCH_500:
+            output->send_bms_config = true;
+            state->charge_state = CSB_CHARGE_SEND_500;
+            state->curr_baud_rate = BMS_CAN_BAUD;
+            input->receive_bms_config = false;
+            last_init_switch_start_time = msTicks;
+            break;
+        case CSB_CHARGE_SEND_500:
+            if ( (msTicks - last_init_switch_start_time) > INIT_SEND_TIME_MAX) {
+              output->send_bms_config = false;
+              state->charge_state = CSB_CHARGE_SWITCH_250;
+              state->curr_baud_rate = CSB_CAN_BAUD;
+              input->receive_bms_config = false;
+            }
+            break;
+        case CSB_CHARGE_SWITCH_250:
+            output->send_bms_config = false;
+            state->charge_state = CSB_CHARGE_WAIT_250;
+            state->curr_baud_rate = CSB_CAN_BAUD;
+            input->receive_bms_config = false;
+            last_init_wait_start_time = msTicks;
+            break;
+        case CSB_CHARGE_WAIT_250:
+            if(input->receive_bms_config) {
+                output->send_bms_config = false;
+                state->charge_state = CSB_CHARGE_CLOSE_CNTR;
+                state->curr_baud_rate = CSB_CAN_BAUD;
+                input->receive_bms_config = false;
+            } else if ( (msTicks - last_init_wait_start_time) > INIT_WAIT_TIME_MAX) {
+                output->send_bms_config = false;
+                state->charge_state = CSB_CHARGE_SWITCH_500;
+                state->curr_baud_rate = BMS_CAN_BAUD;
+                input->receive_bms_config = false;
+            }
+            break;
+        case CSB_CHARGE_CLOSE_CNTR:
             if (input->mode_request == CSB_SSM_MODE_CHARGE && input->low_side_cntr_fault == false) { //if in charge mode and there is no fault
                 _set_output(true, false, 0, 0, output); //close contactors
 
@@ -81,10 +128,10 @@ void Charge_Step(CSB_INPUT_T *input, CSB_STATE_T *state, CSB_OUTPUT_T *output) {
         case CSB_CHARGE_CC:
             if (input->pack_status->pack_cell_max_mV >= state->pack_config->cell_max_mV) {
                 state->charge_state = CSB_CHARGE_CV; // Need to go to CV Mode
-                _set_output(true, true, cv_charge_voltage_mV, cv_charge_current_mA, output);
+                _set_output(true, true, state->pack_config->cv_charge_voltage_mV, state->pack_config->cv_charge_current_mA, output);
             } else {
                 // Charge in CC Mode
-                _set_output(true, true, cc_charge_voltage_mV, cc_charge_current_mA, output); //know that this is not immediate
+                _set_output(true, true, state->pack_config->cc_charge_voltage_mV, state->pack_config->cc_charge_current_mA, output); //know that this is not immediate
             }
 
             if (input->low_side_cntr_fault && !input->elcon_status->elcon_on) {
@@ -92,7 +139,7 @@ void Charge_Step(CSB_INPUT_T *input, CSB_STATE_T *state, CSB_OUTPUT_T *output) {
                 state->charge_state = CSB_CHARGE_FAULT;
             } else if (!input->contactors_closed || !input->elcon_status->elcon_charging) {
                 _set_output(true, false, 0, 0, output);
-                state->charge_state = CSB_CHARGE_INIT;
+                state->charge_state = CSB_CHARGE_CLOSE_CNTR;
             }
             break;
         case CSB_CHARGE_CV:
@@ -100,9 +147,9 @@ void Charge_Step(CSB_INPUT_T *input, CSB_STATE_T *state, CSB_OUTPUT_T *output) {
             if (input->pack_status->pack_cell_max_mV < state->pack_config->cell_max_mV) {
                 // Need to go back to CC Mode
                 state->charge_state = CSB_CHARGE_CC;
-                _set_output(true, true, cc_charge_voltage_mV, cc_charge_current_mA, output);
+                _set_output(true, true, state->pack_config->cc_charge_voltage_mV, state->pack_config->cc_charge_current_mA, output);
             } else {
-                _set_output(true, true, cv_charge_voltage_mV, cv_charge_current_mA, output);
+                _set_output(true, true, state->pack_config->cv_charge_voltage_mV, state->pack_config->cv_charge_current_mA, output);
 
                 if (input->pack_status->pack_current_mA < state->pack_config->cv_min_current_mA*state->pack_config->pack_cells_p) {
                     //so after your under this threshold for some time you are allowed to be done
@@ -118,7 +165,7 @@ void Charge_Step(CSB_INPUT_T *input, CSB_STATE_T *state, CSB_OUTPUT_T *output) {
 
             if(!input->contactors_closed) {
                 _set_output(true, false, 0, 0, output);
-                state->charge_state = CSB_CHARGE_INIT;
+                state->charge_state = CSB_CHARGE_CLOSE_CNTR;
             } else if (input->low_side_cntr_fault && !input->elcon_status->elcon_on) {
                 _set_output(false, false, 0, 0, output);
                 state->charge_state = CSB_CHARGE_FAULT;
@@ -134,7 +181,7 @@ void Charge_Step(CSB_INPUT_T *input, CSB_STATE_T *state, CSB_OUTPUT_T *output) {
 
             if(input->contactors_closed) {
                 _set_output(false, false, 0, 0, output);
-                state->charge_state = CSB_CHARGE_INIT;
+                state->charge_state = CSB_CHARGE_CLOSE_CNTR;
             }
 
             break;
@@ -152,13 +199,13 @@ void Charge_Step(CSB_INPUT_T *input, CSB_STATE_T *state, CSB_OUTPUT_T *output) {
             } else {
                 if(state->curr_mode == CSB_SSM_MODE_CHARGE) {
                     if (input->pack_status->pack_cell_max_mV < state->pack_config->cell_max_mV) {
-                        state->charge_state = CSB_CHARGE_INIT;
+                        state->charge_state = CSB_CHARGE_CLOSE_CNTR;
                     } else {
                         state->charge_state = CSB_CHARGE_OFF;
                     }
                 } else if (state->curr_mode == CSB_SSM_MODE_BALANCE) {
                     if (input->balance_req) {
-                        state->charge_state = CSB_CHARGE_INIT;
+                        state->charge_state = CSB_CHARGE_CLOSE_CNTR;
                     } else {
                         state->charge_state = CSB_CHARGE_OFF;
                     }
@@ -169,7 +216,7 @@ void Charge_Step(CSB_INPUT_T *input, CSB_STATE_T *state, CSB_OUTPUT_T *output) {
             _set_output(false, false, 0, 0, output);
 
             if (!input->low_side_cntr_fault && input->elcon_status->elcon_on) {
-                state->charge_state = CSB_CHARGE_INIT;
+                state->charge_state = CSB_CHARGE_CLOSE_CNTR;
             }
             break;
     }

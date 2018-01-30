@@ -25,6 +25,11 @@ typedef enum {
     RWL_cv_min_current_mA,
     RWL_cv_min_current_ms,
     RWL_cc_cell_voltage_mV,
+    RWL_cc_charge_voltage_mV,
+    RWL_cc_charge_current_mA,
+    RWL_cv_charge_voltage_mV,
+    RWL_cv_charge_current_mA,
+    RWL_bms_comm,
     RWL_LENGTH
 } rw_loc_label_t;
 
@@ -32,6 +37,8 @@ typedef enum {
 
 typedef enum {
     ROL_state = (int)ROL_FIRST,
+    ROL_total_num_cells,
+    ROL_pack_name,
     ROL_pack_cell_max_mV,
     ROL_pack_current_mA,
     ROL_pack_voltage_mV,
@@ -44,5 +51,11 @@ typedef enum {
     CONL_MY16,
     CONL_LENGTH
 } config_loc_label_t;
+
+typedef enum {
+    YNL_YES,
+    YNL_NO,
+    YNL_LENGTH
+} yn_loc_label_t;
 
 #endif

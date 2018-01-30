@@ -92,6 +92,25 @@ static void get(const char * const * argv) {
                 utoa(csb_state->pack_config->cc_cell_voltage_mV, tempstr,10);
                 Board_Println(tempstr);
                 break;
+            case RWL_cc_charge_voltage_mV:
+                utoa(csb_state->pack_config->cc_charge_voltage_mV, tempstr,10);
+                Board_Println(tempstr);
+                break;
+            case RWL_cc_charge_current_mA:
+                utoa(csb_state->pack_config->cc_charge_current_mA, tempstr,10);
+                Board_Println(tempstr);
+                break;
+            case RWL_cv_charge_voltage_mV:
+                utoa(csb_state->pack_config->cv_charge_voltage_mV, tempstr,10);
+                Board_Println(tempstr);
+                break;
+            case RWL_cv_charge_current_mA:
+                utoa(csb_state->pack_config->cv_charge_current_mA, tempstr,10);
+                Board_Println(tempstr);
+                break;
+            case RWL_bms_comm:
+                Board_Println(BMS_COMM_NAMES[csb_state->pack_config->bms_comm]);
+                break;
             case RWL_LENGTH:
                 break;
         }
@@ -109,6 +128,13 @@ static void get(const char * const * argv) {
         if (foundloc) {
             char tempstr[20];
             switch (roloc) {
+                case ROL_total_num_cells:
+                    utoa(csb_state->pack_config->total_num_cells, tempstr,10);
+                    Board_Println(tempstr);
+                    break;
+                case ROL_pack_name:
+                    Board_Println(PACK_NAMES[csb_state->pack_config->pack_name]);
+                    break;
                 case ROL_state:
                     Board_Println(CSB_SSM_MODE_NAMES[csb_state->curr_mode]);
                     Board_Println(CSB_INIT_MODE_NAMES[csb_state->init_state]);
@@ -180,6 +206,7 @@ static void set(const char * const * argv) {
     rw_loc_label_t rwloc;
     //loop over r/w entries
     bool foundloc = false;
+    bool foundynloc;
     for (rwloc = 0; rwloc < RWL_LENGTH; ++rwloc){
         if (strcmp(argv[1],locstring[rwloc]) == 0){
             foundloc = true;
@@ -235,6 +262,48 @@ static void set(const char * const * argv) {
             case RWL_cc_cell_voltage_mV:
                 csb_state->pack_config->cc_cell_voltage_mV = my_atou(argv[2]);
                 Board_Println("Done!");
+                break;
+            case RWL_cc_charge_voltage_mV:
+                csb_state->pack_config->cc_charge_voltage_mV = my_atou(argv[2]);
+                Board_Println("Done!");
+                break;
+            case RWL_cc_charge_current_mA:
+                csb_state->pack_config->cc_charge_current_mA = my_atou(argv[2]);
+                Board_Println("Done!");
+                break;
+            case RWL_cv_charge_voltage_mV:
+                csb_state->pack_config->cv_charge_voltage_mV = my_atou(argv[2]);
+                Board_Println("Done!");
+                break;
+            case RWL_cv_charge_current_mA:
+                csb_state->pack_config->cv_charge_current_mA = my_atou(argv[2]);
+                Board_Println("Done!");
+                break;
+            case RWL_bms_comm:
+                foundynloc = false;
+                yn_loc_label_t ynloc;
+                for (ynloc = 0; ynloc< YNL_LENGTH; ++ynloc){
+                    if (strcmp(argv[2],yn_locstring[ynloc]) == 0){
+                        foundynloc = true;
+                        break;
+                    }
+                }
+                if (foundynloc) {
+                    switch (ynloc) {
+                        case YNL_YES:
+                            csb_state->pack_config->bms_comm = BMS_YES_COMM;
+                            Board_Println("Done!");
+                            break;
+                        case YNL_NO:
+                            csb_state->pack_config->bms_comm = BMS_NO_COMM;
+                            Board_Println("Done!");
+                            break;
+                        case YNL_LENGTH:
+                            break;
+                    }
+                } else {
+                    Board_Println("invalid location");
+                }
                 break;
             case RWL_LENGTH:
                 break;
@@ -345,19 +414,15 @@ static void measure(const char * const * argv) {
 static void bal(const char * const * argv) {
     UNUSED(argv);
     if (csb_state->curr_mode == CSB_SSM_MODE_BALANCE || Is_Valid_Jump(csb_state->curr_mode, CSB_SSM_MODE_BALANCE)) {
-
-        if (console_output->valid_mode_request) {
-          if (strcmp(argv[1],"off") == 0) {
-              console_output->valid_mode_request = false;
-              console_output->mode_request = CSB_SSM_MODE_IDLE;
-              console_output->balance_mV = UINT32_MAX;
-              Board_Println("bal off");
-          } else {
-              console_output->valid_mode_request = true;
-              console_output->mode_request = CSB_SSM_MODE_BALANCE;
-              console_output->balance_mV = my_atou(argv[1]);
-              Board_Println("bal on");
-          }
+        if (strcmp(argv[1],"off") == 0) {
+            console_output->valid_mode_request = false;
+            console_output->balance_mV = UINT32_MAX;
+            Board_Println("bal off");
+        } else {
+            console_output->valid_mode_request = true;
+            console_output->mode_request = CSB_SSM_MODE_BALANCE;
+            console_output->balance_mV = my_atou(argv[1]);
+            Board_Println("bal on");
         }
     } else {
         Board_Println("Must be in standby");
