@@ -2,81 +2,37 @@
 
 #include "chip.h"
 
-// Low Side Contactor
-#define CTR_LOW_SWTCH 1, 2
-#define IOCON_CTR_LOW_SWTCH IOCON_PIO1_2
+// Low Side Contactor/Precharge
+#define CTR_LOW_SWTCH 2,1
+#define IOCON_CTR_LOW_SWTCH IOCON_PIO2_1
 
-// High Side Contactor
-#define CTR_HIGH_SWTCH 1, 1
-#define IOCON_CTR_HIGH_SWTCH IOCON_PIO1_1
+// Contactors Closed
+#define CONTACTORS_CLOSED 0, 3 
+#define IOCON_CTR_HIGH_SWTCH IOCON_PIO0_3
 
 // IMD input
-#define IMD_IN 2, 4
-#define IOCON_IMD_IN IOCON_PIO2_4
+#define IMD_IN 2, 6
+#define IOCON_IMD_IN IOCON_PIO2_6
 
 // BMS input
-#define BMS_IN 2, 5
-#define IOCON_BMS_IN IOCON_PIO2_5
+#define BMS_IN 2, 8
+#define IOCON_BMS_IN IOCON_PIO2_8
 
 // Interlock input
-#define INT_IN 2, 6
-#define IOCON_INT_IN IOCON_PIO2_6
+#define INT_IN 0, 2
+#define IOCON_INT_IN IOCON_PIO0_2
 
-// Button 1
-#define BUT_1 2, 8
-#define IOCON_BUT_1 IOCON_PIO2_8
+//Charge Enable (from BMS)
+#define CHARGE_ENABLE 1,8
+#define IOCON_CHARGE_ENABLE_IN IOCON_PIO1_8
 
-// Button 2
-#define BUT_2 2, 9
-#define IOCON_BUT_2 IOCON_PIO2_9
+//LED 1
+#define LED1 0,3
+#define IOCON_LED1_OUT IOCON_PIO0_3
 
-// Button 3
-#define BUT_3 2, 10
-#define IOCON_BUT_3 IOCON_PIO2_10
-
-// Button 4
-#define BUT_4 2, 11
-#define IOCON_BUT_4 IOCON_PIO2_11
-
-// LCD DB0
-#define LCD_DB0 0, 2
-#define IOCON_LCD_DB0 IOCON_PIO0_2
-
-// LCD DB1
-#define LCD_DB1 0, 3
-#define IOCON_LCD_DB1 IOCON_PIO0_3
-
-// LCD DB2
-#define LCD_DB2 0, 4
-#define IOCON_LCD_DB2 IOCON_PIO0_4
-
-// LCD DB3
-#define LCD_DB3 0, 5
-#define IOCON_LCD_DB3 IOCON_PIO0_5
-
-// LCD DB4
-#define LCD_DB4 0, 6
-#define IOCON_LCD_DB4 IOCON_PIO0_6
-
-// LCD DB5
-#define LCD_DB5 0, 7
-#define IOCON_LCD_DB5 IOCON_PIO0_7
-
-// LCD DB6
-#define LCD_DB6 0, 8
-#define IOCON_LCD_DB6 IOCON_PIO0_8
-
-// LCD DB7
-#define LCD_DB7 0, 9
-#define IOCON_LCD_DB7 IOCON_PIO0_9
-
-// LCD E
-#define LCD_E 0, 10
-#define IOCON_LCD_E IOCON_PIO0_10
-
-// LCD RS
-#define LCD_RS 0, 11
-#define IOCON_LCD_RS IOCON_PIO0_11
+//LED 2
+#define LED2 1, 11
+#define IOCON_LED2_OUT IOCONPIO1_11
 
 // Unused pins
 #define PIN_33 1, 0
@@ -159,75 +115,17 @@ void Board_GPIO_Init(void) {
   Chip_IOCON_PinMuxSet(LPC_IOCON, IOCON_INT_IN,
           (IOCON_FUNC0 | IOCON_MODE_INACT));
 
-  // Button 1
-  Chip_GPIO_SetPinDIROutput(LPC_GPIO, BUT_1);
-  Chip_IOCON_PinMuxSet(LPC_IOCON, IOCON_BUT_1,
-          (IOCON_FUNC0 | IOCON_MODE_INACT));
+  //Charge Enable Input 
+  Chip_GPIO_SetPinDIROutput(LPC_GPIO,CHARGE_ENABLE);
+  Chip_IOCON_PinMuxSet(LPC_IOCON, IOCON_CHARGE_ENABLE_IN, (IOCON_FUN0|IOCON_MODE_INACT));
 
-  // Button 2
-  Chip_GPIO_SetPinDIROutput(LPC_GPIO, BUT_2);
-  Chip_IOCON_PinMuxSet(LPC_IOCON, IOCON_BUT_2,
-          (IOCON_FUNC0 | IOCON_MODE_INACT));
+  //LED1 
+  Chip_GPIO_SetPinDIROutput(LPC_GPIO,LED1);
+  Chip_IOCON_PinMuxSet(LPC_IOCON,IOCON_LED1_OUT,(IOCON_FUNC1 | IOCON_MODE_INACT));
 
-  // Button 3
-  Chip_GPIO_SetPinDIROutput(LPC_GPIO, BUT_3);
-  Chip_IOCON_PinMuxSet(LPC_IOCON, IOCON_BUT_3,
-          (IOCON_FUNC0 | IOCON_MODE_INACT));
-
-  // Button 4
-  Chip_GPIO_SetPinDIROutput(LPC_GPIO, BUT_4);
-  Chip_IOCON_PinMuxSet(LPC_IOCON, IOCON_BUT_4,
-          (IOCON_FUNC0 | IOCON_MODE_INACT));
-
-  // LCD DB0
-  Chip_GPIO_SetPinDIROutput(LPC_GPIO, LCD_DB0);
-  Chip_IOCON_PinMuxSet(LPC_IOCON, IOCON_LCD_DB0,
-          (IOCON_FUNC0 | IOCON_MODE_INACT));
-
-  // LCD DB1
-  Chip_GPIO_SetPinDIROutput(LPC_GPIO, LCD_DB1);
-  Chip_IOCON_PinMuxSet(LPC_IOCON, IOCON_LCD_DB1,
-          (IOCON_FUNC0 | IOCON_MODE_INACT));
-
-  // LCD DB2
-  Chip_GPIO_SetPinDIROutput(LPC_GPIO, LCD_DB2);
-  Chip_IOCON_PinMuxSet(LPC_IOCON, IOCON_LCD_DB2,
-          (IOCON_FUNC0 | IOCON_MODE_INACT));
-
-  // LCD DB3
-  Chip_GPIO_SetPinDIROutput(LPC_GPIO, LCD_DB3);
-  Chip_IOCON_PinMuxSet(LPC_IOCON, IOCON_LCD_DB3,
-          (IOCON_FUNC0 | IOCON_MODE_INACT));
-
-  // LCD DB4
-  Chip_GPIO_SetPinDIROutput(LPC_GPIO, LCD_DB4);
-  Chip_IOCON_PinMuxSet(LPC_IOCON, IOCON_LCD_DB4,
-          (IOCON_FUNC0 | IOCON_MODE_INACT));
-
-  // LCD DB5
-  Chip_GPIO_SetPinDIROutput(LPC_GPIO, LCD_DB5);
-  Chip_IOCON_PinMuxSet(LPC_IOCON, IOCON_LCD_DB5,
-          (IOCON_FUNC0 | IOCON_MODE_INACT));
-
-  // LCD DB6
-  Chip_GPIO_SetPinDIROutput(LPC_GPIO, LCD_DB6);
-  Chip_IOCON_PinMuxSet(LPC_IOCON, IOCON_LCD_DB6,
-          (IOCON_FUNC0 | IOCON_MODE_INACT));
-
-  // LCD DB7
-  Chip_GPIO_SetPinDIROutput(LPC_GPIO, LCD_DB7);
-  Chip_IOCON_PinMuxSet(LPC_IOCON, IOCON_LCD_DB7,
-          (IOCON_FUNC0 | IOCON_MODE_INACT));
-
-  // LCD E
-  Chip_GPIO_SetPinDIROutput(LPC_GPIO, LCD_E);
-  Chip_IOCON_PinMuxSet(LPC_IOCON, IOCON_LCD_E,
-          (IOCON_FUNC1 | IOCON_MODE_INACT));
-
-  // LCD RS
-  Chip_GPIO_SetPinDIROutput(LPC_GPIO, LCD_RS);
-  Chip_IOCON_PinMuxSet(LPC_IOCON, IOCON_LCD_RS,
-          (IOCON_FUNC1 | IOCON_MODE_INACT));
+  //LED 2
+  Chip_GPIO_SetPinDIROutput(LPC_GPIO,LED2);
+  Chip_IOCON_PinMuxSet(LPC_IOCON, IOCON_LED2_OUT, (IOCON_FUN1 | IOCON_MODE_INACE)); 
 
   // Enable pull down resistors on unused pins
   Chip_GPIO_SetPinDIROutput(LPC_GPIO, PIN_33);
@@ -320,13 +218,10 @@ bool Low_Side_Contactor_Pin_Get(void) {
   return Chip_GPIO_GetPinState(LPC_GPIO, CTR_LOW_SWTCH);
 }
 
-bool High_Side_Contactor_Pin_Get(void) {
-  return Chip_GPIO_GetPinState(LPC_GPIO, CTR_HIGH_SWTCH);
+bool Contactors_Closed_Pin_Get(void) {
+  return Chip_GPIO_GetPinState(LPC_GPIO,CONTACTORS_CLOSED);
 }
 
-void High_Side_Contactor_Pin_Set(bool state) {
-  Chip_GPIO_SetPinState(LPC_GPIO, CTR_HIGH_SWTCH, state);
-}
 
 bool IMD_Pin_Get(void) {
   return Chip_GPIO_GetPinState(LPC_GPIO, IMD_IN);
@@ -340,58 +235,15 @@ bool Interlock_Pin_Get(void) {
   return Chip_GPIO_GetPinState(LPC_GPIO, INT_IN);
 }
 
-void Button1_Pin_Set(bool state) {
-  Chip_GPIO_SetPinState(LPC_GPIO, BUT_1, state);
+bool Charge_Enable_Get(void){
+       return Chip_GPIO_GetPinState(LPC_GPIO,CHARGE_ENABLE);
 }
 
-void Button2_Pin_Set(bool state) {
-  Chip_GPIO_SetPinState(LPC_GPIO, BUT_2, state);
+void LED1_Set (bool state){
+	Chip_GPIO_SetPinState(LPC_GPIO,LED1,state);
 }
 
-void Button3_Pin_Set(bool state) {
-  Chip_GPIO_SetPinState(LPC_GPIO, BUT_3, state);
+void LED2_Set (bool state){
+	Chip_GPIO_SetPinState(LPC_GPIO,LED2,state);
 }
 
-void Button4_Pin_Set(bool state) {
-  Chip_GPIO_SetPinState(LPC_GPIO, BUT_4, state);
-}
-
-void LCD_DB0_Pin_Set(bool state) {
-  Chip_GPIO_SetPinState(LPC_GPIO, LCD_DB0, state);
-}
-
-void LCD_DB1_Pin_Set(bool state) {
-  Chip_GPIO_SetPinState(LPC_GPIO, LCD_DB1, state);
-}
-
-void LCD_DB2_Pin_Set(bool state) {
-  Chip_GPIO_SetPinState(LPC_GPIO, LCD_DB2, state);
-}
-
-void LCD_DB3_Pin_Set(bool state) {
-  Chip_GPIO_SetPinState(LPC_GPIO, LCD_DB3, state);
-}
-
-void LCD_DB4_Pin_Set(bool state) {
-  Chip_GPIO_SetPinState(LPC_GPIO, LCD_DB4, state);
-}
-
-void LCD_DB5_Pin_Set(bool state) {
-  Chip_GPIO_SetPinState(LPC_GPIO, LCD_DB5, state);
-}
-
-void LCD_DB6_Pin_Set(bool state) {
-  Chip_GPIO_SetPinState(LPC_GPIO, LCD_DB6, state);
-}
-
-void LCD_DB7_Pin_Set(bool state) {
-  Chip_GPIO_SetPinState(LPC_GPIO, LCD_DB7, state);
-}
-
-void LCD_E_Pin_Set(bool state) {
-  Chip_GPIO_SetPinState(LPC_GPIO, LCD_E, state);
-}
-
-void LCD_RS_Pin_Set(bool state) {
-  Chip_GPIO_SetPinState(LPC_GPIO, LCD_RS, state);
-}
